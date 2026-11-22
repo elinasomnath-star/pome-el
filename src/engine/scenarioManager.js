@@ -71,3 +71,4 @@ export function decodeStateFromHash(hash) {
     return null;
   }
 }
+

@@ -92,3 +92,4 @@ The sensitivity of **Firm Monthly Profit** and **Industry Attractiveness Index**
 1. **Small Sample Size ($N=3$ Events):** Directional plausibility cannot establish statistical causality.
 2. **Aggregated City Geography:** Dark stores operate as localized sub-monopolies within 1.5 km radii; city-wide aggregation ignores micro-market pincode variations.
 3. **Gig Labor Volatility:** Weather shocks (monsoons, extreme summer heat) create non-linear spikes in rider incentive costs not fully captured by static supply elasticities.
+

@@ -163,3 +163,4 @@ export function computeTornadoSensitivity(
     };
   }).sort((a, b) => b.swing - a.swing);
 }
+

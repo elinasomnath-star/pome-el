@@ -46,3 +46,4 @@ export function mapMetricToForceScore(forceId, numericValue) {
 export function getAllForceRubrics() {
   return rubricData.rubrics;
 }
+

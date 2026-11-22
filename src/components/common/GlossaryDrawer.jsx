@@ -116,3 +116,4 @@ export default function GlossaryDrawer({ isOpen, onClose }) {
     </div>
   );
 }
+

@@ -178,3 +178,4 @@ export const PRACTICE_PROBLEMS = [
     solutionSummary: "Arc Es = +1.364 (Es > 1). Elastic rider labor supply. Flexible gig riders swiftly log on when incentive rates increase by 50%."
   }
 ];
+
