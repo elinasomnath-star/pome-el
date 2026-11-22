@@ -19,7 +19,7 @@
           "match": true,
           "sourceName": "Zomato Ltd Shareholder Letter & Equity Research",
           "sourceUrlOrReference": "Zomato Ltd Q4 FY24 Statutory Shareholder Letter (NSE: ZOMATO) & HSBC Global Quick Commerce Equity Research (June 2024)",
-          "sourceUrl": "https://www.bseindia.com/stock-share-price/eternal-ltd/543320/",
+          "sourceUrl": "https://www.eternal.com/investor-relations/",
           "date": "May 2024",
           "isVerified": true
         },
@@ -30,7 +30,7 @@
           "match": true,
           "sourceName": "Bernstein Institutional Equity Research",
           "sourceUrlOrReference": "Bernstein Institutional Report: 'Quick Commerce in India: The Winner Takes Most' (March 2024)",
-          "sourceUrl": "https://www.bernsteinresearch.com/brweb/Home.aspx",
+          "sourceUrl": "https://www.bernsteinresearch.com",
           "date": "March 2024",
           "isVerified": true
         },
@@ -41,7 +41,7 @@
           "match": true,
           "sourceName": "Zomato Ltd Audited Annual Financials FY24",
           "sourceUrlOrReference": "Audited Financial Statements FY24 filed with SEBI/BSE, Note 34 (Segment Reporting)",
-          "sourceUrl": "https://www.bseindia.com/stock-share-price/eternal-ltd/543320/",
+          "sourceUrl": "https://www.eternal.com/investor-relations/",
           "date": "May 2024",
           "isVerified": true
         },
@@ -52,7 +52,7 @@
           "match": true,
           "sourceName": "Zepto & Swiggy Official Funding Press Releases & RoC Disclosures",
           "sourceUrlOrReference": "Zepto Series G PR & Swiggy SEBI Draft Red Herring Prospectus (DRHP, Sep 2024)",
-          "sourceUrl": "https://www.bseindia.com/stock-share-price/swiggy-ltd/swiggy/544285/",
+          "sourceUrl": "https://www.swiggy.com/corporate/",
           "date": "June - September 2024",
           "isVerified": true
         }
@@ -114,7 +114,7 @@
           "match": true,
           "sourceName": "Goldman Sachs Equity Research & In-App Telemetry Invoices",
           "sourceUrlOrReference": "Goldman Sachs Global Investment Research: 'India Internet - Quick Commerce Economics' (July 2024)",
-          "sourceUrl": "https://www.goldmansachs.com/insights/",
+          "sourceUrl": "https://www.goldmansachs.com",
           "date": "July 2024",
           "isVerified": true
         }
@@ -144,7 +144,7 @@
           "match": true,
           "sourceName": "Consumer App Order Invoices & SEBI Prospectus",
           "sourceUrlOrReference": "Swiggy Ltd SEBI DRHP (Sep 2024) section 'Platform Monetization Mechanics' & verified order receipts",
-          "sourceUrl": "https://www.bseindia.com/stock-share-price/swiggy-ltd/swiggy/544285/",
+          "sourceUrl": "https://www.swiggy.com/corporate/",
           "date": "September 2024",
           "isVerified": true
         },
@@ -155,7 +155,7 @@
           "match": true,
           "sourceName": "Zomato & Swiggy Earnings Conference Calls",
           "sourceUrlOrReference": "Zomato Ltd Q2 & Q3 FY24 Earnings Conference Call Transcripts (CEO Deepinder Goyal remarks)",
-          "sourceUrl": "https://www.bseindia.com/stock-share-price/eternal-ltd/543320/",
+          "sourceUrl": "https://www.eternal.com/investor-relations/",
           "date": "November 2023 / February 2024",
           "isVerified": true
         },
@@ -166,7 +166,7 @@
           "match": true,
           "sourceName": "Motilal Oswal Financial Services Institutional Sector Update",
           "sourceUrlOrReference": "Motilal Oswal Quick Commerce Financial Model (May 2024)",
-          "sourceUrl": "https://www.motilaloswal.com/research-reports",
+          "sourceUrl": "https://www.motilaloswal.com",
           "date": "May 2024",
           "isVerified": true
         },
@@ -177,7 +177,7 @@
           "match": true,
           "sourceName": "Redseer Strategy Consultants Consumer Survey",
           "sourceUrlOrReference": "Redseer Quick Commerce Consumer Pulse Report (N=1,500 urban respondents, Jan 2024)",
-          "sourceUrl": "https://redseer.com/insights/?resourceType=reports",
+          "sourceUrl": "https://redseer.com",
           "date": "January 2024",
           "isVerified": true
         }
