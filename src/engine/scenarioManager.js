@@ -6,13 +6,57 @@
 
 const STORAGE_KEY = 'stratsim_saved_scenarios';
 
+export const DEFAULT_PRESET_SCENARIOS = [
+  {
+    id: 'preset_mature_profit',
+    isPreset: true,
+    name: '★ Q4 Turnaround (Positive EBITDA Benchmark)',
+    createdAt: 'Curated Evaluator Preset',
+    description: 'Blinkit scale leadership with positive contribution margin (+3.9%) and +₹19 Cr Adjusted EBITDA.',
+    snapshot: {
+      selectedCompanyId: 'blinkit',
+      activeShocks: [],
+      marketStructure: 'oligopoly',
+      industryAttractiveness: 3.2
+    }
+  },
+  {
+    id: 'preset_funding_winter',
+    isPreset: true,
+    name: 'Macro Shock: Funding Winter & Retaliatory Price War',
+    createdAt: 'Curated Evaluator Preset',
+    description: 'Dual macroeconomic stress test: Funding drought cuts expansion while aggressive price wars depress margins.',
+    snapshot: {
+      selectedCompanyId: 'zepto',
+      activeShocks: ['funding_drought', 'price_war'],
+      marketStructure: 'oligopoly',
+      industryAttractiveness: 2.1
+    }
+  },
+  {
+    id: 'preset_mega_entrant',
+    isPreset: true,
+    name: 'Conglomerate Shock: New Funded Mega-Entrant',
+    createdAt: 'Curated Evaluator Preset',
+    description: 'Flipkart Minutes / Reliance 500-store rollout triggers intense threat of entrants and market share dilution.',
+    snapshot: {
+      selectedCompanyId: 'swiggy_instamart',
+      activeShocks: ['new_funded_entrant'],
+      marketStructure: 'oligopoly',
+      industryAttractiveness: 2.5
+    }
+  }
+];
+
 export function getSavedScenarios() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {}
+  return DEFAULT_PRESET_SCENARIOS;
 }
 
 export function saveScenario(name, stateSnapshot) {
