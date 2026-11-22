@@ -12,6 +12,7 @@ import { simulatePriceRound, checkNashEquilibrium, getAIPriceChoice } from '../e
 import { calculateOrgMetrics, generateOrgTree } from '../engine/org.js';
 import { recommendCompetitiveStrategy } from '../engine/recommender.js';
 import { runMonteCarloSimulation } from '../engine/monteCarlo.js';
+import { generateShockTimeline } from '../engine/timeline.js';
 
 export const useSimStore = create((set, get) => {
   // Initial baseline computations
@@ -84,6 +85,13 @@ export const useSimStore = create((set, get) => {
     allShocks: shocksData,
     activeShocks: [],
     shockHistory: [],
+    shockParams: {
+      new_funded_entrant: { severity: 1.0, durationQuarters: 4 },
+      price_war: { severity: 1.0, durationQuarters: 4 },
+      gst_regulation_spike: { severity: 1.0, durationQuarters: 4 },
+      supplier_cost_spike: { severity: 1.0, durationQuarters: 4 },
+      funding_drought: { severity: 1.0, durationQuarters: 4 }
+    },
 
     // Price War State
     priceWarFirms: initialPriceWarFirms,
@@ -143,6 +151,56 @@ export const useSimStore = create((set, get) => {
         currentForceWeights: updatedWeights,
         industryAttractiveness: newAttr
       });
+    },
+
+    // Update Shock Severity
+    setShockSeverity: (shockId, severity) => {
+      const { shockParams, baselineForces, baselineCompanies, activeShocks, currentForceWeights } = get();
+      const updatedParams = {
+        ...shockParams,
+        [shockId]: { ...(shockParams[shockId] || { durationQuarters: 4 }), severity: Number(severity) }
+      };
+
+      // Reapply with new severity
+      const scaledShocks = activeShocks.map(s => {
+        const sev = updatedParams[s.id]?.severity || 1.0;
+        const scaledForceDeltas = {};
+        if (s.forceDeltas) {
+          Object.entries(s.forceDeltas).forEach(([k, v]) => { scaledForceDeltas[k] = v * sev; });
+        }
+        return {
+          ...s,
+          forceDeltas: scaledForceDeltas,
+          marketGrowthDelta: (s.marketGrowthDelta || 0) * sev,
+          costDelta: (s.costDelta || 0) * sev
+        };
+      });
+
+      const { updatedScores, cumulativeGrowthDelta, updatedFirms } = applyShocks(
+        baselineForces,
+        baselineCompanies,
+        scaledShocks
+      );
+      const newAttr = calculateIndustryAttractiveness(baselineForces, updatedScores, currentForceWeights);
+      const newBCG = computeBCGMetrics(updatedFirms, 58.0 + cumulativeGrowthDelta);
+
+      set({
+        shockParams: updatedParams,
+        currentForceScores: updatedScores,
+        currentCompanies: updatedFirms,
+        industryAttractiveness: newAttr,
+        bcgMetrics: newBCG
+      });
+    },
+
+    // Update Shock Duration
+    setShockDuration: (shockId, duration) => {
+      const { shockParams } = get();
+      const updatedParams = {
+        ...shockParams,
+        [shockId]: { ...(shockParams[shockId] || { severity: 1.0 }), durationQuarters: Number(duration) }
+      };
+      set({ shockParams: updatedParams });
     },
 
     // Toggle Shock on / off

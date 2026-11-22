@@ -1,0 +1,105 @@
+{
+  "terms": [
+    {
+      "id": "bcg",
+      "term": "BCG Matrix",
+      "category": "Corporate Strategy",
+      "definition": "A 2x2 portfolio planning framework created by Bruce Henderson (Boston Consulting Group, 1970). Maps strategic business units (SBUs) based on Relative Market Share (horizontal axis) and Market Growth Rate (vertical axis).",
+      "formula": "Relative Market Share = SBU Share / Leading Competitor Share",
+      "pomeUnit": "Unit II: Strategic Planning"
+    },
+    {
+      "id": "rms",
+      "term": "Relative Market Share (RMS)",
+      "category": "Market Structure",
+      "definition": "A firm's revenue or volume divided by that of its largest competitor. Plotted on a logarithmic scale. An RMS > 1.0 indicates market leadership and cost advantages from the Experience Curve.",
+      "formula": "RMS = Firm_Revenue / Max_Competitor_Revenue",
+      "pomeUnit": "Unit II: Competitive Analysis"
+    },
+    {
+      "id": "stars",
+      "term": "Stars (BCG)",
+      "category": "Portfolio Management",
+      "definition": "High market share in a rapidly growing industry. Generate substantial cash but require heavy capital reinvestment (dark stores, marketing) to maintain market leadership.",
+      "prescription": "Build & Defend: Reinvest gross profit to scale capacity.",
+      "pomeUnit": "Unit II: Strategic Planning"
+    },
+    {
+      "id": "cash_cows",
+      "term": "Cash Cows (BCG)",
+      "category": "Portfolio Management",
+      "definition": "High market share in a mature, low-growth industry. Generate surplus cash flows with minimal capex requirements, which can cross-subsidize other business units.",
+      "prescription": "Hold & Harvest: Defend profitability and milk margins.",
+      "pomeUnit": "Unit II: Strategic Planning"
+    },
+    {
+      "id": "question_marks",
+      "term": "Question Marks (BCG)",
+      "category": "Portfolio Management",
+      "definition": "Low relative market share in a high-growth market. Consume large cash reserves while generating low returns. Face a strategic dilemma: either invest aggressively to become a Star or divest.",
+      "prescription": "Build or Divest: Double down on capital or exit.",
+      "pomeUnit": "Unit II: Strategic Planning"
+    },
+    {
+      "id": "dogs",
+      "term": "Dogs (BCG)",
+      "category": "Portfolio Management",
+      "definition": "Low relative market share in a mature or stagnant market. Often cash neutral or cash draining with limited growth upside.",
+      "prescription": "Harvest or Divest: Restructure, niche down, or liquidate.",
+      "pomeUnit": "Unit II: Strategic Planning"
+    },
+    {
+      "id": "five_forces",
+      "term": "Porter's Five Forces",
+      "category": "Industrial Organization",
+      "definition": "A structural framework devised by Michael E. Porter (1979) identifying the five market forces that determine long-run industry profitability: Rivalry, Entrants, Substitutes, Buyer Power, Supplier Power.",
+      "pomeUnit": "Unit II: Environment & Industry Structure"
+    },
+    {
+      "id": "attractiveness_index",
+      "term": "Industry Attractiveness Index",
+      "category": "Microeconomics",
+      "definition": "A composite metric on a [0, 10] scale inversely related to weighted force hostility. 10 indicates a benign, monopolistically profitable industry; 0 indicates a hyper-competitive, margin-compressing squeeze.",
+      "formula": "Attractiveness = 10 - Sum(w_i * S_i) / Sum(w_i)",
+      "pomeUnit": "Unit II: Environmental Scanning"
+    },
+    {
+      "id": "bertrand",
+      "term": "Bertrand Oligopoly & Price War",
+      "category": "Microeconomics",
+      "definition": "An oligopoly model where firms compete simultaneously by setting prices. When products are close substitutes, price cuts trigger aggressive retaliation, driving prices down toward marginal cost.",
+      "formula": "Q_i = A_i * P_i^(-e_ii) * Prod(P_j^(e_ij))",
+      "pomeUnit": "Unit IV: Market Structures & Pricing"
+    },
+    {
+      "id": "nash",
+      "term": "Nash Equilibrium",
+      "category": "Game Theory",
+      "definition": "A state in game theory (John Nash, 1950) where no player can unilaterally deviate from their chosen strategy to increase their own payoff, given the strategies chosen by competitors.",
+      "pomeUnit": "Unit IV: Oligopolistic Interdependence"
+    },
+    {
+      "id": "posdcorb",
+      "term": "POSDCORB",
+      "category": "Management Principles",
+      "definition": "An administrative acronym coined by Luther Gulick and Lyndall Urwick (1937) outlining the executive functions: Planning, Organizing, Staffing, Directing, Coordinating, Reporting, and Budgeting.",
+      "pomeUnit": "Unit I: Evolution of Management Thought"
+    },
+    {
+      "id": "span_of_control",
+      "term": "Span of Control & Management Layers",
+      "category": "Organizational Behavior",
+      "definition": "The number of direct subordinates a manager supervises. A narrow span yields tall hierarchies (many layers, high coordination overhead); a wide span yields flat, agile organizations.",
+      "formula": "Layers L = ceil( ln(Headcount) / ln(Span) )",
+      "pomeUnit": "Unit I: Classical Management & Bureaucracy"
+    },
+    {
+      "id": "elasticity",
+      "term": "Price Elasticity of Demand (PED)",
+      "category": "Microeconomics",
+      "definition": "A measure of consumer responsiveness: percentage change in quantity demanded divided by percentage change in price. If |Ed| > 1, demand is elastic; if |Ed| < 1, demand is inelastic.",
+      "formula": "Arc Ed = (dQ / avg_Q) / (dP / avg_P)",
+      "pomeUnit": "Unit IV: Demand Analysis"
+    }
+  ]
+}

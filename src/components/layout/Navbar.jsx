@@ -1,23 +1,39 @@
 import React from 'react';
 import { useSimStore } from '../../store/useSimStore';
-import { Zap, ShieldAlert, Sparkles, Building2, TrendingUp, Info } from 'lucide-react';
-import ShinyText from '../reactbits/ShinyText';
+import {
+  Zap,
+  ShieldAlert,
+  Sparkles,
+  BookOpen,
+  Layers,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Sparkle
+} from 'lucide-react';
 
-export default function Navbar() {
+export default function Navbar({
+  onOpenDemo,
+  onOpenGlossary,
+  onOpenScenarios,
+  reduceEffects,
+  onToggleReduceEffects,
+  presentationMode,
+  onTogglePresentationMode
+}) {
   const {
     selectedCompanyId,
     setSelectedCompanyId,
     baselineCompanies,
     activeShocks,
     industryAttractiveness,
-    activeTab,
     setActiveTab
   } = useSimStore();
 
   const currentCompany = baselineCompanies.find(c => c.id === selectedCompanyId) || baselineCompanies[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-dark-900/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-dark-900/80 backdrop-blur-xl print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
         {/* Brand & Course Tag */}
@@ -37,7 +53,7 @@ export default function Navbar() {
                   StratSim
                 </span>
                 <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">
-                  v1.0 Edu
+                  v2.0 Edu
                 </span>
               </div>
               <div className="text-[11px] text-slate-400 hidden sm:block">
@@ -47,45 +63,68 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Global Status Telemetry */}
-        <div className="hidden md:flex items-center gap-4 text-xs font-mono">
-          {/* Industry Attractiveness pill */}
-          <div
-            onClick={() => setActiveTab('forces')}
-            className="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700/80 hover:border-slate-600 transition-colors"
+        {/* Center Actions: Guided Demo, Scenarios, Glossary */}
+        <div className="hidden lg:flex items-center gap-2 text-xs font-mono">
+          <button
+            onClick={onOpenDemo}
+            className="px-3 py-1.5 rounded-xl bg-violet-600/30 hover:bg-violet-600/50 border border-violet-500/40 text-violet-200 flex items-center gap-1.5 transition-all shadow-sm shadow-violet-950"
           >
-            <span className="text-slate-400">Industry Attractiveness:</span>
-            <span className={`font-bold ${
-              industryAttractiveness.attractivenessIndex >= 4.5 ? 'text-emerald-400' :
-              industryAttractiveness.attractivenessIndex >= 3.0 ? 'text-amber-400' : 'text-rose-400'
-            }`}>
-              {industryAttractiveness.attractivenessIndex.toFixed(1)} / 10
-            </span>
-          </div>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span>Guided Demo</span>
+          </button>
 
-          {/* Active Shocks indicator */}
-          <div
-            onClick={() => setActiveTab('shocks')}
-            className={`cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
-              activeShocks.length > 0
-                ? 'bg-rose-950/40 border-rose-500/40 text-rose-300 shadow-sm shadow-rose-500/20'
-                : 'bg-dark-800 border-slate-700/80 text-slate-400'
-            }`}
+          <button
+            onClick={onOpenScenarios}
+            className="px-3 py-1.5 rounded-xl bg-dark-800 hover:bg-dark-700 border border-slate-700 text-slate-300 flex items-center gap-1.5 transition-all"
           >
-            <ShieldAlert className={`w-3.5 h-3.5 ${activeShocks.length > 0 ? 'text-rose-400 animate-pulse' : 'text-slate-500'}`} />
-            <span>
-              {activeShocks.length === 0 ? 'No Shocks Active' : `${activeShocks.length} Active Shock${activeShocks.length > 1 ? 's' : ''}`}
-            </span>
-          </div>
+            <Layers className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Scenarios</span>
+          </button>
+
+          <button
+            onClick={onOpenGlossary}
+            className="px-3 py-1.5 rounded-xl bg-dark-800 hover:bg-dark-700 border border-slate-700 text-slate-300 flex items-center gap-1.5 transition-all"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-pink-400" />
+            <span>Glossary</span>
+          </button>
         </div>
 
-        {/* Company Selector Dropdown */}
-        <div className="flex items-center gap-3">
+        {/* Global Controls & Company Switcher */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          
+          {/* Reduce Effects Toggle (Requirement 12) */}
+          <button
+            onClick={onToggleReduceEffects}
+            className={`p-2 rounded-xl border text-xs font-mono transition-all ${
+              reduceEffects
+                ? 'bg-amber-950/40 border-amber-500/40 text-amber-300'
+                : 'bg-dark-800 border-slate-700 text-slate-400 hover:text-white'
+            }`}
+            title={reduceEffects ? "Effects reduced (Low CPU mode)" : "Reduce GPU/Canvas effects"}
+          >
+            <Sparkle className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Presentation Mode Toggle (Requirement 14) */}
+          <button
+            onClick={onTogglePresentationMode}
+            className={`p-2 rounded-xl border text-xs font-mono transition-all ${
+              presentationMode
+                ? 'bg-violet-600 text-white border-violet-500'
+                : 'bg-dark-800 border-slate-700 text-slate-400 hover:text-white'
+            }`}
+            title="Toggle Presentation Mode (or press 'F')"
+          >
+            {presentationMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+          </button>
+
+          {/* Company Selector Dropdown */}
           <div className="relative">
             <select
               value={selectedCompanyId}
               onChange={(e) => setSelectedCompanyId(e.target.value)}
-              className="appearance-none bg-dark-800 border border-slate-700 rounded-xl px-3.5 py-1.5 pr-8 text-xs font-medium text-slate-100 hover:border-violet-500/60 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all cursor-pointer shadow-md"
+              className="appearance-none bg-dark-800 border border-slate-700 rounded-xl px-3.5 py-1.5 pr-8 text-xs font-medium text-slate-100 hover:border-violet-500/60 focus:outline-none focus:border-violet-500 cursor-pointer shadow-md"
             >
               {baselineCompanies.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -99,10 +138,10 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
+
         </div>
 
       </div>
     </header>
   );
 }
-

@@ -7,7 +7,7 @@ import GradientText from '../reactbits/GradientText';
 import Magnet from '../reactbits/Magnet';
 import { ArrowRight, Flame, BarChart2, Shield, Network, Scale, FileText } from 'lucide-react';
 
-export default function LandingHero({ onStartSimulation }) {
+export default function LandingHero({ onStartSimulation, onStartGuidedDemo, reduceEffects = false }) {
   const frameworks = [
     { title: "BCG Matrix", desc: "Relative Share vs Market Growth Bubbles", icon: BarChart2, color: "text-violet-400" },
     { title: "Porter's 5 Forces", desc: "Dynamic Radar & Attractiveness Index", icon: Shield, color: "text-cyan-400" },
@@ -17,9 +17,13 @@ export default function LandingHero({ onStartSimulation }) {
 
   return (
     <div className="relative min-h-[82vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 overflow-hidden border-b border-slate-800/60">
-      {/* Background Aurora & Floating Particles */}
-      <Aurora speed={0.4} className="absolute inset-0 opacity-80" />
-      <Particles particleCount={35} speed={0.3} className="opacity-60" />
+      {/* Background Aurora & Floating Particles (skipped if reduceEffects is true) */}
+      {!reduceEffects && (
+        <>
+          <Aurora speed={0.4} className="absolute inset-0 opacity-80" />
+          <Particles particleCount={35} speed={0.3} className="opacity-60" />
+        </>
+      )}
 
       <div className="relative z-10 max-w-4xl mx-auto py-12">
         {/* Course Badge */}
@@ -45,7 +49,7 @@ export default function LandingHero({ onStartSimulation }) {
           Deploy strategic shocks, wage Bertrand price wars, optimize dark-store org layers, and solve Nash equilibria.
         </p>
 
-        {/* Magnet CTA */}
+        {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <Magnet strength={36}>
             <button
@@ -56,6 +60,14 @@ export default function LandingHero({ onStartSimulation }) {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </Magnet>
+
+          <button
+            onClick={onStartGuidedDemo}
+            className="px-6 py-4 rounded-2xl bg-dark-800/90 hover:bg-dark-700 border border-slate-700 hover:border-violet-500/60 text-slate-200 font-mono text-sm font-bold flex items-center gap-2.5 transition-all cursor-pointer shadow-lg"
+          >
+            <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+            <span>Start Guided Demo (~3 min)</span>
+          </button>
         </div>
 
         {/* Theoretical Pillar Highlights */}
