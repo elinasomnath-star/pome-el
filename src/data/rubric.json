@@ -1,0 +1,72 @@
+{
+  "title": "Porter's Five Forces Scoring Rubric - Indian Quick Commerce",
+  "citation": "Porter, M. E. (2008). The Five Competitive Forces That Shape Strategy. Harvard Business Review.",
+  "description": "Deterministic quantitative metric-to-score mappings connecting real-world Indian quick commerce market data to 1-10 force hostility scores.",
+  "rubrics": {
+    "rivalry": {
+      "forceName": "Competitive Rivalry",
+      "metricName": "Market Share Concentration (CR4)",
+      "currentMetricValue": "CR4 > 95% (Top 4 control virtually entire market)",
+      "calculatedScore": 9.2,
+      "thresholds": [
+        { "min": 0, "max": 40, "score": 3.0, "label": "Fragmented / Low Rivalry", "description": "Many players with small shares, decentralized markets" },
+        { "min": 41, "max": 70, "score": 6.0, "label": "Moderate Oligopoly", "description": "Differentiated niches, moderate price competition" },
+        { "min": 71, "max": 85, "score": 8.0, "label": "Tight Oligopoly", "description": "Fierce customer poaching, promotional delivery fee battles" },
+        { "min": 86, "max": 100, "score": 9.5, "label": "Hyper-Rivalrous Concentrated Oligopoly", "description": "Top 4 control >95%, direct dark-store radius overlap within 1.5 km" }
+      ],
+      "activeThresholdIndex": 3
+    },
+    "newEntrants": {
+      "forceName": "Threat of New Entrants",
+      "metricName": "Dark Store Capex & Cash Burn Barrier",
+      "currentMetricValue": "₹35-45L per dark store capex + $15-20M/mo burn needed",
+      "calculatedScore": 4.5,
+      "thresholds": [
+        { "min": 0, "max": 10, "score": 8.5, "label": "Negligible Capex (<₹10L/node)", "description": "Low capital barrier, swift entrant proliferation" },
+        { "min": 11, "max": 25, "score": 6.5, "label": "Moderate Capex (₹10-25L/node)", "description": "Regional entrants can enter with angel backing" },
+        { "min": 26, "max": 40, "score": 4.5, "label": "High Capex Moat (₹25-45L/node + dense dark store grid)", "description": "High entry barrier, but deep-pocketed tech giants (Flipkart, Amazon) can enter" },
+        { "min": 41, "max": 100, "score": 2.0, "label": "Impenetrable Capital Moat (>₹50L/node + regulatory monopolies)", "description": "Natural monopoly or extreme capital barrier" }
+      ],
+      "activeThresholdIndex": 2
+    },
+    "substitutes": {
+      "forceName": "Threat of Substitutes",
+      "metricName": "Physical Proximity & Price Advantage of Kiranas & Supermarkets",
+      "currentMetricValue": "12M+ Kiranas across India + D-Mart 10-15% cheaper bulk staples",
+      "calculatedScore": 6.8,
+      "thresholds": [
+        { "min": 0, "max": 20, "score": 2.5, "label": "No Realistic Substitute", "description": "Proprietary irreplaceable service with zero alternatives" },
+        { "min": 21, "max": 50, "score": 4.5, "label": "Weak Substitutes", "description": "Alternatives are significantly slower (>2 days) or inconvenient" },
+        { "min": 51, "max": 75, "score": 6.8, "label": "Strong Substitutes (Kiranas & Scheduled E-com)", "description": "Mom-and-pop Kiranas in 200m walking distance + next-day slots offer cheaper staples" },
+        { "min": 76, "max": 100, "score": 9.0, "label": "Dominant Substitutes", "description": "Substitutes are cheaper, identical quality, and readily accessible" }
+      ],
+      "activeThresholdIndex": 2
+    },
+    "buyerPower": {
+      "forceName": "Bargaining Power of Buyers",
+      "metricName": "Consumer Multi-Homing & Platform Fee Elasticity",
+      "currentMetricValue": "68% urban multi-homing + order cancellation on ₹3 fee increase",
+      "calculatedScore": 7.8,
+      "thresholds": [
+        { "min": 0, "max": 25, "score": 3.0, "label": "Captive Buyers", "description": "Zero alternative platforms, high switching costs, mandatory lock-in" },
+        { "min": 26, "max": 50, "score": 5.0, "label": "Moderate Buyer Power", "description": "Moderate multi-homing, mild loyalty program retention" },
+        { "min": 51, "max": 75, "score": 7.8, "label": "High Multi-Homing & High Elasticity", "description": "68% multi-home across Blinkit/Zepto/Instamart; zero switching cost" },
+        { "min": 76, "max": 100, "score": 9.5, "label": "Extreme Buyer Dominance", "description": "Extreme price sensitivity; immediate churn on any price increase" }
+      ],
+      "activeThresholdIndex": 2
+    },
+    "supplierPower": {
+      "forceName": "Bargaining Power of Suppliers",
+      "metricName": "Top FMCG Brand Concentration in Grocery Basket",
+      "currentMetricValue": "Top 10 FMCG brands represent >40% of staple GMV",
+      "calculatedScore": 6.5,
+      "thresholds": [
+        { "min": 0, "max": 20, "score": 2.5, "label": "Fragmented Suppliers", "description": "Commoditized unbranded produce, hundreds of competing suppliers" },
+        { "min": 21, "max": 40, "score": 4.5, "label": "Moderate Supplier Leverage", "description": "Balanced negotiations; platform sales velocity gives equal bargaining" },
+        { "min": 41, "max": 65, "score": 6.5, "label": "High Brand Equity (HUL, Amul, Nestle, ITC)", "description": "Must-have consumer brands constrain margins to 18-22%, though quick commerce ad revenue offsets" },
+        { "min": 66, "max": 100, "score": 9.0, "label": "Monopolistic Supplier Cartel", "description": "Exclusive IP suppliers dictating pricing and shelf terms" }
+      ],
+      "activeThresholdIndex": 2
+    }
+  }
+}

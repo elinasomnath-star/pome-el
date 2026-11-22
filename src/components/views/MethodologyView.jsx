@@ -1,6 +1,7 @@
 import React from 'react';
 import methodologyData from '../../data/methodology.json';
 import SpotlightCard from '../reactbits/SpotlightCard';
+import DataProvenanceBadge from '../common/DataProvenanceBadge';
 import {
   BookOpen,
   Printer,
@@ -9,7 +10,9 @@ import {
   ShieldAlert,
   HelpCircle,
   ExternalLink,
-  Code
+  Code,
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 
 export default function MethodologyView() {
@@ -55,6 +58,58 @@ export default function MethodologyView() {
         <div>
           <strong>Academic Pedagogy: </strong>
           Designed for {methodologyData.courseContext}. Integrates Microeconomic Market Structure Theory with Organizational Behavior and Strategic Management.
+        </div>
+      </div>
+
+      {/* Data Quality & Provenance Audit (Requirement 3) */}
+      <div className="p-5 rounded-2xl border border-slate-800 bg-dark-900/90 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+          <div>
+            <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              <span>Data Provenance & Quality Audit Summary</span>
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Transparent classification of all quantitative parameters across statutory filings, equity research, and placeholder estimates.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 font-mono text-xs">
+            <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">1 Verified</span>
+            <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">1 Estimate</span>
+            <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">2 Placeholders</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <div className="p-3.5 rounded-xl bg-dark-950/80 border border-emerald-500/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-400">Verified Statutory Data</span>
+              <DataProvenanceBadge type="verified" year="2024" confidence="high" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-snug">
+              Blinkit FY24 financials (₹3,950 Cr, 639 dark stores) sourced from Zomato Ltd statutory shareholder letters and audited filings.
+            </p>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-dark-950/80 border border-amber-500/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-amber-400">Research Carve-Out Estimates</span>
+              <DataProvenanceBadge type="estimate" year="2024" confidence="medium" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-snug">
+              Swiggy Instamart segment numbers (₹2,350 Cr, 23% share) derived from Swiggy Ltd's 2024 IPO Draft Red Herring Prospectus (DRHP).
+            </p>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-dark-950/80 border border-rose-500/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-rose-400">Tagged Placeholders</span>
+              <DataProvenanceBadge type="placeholder" year="2024" confidence="medium" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-snug">
+              Zepto (unlisted startup series pitch decks) and BB Now (Tata Digital scheduled vs quick delivery split) are explicitly tagged for replacement upon audited RoC filings.
+            </p>
+          </div>
         </div>
       </div>
 

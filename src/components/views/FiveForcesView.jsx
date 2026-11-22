@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSimStore } from '../../store/useSimStore';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
-import { Shield, Sliders, RotateCcw, AlertCircle, Info, Sparkles, TrendingDown } from 'lucide-react';
+import DataProvenanceBadge from '../common/DataProvenanceBadge';
+import { getAllForceRubrics } from '../../engine/rubric';
+import { Shield, Sliders, RotateCcw, AlertCircle, Info, Sparkles, TrendingDown, BookOpen, Check } from 'lucide-react';
 
 export default function FiveForcesView() {
   const {
@@ -15,6 +17,9 @@ export default function FiveForcesView() {
     industryAttractiveness,
     resetShocks
   } = useSimStore();
+
+  const [showRubric, setShowRubric] = useState(false);
+  const rubrics = getAllForceRubrics();
 
   // Reset forces to base
   const handleResetForces = () => {
@@ -90,6 +95,18 @@ export default function FiveForcesView() {
           </div>
 
           <button
+            onClick={() => setShowRubric(!showRubric)}
+            className={`px-3.5 py-2 rounded-2xl border text-xs font-mono font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              showRubric
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-lg shadow-cyan-500/20'
+                : 'bg-dark-800 text-slate-300 border-slate-700 hover:border-slate-600'
+            }`}
+          >
+            <BookOpen className="w-4 h-4 text-cyan-400" />
+            <span>{showRubric ? 'Hide Rubric' : 'Scoring Rubric'}</span>
+          </button>
+
+          <button
             onClick={handleResetForces}
             className="p-3 rounded-2xl bg-dark-800 border border-slate-700 text-slate-400 hover:text-white hover:border-slate-600 transition-colors shadow-md"
             title="Reset forces and weights to baseline"
@@ -98,6 +115,75 @@ export default function FiveForcesView() {
           </button>
         </div>
       </div>
+
+      {/* Scoring Rubric Panel (Requirement 2) */}
+      {showRubric && (
+        <div className="p-5 rounded-2xl border border-cyan-500/40 bg-dark-900/95 shadow-2xl space-y-4 animate-in fade-in duration-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+            <div>
+              <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-cyan-400" />
+                <span>Deterministic Scoring Rubric: Metrics → 1-10 Force Scores</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Explicit mathematical mapping from empirical quick commerce metrics (CR4, capex/dark-store, Kirana density) to force hostility scores.
+              </p>
+            </div>
+            <span className="text-[10px] font-mono px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+              Harvard Business Review (Porter 2008)
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(rubrics).map(([fId, r]) => {
+              const currentScore = currentForceScores[fId] || baselineForces.find(f => f.id === fId)?.baseScore || 5.0;
+
+              return (
+                <div key={fId} className="p-3.5 rounded-xl bg-dark-800/90 border border-slate-800 space-y-2.5">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-white font-sans">{r.forceName}</h4>
+                      <div className="text-[10px] text-cyan-400 font-mono mt-0.5">{r.metricName}</div>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-dark-900 border border-slate-700">
+                      Score: {currentScore.toFixed(1)}
+                    </span>
+                  </div>
+
+                  <div className="text-[11px] font-mono text-slate-300 bg-dark-950 p-2 rounded-lg border border-slate-800/80">
+                    <span className="text-slate-500 block text-[9px] uppercase">Empirical Benchmark:</span>
+                    {r.currentMetricValue}
+                  </div>
+
+                  {/* Threshold Steps */}
+                  <div className="space-y-1">
+                    <div className="text-[9px] text-slate-500 font-mono uppercase">Scoring Thresholds:</div>
+                    {r.thresholds.map((th, tIdx) => {
+                      const isActive = tIdx === r.activeThresholdIndex;
+                      return (
+                        <div
+                          key={tIdx}
+                          className={`p-1.5 rounded-md text-[10px] font-mono flex items-center justify-between border ${
+                            isActive
+                              ? 'bg-cyan-950/60 border-cyan-500/50 text-cyan-200 font-bold'
+                              : 'bg-dark-900/40 border-slate-800/60 text-slate-400'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1 truncate">
+                            {isActive && <Check className="w-3 h-3 text-cyan-400 shrink-0" />}
+                            <span>{th.label}</span>
+                          </div>
+                          <span className="text-white shrink-0 ml-1">Score {th.score}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Main Grid: Radar Chart + Force Sliders */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -275,6 +361,12 @@ export default function FiveForcesView() {
                           }`}>
                             Hostility: {currentScore.toFixed(1)} / 10
                           </span>
+                          <DataProvenanceBadge
+                            type={force.provenanceType || (force.isPlaceholder ? 'placeholder' : 'verified')}
+                            source={force.source}
+                            year={force.year || '2024'}
+                            confidence={force.confidence}
+                          />
                         </div>
                       </div>
 

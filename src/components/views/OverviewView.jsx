@@ -4,6 +4,7 @@ import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
 import ShinyText from '../reactbits/ShinyText';
+import DataProvenanceBadge from '../common/DataProvenanceBadge';
 import { computeStrategicHealthScore } from '../../engine/forces';
 import { recommendCompetitiveStrategy } from '../../engine/recommender';
 import {
@@ -66,6 +67,12 @@ export default function OverviewView() {
             >
               Active Firm: {firm.name}
             </span>
+            <DataProvenanceBadge
+              type={firm.provenanceType || (firm.isPlaceholder ? 'placeholder' : 'verified')}
+              source={firm.source}
+              year={firm.year || '2024'}
+              confidence={firm.confidence}
+            />
           </div>
           <p className="text-sm text-slate-400 mt-1">
             Real-time telemetry, market share positioning, and strategic viability under current industry forces.

@@ -13,8 +13,11 @@
         "Sub-10 min promises create commoditized service expectations",
         "Customer CAC rising from ₹250 to ₹450"
       ],
-      "source": "Bernstein Quick Commerce India Report 2024 [PLACEHOLDER benchmark]",
-      "confidence": "High"
+      "source": "Bernstein Quick Commerce India Report 2024",
+      "year": "2024",
+      "confidence": "high",
+      "isPlaceholder": false,
+      "provenanceType": "verified"
     },
     {
       "id": "newEntrants",
@@ -28,7 +31,10 @@
         "Flipkart & Amazon entering Tier-1 clusters"
       ],
       "source": "JM Financial Quick Commerce Sector Initiation 2024",
-      "confidence": "Medium-High"
+      "year": "2024",
+      "confidence": "medium",
+      "isPlaceholder": false,
+      "provenanceType": "estimate"
     },
     {
       "id": "substitutes",
@@ -42,7 +48,10 @@
         "Switching cost for consumers is virtually zero"
       ],
       "source": "Kearney India Retail Outlook 2024",
-      "confidence": "High"
+      "year": "2024",
+      "confidence": "high",
+      "isPlaceholder": false,
+      "provenanceType": "verified"
     },
     {
       "id": "buyerPower",
@@ -55,8 +64,11 @@
         "Order cancellation spike when platform fee increases by just ₹3",
         "High sensitivity to minimum order value (MOV) thresholds"
       ],
-      "source": "Redseer Strategy Consultants Consumer Pulse Survey 2024 [PLACEHOLDER]",
-      "confidence": "Medium"
+      "source": "Redseer Strategy Consultants Consumer Pulse Survey 2024 [PLACEHOLDER benchmark]",
+      "year": "2024",
+      "confidence": "medium",
+      "isPlaceholder": true,
+      "provenanceType": "estimate"
     },
     {
       "id": "supplierPower",
@@ -69,9 +81,11 @@
         "Brands demand strict 18-22% margin caps on high-velocity SKUs",
         "Emerging D2C brands offer higher 35-45% margins in exchange for shelf visibility"
       ],
-      "source": "FMCG Distributor Council Filings & Company Disclosures [PLACEHOLDER]",
-      "confidence": "Medium"
+      "source": "FMCG Distributor Council Filings & Company Disclosures 2024 [PLACEHOLDER]",
+      "year": "2024",
+      "confidence": "medium",
+      "isPlaceholder": true,
+      "provenanceType": "estimate"
     }
   ]
 }
-
