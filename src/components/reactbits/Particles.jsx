@@ -10,6 +10,11 @@ export default function Particles({
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Respect prefers-reduced-motion (Requirement 11)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');

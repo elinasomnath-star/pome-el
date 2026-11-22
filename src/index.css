@@ -7,6 +7,11 @@
     @apply bg-dark-900 text-slate-100 antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Accessible focus indicator for keyboard navigation (WCAG AA) */
+  :focus-visible {
+    @apply outline-none ring-2 ring-violet-500 ring-offset-2 ring-offset-dark-900;
+  }
 }
 
 /* Custom glow animations */
@@ -44,3 +49,70 @@
   background: #334155;
 }
 
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Respect user's prefers-reduced-motion setting (Accessibility Requirement 11) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print Stylesheet for PDF & Paper Report Export (Requirement 13) */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt !important;
+  }
+
+  header,
+  .print\:hidden,
+  nav,
+  button:not(.print-keep),
+  canvas {
+    display: none !important;
+  }
+
+  .border,
+  .border-slate-800,
+  .border-slate-700 {
+    border-color: #cbd5e1 !important;
+  }
+
+  .bg-dark-900,
+  .bg-dark-800,
+  .bg-dark-950 {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .text-white,
+  .text-slate-100,
+  .text-slate-200,
+  .text-slate-300 {
+    color: #0f172a !important;
+  }
+
+  .text-slate-400,
+  .text-slate-500 {
+    color: #475569 !important;
+  }
+
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+}
