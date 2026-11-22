@@ -66,11 +66,11 @@ export default function ElasticityCalculatorView() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
       
-      {/* Title & Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-        <div>
+      {/* Title & Header - De-cramped with Generous Spacing */}
+      <div className="space-y-4 pb-5 border-b border-slate-800/80">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-400">
               <Calculator className="w-6 h-6" />
@@ -81,7 +81,7 @@ export default function ElasticityCalculatorView() {
                   Elasticity Numerical Solver & Workshop
                 </h2>
                 <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-pink-500/20 text-pink-300 border border-pink-500/30">
-                  POME Unit IV
+                  Managerial Economics & Elasticity
                 </span>
               </div>
               <p className="text-sm text-slate-400 mt-1">
@@ -91,8 +91,8 @@ export default function ElasticityCalculatorView() {
           </div>
         </div>
 
-        {/* Tab Switcher */}
-        <div className="flex items-center p-1 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono shadow-sm">
+        {/* Tab Switcher - Dedicated Toolbar */}
+        <div className="flex items-center p-1 rounded-xl bg-dark-900 border border-slate-800 text-xs font-mono shadow-sm w-fit">
           <button
             onClick={() => setActiveTab('demand')}
             className={`px-4 py-2 rounded-lg transition-all cursor-pointer ${

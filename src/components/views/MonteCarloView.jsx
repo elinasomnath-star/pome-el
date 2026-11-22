@@ -42,50 +42,35 @@ export default function MonteCarloView() {
   );
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
       
-      {/* Title & Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-        <div>
+      {/* Title & Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
+      <div className="space-y-4 pb-5 border-b border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+            <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 shrink-0">
               <Dices className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white tracking-tight">
                   Risk & Sensitivity Analysis Lab
                 </h2>
-                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold whitespace-nowrap">
                   Knightian Uncertainty & Tornado Sensitivities
                 </span>
               </div>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-sans">
                 Empirical probability distributions across 1,000 stochastic trials and sorted parameter impact tornado rankings.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Sub-tab, Seed & Runner Buttons */}
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Seed Selector */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono text-slate-300">
-            <span className="text-slate-400">PRNG Seed:</span>
-            <input
-              type="number"
-              value={monteCarloSeed || 42}
-              onChange={(e) => {
-                const val = parseInt(e.target.value, 10) || 42;
-                setMonteCarloSeed(val);
-                runMonteCarlo(val);
-              }}
-              className="w-16 px-1.5 py-0.5 rounded bg-dark-950 border border-slate-700 text-cyan-300 font-bold font-mono text-center text-xs focus:outline-none focus:border-cyan-500"
-            />
-            <span className="text-[10px] text-emerald-400 font-bold">(Mulberry32)</span>
-          </div>
-
-          <div className="flex items-center p-1 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono shadow-sm">
+        {/* Dedicated Controls Toolbar Ribbon */}
+        <div className="p-2.5 rounded-xl bg-dark-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Sub-tab Switcher */}
+          <div className="flex items-center p-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono shadow-sm">
             <button
               onClick={() => setActiveSubTab('distribution')}
               className={`px-4 py-2 rounded-lg transition-all cursor-pointer ${
@@ -104,14 +89,32 @@ export default function MonteCarloView() {
             </button>
           </div>
 
-          <button
-            onClick={() => runMonteCarlo()}
-            disabled={isMonteCarloRunning}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-violet-600 hover:from-cyan-500 hover:to-violet-500 text-white font-mono text-xs font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/30 transition-all cursor-pointer disabled:opacity-50"
-          >
-            <RefreshCw className={`w-4 h-4 ${isMonteCarloRunning ? 'animate-spin' : ''}`} />
-            <span>{isMonteCarloRunning ? 'Running Draws...' : 'Re-Run 1,000 Draws'}</span>
-          </button>
+          <div className="flex items-center gap-3 flex-wrap">
+            {/* PRNG Seed Selector */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono text-slate-300">
+              <span className="text-slate-400">PRNG Seed:</span>
+              <input
+                type="number"
+                value={monteCarloSeed || 42}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value, 10) || 42;
+                  setMonteCarloSeed(val);
+                  runMonteCarlo(val);
+                }}
+                className="w-16 px-1.5 py-0.5 rounded bg-dark-900 border border-slate-700 text-cyan-300 font-bold font-mono text-center text-xs focus:outline-none focus:border-cyan-500"
+              />
+              <span className="text-[10px] text-emerald-400 font-bold">(Mulberry32)</span>
+            </div>
+
+            <button
+              onClick={() => runMonteCarlo()}
+              disabled={isMonteCarloRunning}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-violet-600 hover:from-cyan-500 hover:to-violet-500 text-white font-mono text-xs font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/30 transition-all cursor-pointer disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${isMonteCarloRunning ? 'animate-spin' : ''}`} />
+              <span>{isMonteCarloRunning ? 'Running Draws...' : 'Re-Run 1,000 Draws'}</span>
+            </button>
+          </div>
         </div>
       </div>
 

@@ -132,7 +132,7 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="flex-1 w-full max-w-full overflow-x-hidden">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden pb-16">
         {showHero ? (
           <LandingHero
             onStartSimulation={handleStartSimulation}

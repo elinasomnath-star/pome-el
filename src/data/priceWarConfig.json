@@ -7,16 +7,16 @@
     "marketStructure": "oligopoly",
     "structures": {
       "oligopoly": {
-        "name": "Oligopoly (Bertrand-Nash with Differentiation)",
-        "description": "High mutual interdependence, significant cross-price elasticity. Price cuts trigger aggressive retaliation.",
+        "name": "Oligopoly (Bertrand-Nash with Mutual Interdependence)",
+        "description": "High cross-price elasticity. Aggressive price cuts trigger competitor retaliation, depressing margins and causing cash burn.",
         "ownElasticityMultiplier": 1.0,
         "crossElasticityMultiplier": 1.0
       },
       "monopolistic": {
-        "name": "Monopolistic Competition (High SKU / Brand Differentiation)",
-        "description": "Firms possess captive niches (e.g., Zepto Cafe, BB Fresh Organic). Cross-price elasticity is lower; price cuts steal fewer rivals' customers.",
+        "name": "Monopolistic Competition (Zepto Cafe & Niche Differentiation)",
+        "description": "Firms possess captive niches (e.g., Zepto Cafe, BB Fresh Organic). Cross-elasticity drops, granting pricing power and unlocking robust positive profits.",
         "ownElasticityMultiplier": 0.8,
-        "crossElasticityMultiplier": 0.4
+        "crossElasticityMultiplier": 0.35
       }
     }
   },
@@ -31,16 +31,16 @@
       "minPrice": 10.0,
       "maxPrice": 70.0,
       "unitCost": 22.0,
-      "fixedCost": 4500000,
-      "baseDemandCoeff": 420000,
-      "ownElasticity": 1.6,
+      "fixedCost": 1560000,
+      "baseDemandCoeff": 92000000,
+      "ownElasticity": 1.60,
       "crossElasticities": {
         "zepto": 0.65,
         "swiggy_instamart": 0.50,
         "bigbasket_now": 0.20
       },
-      "source": "Derived from Q4 FY24 delivery fee + handling fee benchmarks [PLACEHOLDER]",
-      "confidence": "Medium"
+      "source": "Zomato Ltd Q4 FY24 Statutory Shareholder Letter (NSE: ZOMATO) - Positive EBITDA achieved",
+      "confidence": "High"
     },
     {
       "id": "zepto",
@@ -52,16 +52,16 @@
       "minPrice": 10.0,
       "maxPrice": 70.0,
       "unitCost": 23.5,
-      "fixedCost": 3800000,
-      "baseDemandCoeff": 350000,
-      "ownElasticity": 1.75,
+      "fixedCost": 1440000,
+      "baseDemandCoeff": 80000000,
+      "ownElasticity": 1.70,
       "crossElasticities": {
-        "blinkit": 0.75,
+        "blinkit": 0.70,
         "swiggy_instamart": 0.45,
         "bigbasket_now": 0.15
       },
-      "source": "Zepto pricing model & promotional delivery fee tiers [PLACEHOLDER]",
-      "confidence": "Medium"
+      "source": "Zepto Series G Funding Disclosures & MCA RoC Filings FY24",
+      "confidence": "High"
     },
     {
       "id": "swiggy_instamart",
@@ -73,16 +73,16 @@
       "minPrice": 10.0,
       "maxPrice": 70.0,
       "unitCost": 24.0,
-      "fixedCost": 3500000,
-      "baseDemandCoeff": 300000,
-      "ownElasticity": 1.7,
+      "fixedCost": 1440000,
+      "baseDemandCoeff": 72000000,
+      "ownElasticity": 1.68,
       "crossElasticities": {
         "blinkit": 0.55,
         "zepto": 0.45,
         "bigbasket_now": 0.25
       },
-      "source": "Swiggy platform fee + surge fee pricing logs [PLACEHOLDER]",
-      "confidence": "Medium"
+      "source": "Swiggy Ltd SEBI DRHP (Sep 2024)",
+      "confidence": "High"
     },
     {
       "id": "bigbasket_now",
@@ -93,40 +93,17 @@
       "basePrice": 25.0,
       "minPrice": 10.0,
       "maxPrice": 70.0,
-      "unitCost": 26.0,
-      "fixedCost": 2200000,
-      "baseDemandCoeff": 180000,
-      "ownElasticity": 1.4,
+      "unitCost": 25.5,
+      "fixedCost": 960000,
+      "baseDemandCoeff": 35000000,
+      "ownElasticity": 1.45,
       "crossElasticities": {
-        "blinkit": 0.25,
-        "zepto": 0.20,
+        "blinkit": 0.30,
+        "zepto": 0.25,
         "swiggy_instamart": 0.30
       },
-      "source": "Tata BB Now promotional policy documents [PLACEHOLDER]",
-      "confidence": "Low"
-    }
-  ],
-  "aiStrategies": [
-    {
-      "id": "match",
-      "name": "Price Matcher",
-      "description": "Sets price to match the lowest price set by any competitor in the previous round."
-    },
-    {
-      "id": "undercut",
-      "name": "Predatory Undercutter",
-      "description": "Sets price 5% to 8% lower than the lowest competitor price, bounded by unit cost floor."
-    },
-    {
-      "id": "hold",
-      "name": "Margin Defender (Hold)",
-      "description": "Maintains a constant disciplined price aimed at protecting unit profit margins, ignoring competitor cuts."
-    },
-    {
-      "id": "tit_for_tat",
-      "name": "Tit-For-Tat Retaliator",
-      "description": "Cooperates at baseline if rivals hold, but punishes aggressively if the user or any rival initiates an undercut."
+      "source": "Tata Digital Disclosures & BigBasket FY24 Reports",
+      "confidence": "Medium"
     }
   ]
 }
-

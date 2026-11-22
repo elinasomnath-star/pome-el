@@ -35,20 +35,20 @@ export default function BCGMatrixView() {
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
   // Expanded SVG Canvas Dimensions for Maximum Breathing Room
-  const svgWidth = 860;
+  const svgWidth = 880;
   const svgHeight = 580;
-  const paddingLeft = 70;
-  const paddingRight = 60;
-  const paddingTop = 45;
-  const paddingBottom = 55;
+  const paddingLeft = 78;
+  const paddingRight = 65;
+  const paddingTop = 48;
+  const paddingBottom = 58;
 
-  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 730px
-  const usableHeight = svgHeight - paddingTop - paddingBottom; // 480px
+  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 737px
+  const usableHeight = svgHeight - paddingTop - paddingBottom; // 474px
 
   // Balanced 2x2 Threshold Centerpoints
   // Places RMS = 1.0x at 52% width, Growth = 20% benchmark at 50% height
-  const thresholdX = paddingLeft + usableWidth * 0.52;   // 449.6px
-  const thresholdY = paddingTop + usableHeight * 0.50;   // 285px
+  const thresholdX = paddingLeft + usableWidth * 0.52;
+  const thresholdY = paddingTop + usableHeight * 0.50;
 
   // Piecewise Logarithmic & Proportional Coordinate Mapping
   // Ensures ALL 4 quadrants have generous, balanced screen space and zero awkward squishing
@@ -135,82 +135,86 @@ export default function BCGMatrixView() {
   const getBadgeOffset = (firmId, radius) => {
     switch (firmId) {
       case 'zepto':
-        // Zepto is high up; offset badge horizontally to the left so it never collides with Swiggy below it
-        return { x: -radius - 75, y: -8, anchor: 'middle' };
+        // Zepto is at y ~138; place badge cleanly ABOVE bubble with ample headroom
+        return { x: 0, y: -radius - 14 };
       case 'swiggy_instamart':
       case 'swiggy':
-        // Swiggy badge placed below its bubble
-        return { x: 0, y: radius + 14, anchor: 'middle' };
+        // Swiggy is at y ~220; place badge cleanly BELOW bubble, sitting safely above 20% line
+        return { x: 0, y: radius + 14 };
       case 'bigbasket_now':
       case 'bb_now':
-        // BB Now badge placed ABOVE its bubble so it never touches the 20% growth line
-        return { x: 0, y: -radius - 14, anchor: 'middle' };
+        // BB Now is at y ~250; place badge cleanly ABOVE bubble so it never touches 20% line
+        return { x: 0, y: -radius - 14 };
       case 'blinkit':
       default:
-        // Blinkit badge placed cleanly below its bubble
-        return { x: 0, y: radius + 14, anchor: 'middle' };
+        // Blinkit is in Stars; place badge cleanly BELOW bubble
+        return { x: 0, y: radius + 14 };
     }
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-28">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-40">
       
-      {/* Title & Controls Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
-        <div>
+      {/* Title & Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
+      <div className="space-y-3 pb-4 border-b border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
+            <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400 shrink-0">
               <Compass className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white tracking-tight">
                   BCG Growth-Share Matrix
                 </h2>
-                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-violet-500/20 text-violet-300 border border-violet-500/30 font-semibold whitespace-nowrap">
                   Bruce Henderson (1970)
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-                Strategic 2&times;2 Portfolio Framework: Relative Market Share vs. Annual Market Growth Rate &bull; Bubble Size = FY24 GOV / Revenue.
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-sans">
+                Strategic 2&times;2 Portfolio Framework: Relative Market Share vs. Annual Market Growth Rate &bull; Bubble Size = FY24 Revenue.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Quick Shocks Bar */}
-        <div className="flex items-center gap-2 flex-wrap self-start lg:self-auto">
-          <span className="text-xs text-slate-400 font-mono flex items-center gap-1.5 mr-1">
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            Macro Shocks:
-          </span>
-          {allShocks.slice(0, 3).map(shock => {
-            const isActive = activeShocks.some(s => s.id === shock.id);
-            return (
+        {/* Dedicated Full-Width Macro Shocks Ribbon */}
+        <div className="p-2.5 rounded-xl bg-dark-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+            <Zap className="w-4 h-4 text-amber-400 shrink-0" />
+            <span className="font-semibold text-slate-200">Macro Shocks (Exogenous Transmission):</span>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            {allShocks.slice(0, 3).map(shock => {
+              const isActive = activeShocks.some(s => s.id === shock.id);
+              return (
+                <button
+                  key={shock.id}
+                  onClick={() => toggleShock(shock.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium border transition-all cursor-pointer whitespace-nowrap ${
+                    isActive
+                      ? 'bg-rose-500/20 border-rose-500/60 text-rose-300 shadow-sm shadow-rose-500/20 ring-1 ring-rose-500/40 font-bold'
+                      : 'bg-dark-950 border-slate-700 text-slate-300 hover:border-slate-600 hover:text-white'
+                  }`}
+                  title={shock.description || shock.name}
+                >
+                  {isActive ? '✓ ' : '+ '}{shock.name}
+                </button>
+              );
+            })}
+
+            {activeShocks.length > 0 && (
               <button
-                key={shock.id}
-                onClick={() => toggleShock(shock.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium border transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-rose-500/20 border-rose-500/60 text-rose-300 shadow-sm shadow-rose-500/20 ring-1 ring-rose-500/40'
-                    : 'bg-dark-800 border-slate-700 text-slate-300 hover:border-slate-600 hover:text-white'
-                }`}
-                title={shock.description || shock.name}
+                onClick={resetShocks}
+                className="px-2.5 py-1.5 rounded-lg bg-dark-950 border border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer flex items-center gap-1 text-xs font-mono ml-auto md:ml-0"
+                title="Reset all active shocks"
               >
-                {isActive ? '✓ ' : '+ '}{shock.name}
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset Shocks</span>
               </button>
-            );
-          })}
-          {activeShocks.length > 0 && (
-            <button
-              onClick={resetShocks}
-              className="px-2.5 py-1.5 rounded-xl bg-dark-800 border border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer flex items-center gap-1 text-xs font-mono"
-              title="Reset all active shocks"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset</span>
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
