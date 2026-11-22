@@ -103,11 +103,11 @@ export default function PriceWarView() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white tracking-tight flex items-center gap-2">
-              <Swords className="w-7 h-7 text-pink-400" />
+              <Swords className="w-7 h-7 text-pink-400 shrink-0" />
               <span>Bertrand-Nash Price War Simulator</span>
             </h2>
-            <span className="text-xs px-3 py-1 rounded-full font-mono font-medium bg-pink-500/15 text-pink-300 border border-pink-500/30">
-              Q = A &bull; P^(-e)
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full font-mono text-xs font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30 whitespace-nowrap shrink-0 shadow-sm">
+              <span>Q = A &middot; P<sup>-&epsilon;</sup></span>
             </span>
           </div>
           <p className="text-sm text-slate-300">

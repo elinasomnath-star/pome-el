@@ -60,7 +60,7 @@
       "term": "Industry Attractiveness Index",
       "category": "Microeconomics",
       "definition": "A composite metric on a [0, 10] scale inversely related to weighted force hostility. 10 indicates a benign, monopolistically profitable industry; 0 indicates a hyper-competitive, margin-compressing squeeze.",
-      "formula": "Attractiveness = 10 - Sum(w_i * S_i) / Sum(w_i)",
+      "formula": "Attractiveness = 10 - [ ∑ (wᵢ · Sᵢ) / ∑ wᵢ ]",
       "pomeUnit": "Unit II: Environmental Scanning"
     },
     {
@@ -68,7 +68,7 @@
       "term": "Bertrand Oligopoly & Price War",
       "category": "Microeconomics",
       "definition": "An oligopoly model where firms compete simultaneously by setting prices. When products are close substitutes, price cuts trigger aggressive retaliation, driving prices down toward marginal cost.",
-      "formula": "Q_i = A_i * P_i^(-e_ii) * Prod(P_j^(e_ij))",
+      "formula": "Qᵢ = Aᵢ · Pᵢ⁻ᵉ · ∏ⱼ≠ᵢ Pⱼᵋ",
       "pomeUnit": "Unit IV: Market Structures & Pricing"
     },
     {
@@ -90,7 +90,7 @@
       "term": "Span of Control & Management Layers",
       "category": "Organizational Behavior",
       "definition": "The number of direct subordinates a manager supervises. A narrow span yields tall hierarchies (many layers, high coordination overhead); a wide span yields flat, agile organizations.",
-      "formula": "Layers L = ceil( ln(Headcount) / ln(Span) )",
+      "formula": "L = ⌈logₛ(N)⌉ = ⌈ln(N) / ln(S)⌉",
       "pomeUnit": "Unit I: Classical Management & Bureaucracy"
     },
     {
@@ -98,7 +98,7 @@
       "term": "Price Elasticity of Demand (PED)",
       "category": "Microeconomics",
       "definition": "A measure of consumer responsiveness: percentage change in quantity demanded divided by percentage change in price. If |Ed| > 1, demand is elastic; if |Ed| < 1, demand is inelastic.",
-      "formula": "Arc Ed = (dQ / avg_Q) / (dP / avg_P)",
+      "formula": "Arc Ed = (%ΔQ) / (%ΔP) = (ΔQ / Q̄) / (ΔP / P̄)",
       "pomeUnit": "Unit IV: Demand Analysis"
     }
   ]

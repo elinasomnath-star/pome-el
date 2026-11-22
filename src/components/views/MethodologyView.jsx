@@ -39,8 +39,8 @@ export default function MethodologyView() {
       icon: TrendingUp,
       accentColor: "#8b5cf6",
       formulaDisplay: [
-        { label: "Relative Market Share (RMS)", math: "RMS_i = Revenue_i / max_{j ≠ i}(Revenue_j)", desc: "Calculated on a logarithmic scale. RMS ≥ 1.0 defines market leadership." },
-        { label: "Market Growth Rate", math: "g = (Market GOV_t - Market GOV_{t-1}) / Market GOV_{t-1} × 100%", desc: "Threshold set at 20% annual expansion separating high-growth from mature sectors." }
+        { label: "Relative Market Share (RMS)", math: "RMSᵢ = Revenueᵢ / maxⱼ≠ᵢ(Revenueⱼ)", desc: "Calculated on a logarithmic scale. RMS ≥ 1.0 defines market leadership." },
+        { label: "Market Growth Rate", math: "g = (Market GOVₜ - Market GOVₜ₋₁) / Market GOVₜ₋₁ × 100%", desc: "Threshold set at 20% annual expansion separating high-growth from mature sectors." }
       ],
       coreConcept: "Henderson's Experience Curve posits that unit value-added production costs decline by a predictable percentage (typically 20-30%) with each doubling of cumulative output. In quick commerce, cumulative dark store order density lowers rider transit radius and warehouse dispatch cost.",
       qcApplication: "Blinkit leverages its 639-store scale (₹3,950 Cr revenue, 1.41x RMS) to capture supplier volume rebates and achieve positive contribution margins (+3.9%), while Zepto (0.71x RMS) operates as a high-growth Question Mark challenger requiring capital injections to reach scale parity.",
@@ -65,8 +65,8 @@ export default function MethodologyView() {
       icon: Award,
       accentColor: "#06b6d4",
       formulaDisplay: [
-        { label: "Industry Attractiveness Index (IAI)", math: "IAI = 10 - [ ∑_{i=1}^{5} (w_i · S_i) / ∑_{i=1}^{5} w_i ]", desc: "Where S_i ∈ [1, 10] represents force hostility score, and w_i is the assigned academic weight." },
-        { label: "Strategic Health Score", math: "Health = 0.45 · (Market Share) + 0.35 · (g_firm / 10) + 0.20 · (IAI × 10)", desc: "Holistic 0-100 composite index measuring firm competitive survivability." }
+        { label: "Industry Attractiveness Index (IAI)", math: "IAI = 10 - [ ∑ᵢ₌₁⁵ (wᵢ · Sᵢ) / ∑ᵢ₌₁⁵ wᵢ ]", desc: "Where Sᵢ ∈ [1, 10] represents force hostility score, and wᵢ is the assigned academic weight." },
+        { label: "Strategic Health Score", math: "Health = 0.45 · (Market Share) + 0.35 · (g / 10) + 0.20 · (IAI × 10)", desc: "Holistic 0-100 composite index measuring firm competitive survivability." }
       ],
       coreConcept: "Porter's framework demonstrates that industry structure, rather than temporary technological novelty or consumer popularity, dictates long-term sustainable return on invested capital (ROIC).",
       qcApplication: "The Indian quick commerce industry exhibits an Attractiveness Index of 2.8/10 (Hyper-Competitive Squeeze). Extreme internal rivalry (9.2) and multi-homing consumer power (7.8) compress economic rents, leaving only players with deep parent balance sheets.",
@@ -91,9 +91,9 @@ export default function MethodologyView() {
       icon: Activity,
       accentColor: "#ec4899",
       formulaDisplay: [
-        { label: "Multi-Firm Demand System", math: "Q_i(P_i, P_{-i}) = A_i · P_i^{-ε_{ii}} · ∏_{j ≠ i} P_j^{ε_{ij}}", desc: "Where ε_{ii} is own-price elasticity of demand, and ε_{ij} is cross-price cross-elasticity with rival j." },
-        { label: "Firm Profit Function", math: "Π_i = Q_i · (P_i - c_i) - F_i", desc: "Where P_i is delivery fee, c_i is marginal rider fulfillment cost, and F_i is fixed dark-store overhead." },
-        { label: "Nash Equilibrium Condition", math: "∂Π_i / ∂P_i = 0  ∀ i  =>  No firm can unilaterally deviate to increase profit.", desc: "Simulated numerically via iterative best-response convergence." }
+        { label: "Multi-Firm Demand System", math: "Qᵢ(Pᵢ, P₋ᵢ) = Aᵢ · Pᵢ⁻ᵉ · ∏ⱼ≠ᵢ Pⱼᵋ", desc: "Where εᵢᵢ is own-price elasticity of demand, and εᵢⱼ is cross-price cross-elasticity with rival j." },
+        { label: "Firm Profit Function", math: "Πᵢ = Qᵢ · (Pᵢ - cᵢ) - Fᵢ", desc: "Where Pᵢ is delivery fee, cᵢ is marginal rider fulfillment cost, and Fᵢ is fixed dark-store overhead." },
+        { label: "Nash Equilibrium Condition", math: "∂Πᵢ / ∂Pᵢ = 0  ∀ i  =>  No firm can unilaterally deviate to increase profit.", desc: "Simulated numerically via iterative best-response convergence." }
       ],
       coreConcept: "In differentiated Bertrand oligopoly with imperfect substitutes, price competition drives margins down toward marginal cost. When cross-price elasticity is high, undercutting triggers immediate competitor retaliation, destroying industry profits.",
       qcApplication: "When Zepto prices delivery at ₹22 vs Blinkit at ₹25 and Instamart at ₹20, multi-homing consumers reallocate orders based on cross-elasticity (0.45). However, if an incumbent cuts price below the marginal rider payout floor (₹23.50), it incurs unsustainable variable losses.",
@@ -113,9 +113,9 @@ export default function MethodologyView() {
       icon: Building,
       accentColor: "#10b981",
       formulaDisplay: [
-        { label: "Hierarchical Layers (Scalar Chain)", math: "L = ⌈ log_S(N) ⌉", desc: "Where N is enterprise headcount and S is average span of control (direct reports per manager)." },
-        { label: "Coordination Cost Index (CCI)", math: "CCI = N · L · (Centralization % / 100) · [1 + (Formalization / 10)] · 10^{-3}", desc: "Quantifies corporate overhead friction and scalar chain administrative drag." },
-        { label: "Burns & Stalker Structural Score", math: "Score = 0.50 · (Centralization %) + 5.0 · (Formalization)", desc: "Scores ≥ 65 = Mechanistic Bureaucracy (Weber); Scores ≤ 45 = Organic Agile Network." }
+        { label: "Hierarchical Layers (Scalar Chain)", math: "L = ⌈logₛ(N)⌉", desc: "Where N is enterprise headcount and S is average span of control (direct reports per manager)." },
+        { label: "Coordination Cost Index (CCI)", math: "CCI = N · L · (Centralization / 100) · [1 + (Formalization / 10)] · 10⁻³", desc: "Quantifies corporate overhead friction and scalar chain administrative drag." },
+        { label: "Burns & Stalker Structural Score", math: "Score = 0.55 · (Centralization) + 4.5 · (Formalization)", desc: "Scores ≥ 65 = Mechanistic Bureaucracy (Weber); Scores ≤ 45 = Organic Agile Network." }
       ],
       coreConcept: "Fayol's Scalar Chain principle establishes that authority and communication flow through an unbroken line from top to bottom. Burns and Stalker proved that while stable environments favor mechanistic structures, hyper-dynamic environments demand organic, decentralized networks.",
       qcApplication: "Quick commerce requires real-time routing decisions at individual dark stores. Tall mechanistic structures (span of 4, 6 layers) create fulfillment delays; flatter organic structures (span of 8-10, 3-4 layers) empower store managers to resolve inventory stockouts and delivery surges instantly.",
@@ -134,9 +134,9 @@ export default function MethodologyView() {
       icon: Calculator,
       accentColor: "#f59e0b",
       formulaDisplay: [
-        { label: "Force Perturbation Model", math: "S̃_i = clamp( S_i + N(0, σ_S^2), 1, 10 )", desc: "Stochastic Gaussian perturbation applied to each Porter force score across 1,000 draws." },
-        { label: "Elasticity Stochasticity", math: "ε̃ = ε + N(0, σ_ε^2)   where σ_ε = 0.18 · ε", desc: "Captures macro volatility in consumer price sensitivity and inflation shocks." },
-        { label: "Confidence Interval (P5 - P95)", math: "CI_{90%} = [ Q(0.05), Q(0.95) ]", desc: "Empirical non-parametric percentiles computed from sorted Monte Carlo simulation trials." }
+        { label: "Force Perturbation Model", math: "S̃ᵢ = clamp( Sᵢ + 𝒩(0, σₛ²), 1, 10 )", desc: "Stochastic Gaussian perturbation applied to each Porter force score across 1,000 draws." },
+        { label: "Elasticity Stochasticity", math: "ε̃ = ε + 𝒩(0, σε²)   where σε = 0.18 · ε", desc: "Captures macro volatility in consumer price sensitivity and inflation shocks." },
+        { label: "Confidence Interval (P5 - P95)", math: "CI₉₀% = [ Q(0.05), Q(0.95) ]", desc: "Empirical non-parametric percentiles computed from sorted Monte Carlo simulation trials." }
       ],
       coreConcept: "Deterministic point estimates foster strategic overconfidence. Under Knightian uncertainty, probability distributions reveal the dispersion of tail risks and structural vulnerabilities.",
       qcApplication: "While baseline models predict profitable unit economics at ₹25 delivery fees, Monte Carlo trials reveal that a 15% shock to rider labor supply plunges 38% of trials into severe negative round profitability.",
