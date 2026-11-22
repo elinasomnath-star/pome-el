@@ -117,7 +117,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-dark-900 text-slate-100 flex flex-col font-sans selection:bg-violet-600 selection:text-white pb-44 sm:pb-52 transition-all ${
+    <div className={`min-h-screen bg-dark-900 text-slate-100 flex flex-col font-sans selection:bg-violet-600 selection:text-white pb-56 sm:pb-64 transition-all ${
       presentationMode ? 'text-lg select-none' : ''
     }`}>
       {/* Sticky Top Navbar */}

@@ -428,8 +428,8 @@ export default function PriceWarView() {
                 return (
                   <tr key={firm.id} className="hover:bg-dark-800/40">
                     <td className="py-3.5 px-3 font-semibold text-white flex items-center gap-2.5">
-                      <span className="w-3 h-3 rounded-full" style={{ backgroundColor: firm.color }} />
-                      {firm.name} {firm.isUser && '(You)'}
+                      <CompanyBrandIcon id={firm.id} className="w-5 h-5" showBg={false} />
+                      <span>{firm.name} {firm.isUser && '(You)'}</span>
                     </td>
                     <td className="py-3.5 px-3 font-bold text-pink-400 text-sm">
                       ₹{(priceWarPrices[firm.id] || firm.basePrice).toFixed(1)}

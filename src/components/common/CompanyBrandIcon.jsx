@@ -107,3 +107,4 @@ export default function CompanyBrandIcon({ id, className = "w-5 h-5", showBg = f
       );
   }
 }
+

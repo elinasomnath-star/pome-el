@@ -30,22 +30,22 @@ export default function BCGMatrixView() {
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
   // SVG Coordinate mapping:
-  // X: Relative Market Share on Log scale from 0.1 to 2.5
-  // Log10(0.12) = -0.92, Log10(1.0) = 0.0, Log10(2.5) = ~0.4
-  const svgWidth = 760;
-  const svgHeight = 500;
-  const paddingLeft = 75;
-  const paddingRight = 45;
-  const paddingTop = 45;
-  const paddingBottom = 65;
+  // X: Relative Market Share on Log scale from 0.1 to 2.8
+  // Log10(0.11) = -0.95, Log10(1.0) = 0.0, Log10(2.8) = ~0.45
+  const svgWidth = 820;
+  const svgHeight = 530;
+  const paddingLeft = 85;
+  const paddingRight = 55;
+  const paddingTop = 50;
+  const paddingBottom = 75;
 
-  const minLogRMS = -0.92; // ~0.12x RMS
+  const minLogRMS = -0.95; // ~0.11x RMS
   const maxLogRMS = 0.45;  // ~2.8x RMS
   const minGrowth = 0;
-  const maxGrowth = 100;
+  const maxGrowth = 110;
 
   const mapX = (rms) => {
-    const safeRms = Math.max(0.12, Math.min(2.8, rms));
+    const safeRms = Math.max(0.11, Math.min(2.8, rms));
     const logVal = Math.log10(safeRms);
     const normalized = (logVal - minLogRMS) / (maxLogRMS - minLogRMS);
     return paddingLeft + normalized * (svgWidth - paddingLeft - paddingRight);
@@ -174,44 +174,48 @@ export default function BCGMatrixView() {
                 fillOpacity="0.03"
               />
 
-              {/* Clean Non-Colliding Quadrant Headers */}
+              {/* Clean Non-Colliding Quadrant Badge Headers */}
               {/* Question Marks Header */}
-              <g transform={`translate(${paddingLeft + 16}, ${paddingTop + 20})`}>
-                <text fill="#f472b6" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+              <g transform="translate(100, 56)">
+                <rect x="0" y="0" width="235" height="36" rx="8" fill="#ec4899" fillOpacity="0.08" stroke="#ec4899" strokeOpacity="0.3" strokeWidth="1" />
+                <text x="10" y="16" fill="#f472b6" fontSize="10.5" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="700">
                   ? QUESTION MARKS (High Growth, Low Share)
                 </text>
-                <text y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
-                  Cash drain; Aggressively build density or divest
+                <text x="10" y="28" fill="#94a3b8" fontSize="9" fontFamily="system-ui, -apple-system, sans-serif">
+                  High cash drain &bull; Build scale or divest
                 </text>
               </g>
 
               {/* Stars Header */}
-              <g transform={`translate(${svgWidth - paddingRight - 16}, ${paddingTop + 20})`}>
-                <text textAnchor="end" fill="#c084fc" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+              <g transform={`translate(${svgWidth - paddingRight - 245}, 56)`}>
+                <rect x="0" y="0" width="240" height="36" rx="8" fill="#8b5cf6" fillOpacity="0.08" stroke="#8b5cf6" strokeOpacity="0.3" strokeWidth="1" />
+                <text x="10" y="16" fill="#c084fc" fontSize="10.5" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="700">
                   ★ STARS (High Growth, High Share)
                 </text>
-                <text textAnchor="end" y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
-                  Self-sustaining; Reinvest cash to defend lead
+                <text x="10" y="28" fill="#94a3b8" fontSize="9" fontFamily="system-ui, -apple-system, sans-serif">
+                  Self-sustaining &bull; Reinvest to hold category lead
                 </text>
               </g>
 
               {/* Dogs Header */}
-              <g transform={`translate(${paddingLeft + 16}, ${thresholdY + 22})`}>
-                <text fill="#fbbf24" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+              <g transform={`translate(100, ${thresholdY + 16})`}>
+                <rect x="0" y="0" width="235" height="36" rx="8" fill="#f59e0b" fillOpacity="0.08" stroke="#f59e0b" strokeOpacity="0.3" strokeWidth="1" />
+                <text x="10" y="16" fill="#fbbf24" fontSize="10.5" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="700">
                   ▲ DOGS (Low Growth, Low Share)
                 </text>
-                <text y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
-                  Weak market position; Harvest cash or pivot
+                <text x="10" y="28" fill="#94a3b8" fontSize="9" fontFamily="system-ui, -apple-system, sans-serif">
+                  Weak market scale &bull; Harvest cash or pivot
                 </text>
               </g>
 
               {/* Cash Cows Header */}
-              <g transform={`translate(${svgWidth - paddingRight - 16}, ${thresholdY + 22})`}>
-                <text textAnchor="end" fill="#34d399" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+              <g transform={`translate(${svgWidth - paddingRight - 245}, ${thresholdY + 16})`}>
+                <rect x="0" y="0" width="240" height="36" rx="8" fill="#10b981" fillOpacity="0.08" stroke="#10b981" strokeOpacity="0.3" strokeWidth="1" />
+                <text x="10" y="16" fill="#34d399" fontSize="10.5" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="700">
                   $ CASH COWS (Low Growth, High Share)
                 </text>
-                <text textAnchor="end" y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
-                  High cash flow; Milk margins to fund challengers
+                <text x="10" y="28" fill="#94a3b8" fontSize="9" fontFamily="system-ui, -apple-system, sans-serif">
+                  High cash surplus &bull; Milk margins to fund stars
                 </text>
               </g>
 
@@ -281,7 +285,7 @@ export default function BCGMatrixView() {
               {/* Axis Labels */}
               <text
                 x={(paddingLeft + svgWidth - paddingRight) / 2}
-                y={svgHeight - 12}
+                y={svgHeight - 16}
                 textAnchor="middle"
                 fill="#94a3b8"
                 fontSize="11"
@@ -329,7 +333,7 @@ export default function BCGMatrixView() {
                 const cx = mapX(firm.relativeMarketShare);
                 const cy = mapY(firm.effectiveGrowthRate);
                 // Bubble radius proportional to sqrt(revenue)
-                const radius = Math.max(22, Math.min(46, Math.sqrt(firm.revenue) * 0.52));
+                const radius = Math.max(24, Math.min(48, Math.sqrt(firm.revenue) * 0.54));
                 const isSelected = firm.id === selectedCompanyId;
                 const isHovered = hoveredFirm?.id === firm.id;
 
@@ -377,45 +381,40 @@ export default function BCGMatrixView() {
                       className="transition-all duration-300 group-hover:scale-105"
                     />
 
-                    {/* Company Name inside bubble */}
-                    <text
-                      cx={cx}
-                      cy={cy}
-                      x={cx}
-                      y={cy + 4}
-                      textAnchor="middle"
-                      fill="#06070c"
-                      fontSize="11"
-                      fontFamily="system-ui, -apple-system, sans-serif"
-                      fontWeight="800"
+                    {/* Company Vector Brand Icon inside the Bubble */}
+                    <foreignObject
+                      x={cx - 14}
+                      y={cy - 14}
+                      width="28"
+                      height="28"
                       className="pointer-events-none select-none"
                     >
-                      {firm.name.split(' ')[0]}
-                    </text>
+                      <CompanyBrandIcon id={firm.id} className="w-7 h-7" showBg={false} />
+                    </foreignObject>
 
                     {/* Floating Revenue Tag with Pill Background */}
-                    <g transform={`translate(${cx}, ${cy + radius + 8})`}>
+                    <g transform={`translate(${cx}, ${cy + radius + 10})`}>
                       <rect
-                        x="-48"
+                        x="-58"
                         y="0"
-                        width="96"
-                        height="18"
-                        rx="9"
+                        width="116"
+                        height="20"
+                        rx="10"
                         fill="#0b0e17"
                         stroke={firm.color}
-                        strokeWidth="1"
+                        strokeWidth="1.2"
                         opacity="0.95"
                       />
                       <text
                         x="0"
-                        y="12"
+                        y="13.5"
                         textAnchor="middle"
-                        fill="#e2e8f0"
+                        fill="#f8fafc"
                         fontSize="9.5"
                         fontFamily="monospace"
-                        fontWeight="600"
+                        fontWeight="700"
                       >
-                        ₹{firm.revenue}Cr ({firm.relativeMarketShare}x)
+                        {firm.name.split(' ')[0]} • ₹{firm.revenue}Cr
                       </text>
                     </g>
                   </g>
