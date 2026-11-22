@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   AlertCircle,
   Activity,
-  Bot
+  Bot,
+  Sparkles
 } from 'lucide-react';
 import priceWarConfigData from '../../data/priceWarConfig.json';
 import { calculateFirmDemand, simulatePriceRound } from '../../engine/priceWar';
