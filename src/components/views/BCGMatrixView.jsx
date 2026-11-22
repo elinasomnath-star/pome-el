@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { useSimStore } from '../../store/useSimStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import GlassSurface from '../reactbits/GlassSurface';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
-import { Zap, HelpCircle, Star, DollarSign, AlertTriangle, Play, RotateCcw, ArrowRight, ScatterChart } from 'lucide-react';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
+import {
+  Zap,
+  HelpCircle,
+  Star,
+  DollarSign,
+  AlertTriangle,
+  RotateCcw,
+  ArrowRight,
+  TrendingUp,
+  Info
+} from 'lucide-react';
 
 export default function BCGMatrixView() {
   const {
@@ -21,14 +31,16 @@ export default function BCGMatrixView() {
 
   // SVG Coordinate mapping:
   // X: Relative Market Share on Log scale from 0.1 to 2.5
-  // Log10(0.1) = -1.0, Log10(1.0) = 0.0, Log10(2.5) = ~0.4
-  // Map [-1.0, 0.5] to [padding, width - padding]
-  const svgWidth = 720;
-  const svgHeight = 480;
-  const padding = 70;
+  // Log10(0.12) = -0.92, Log10(1.0) = 0.0, Log10(2.5) = ~0.4
+  const svgWidth = 760;
+  const svgHeight = 500;
+  const paddingLeft = 75;
+  const paddingRight = 45;
+  const paddingTop = 45;
+  const paddingBottom = 65;
 
-  const minLogRMS = -0.9; // ~0.12 RMS
-  const maxLogRMS = 0.45; // ~2.8 RMS
+  const minLogRMS = -0.92; // ~0.12x RMS
+  const maxLogRMS = 0.45;  // ~2.8x RMS
   const minGrowth = 0;
   const maxGrowth = 100;
 
@@ -36,25 +48,28 @@ export default function BCGMatrixView() {
     const safeRms = Math.max(0.12, Math.min(2.8, rms));
     const logVal = Math.log10(safeRms);
     const normalized = (logVal - minLogRMS) / (maxLogRMS - minLogRMS);
-    return padding + normalized * (svgWidth - 2 * padding);
+    return paddingLeft + normalized * (svgWidth - paddingLeft - paddingRight);
   };
 
   const mapY = (growth) => {
     const safeGrowth = Math.max(minGrowth, Math.min(maxGrowth, growth));
     // Invert Y because SVG origin is top-left
     const normalized = (safeGrowth - minGrowth) / (maxGrowth - minGrowth);
-    return svgHeight - padding - normalized * (svgHeight - 2 * padding);
+    return svgHeight - paddingBottom - normalized * (svgHeight - paddingTop - paddingBottom);
   };
 
   // Threshold markers
-  const thresholdX = mapX(1.0); // 1.0 Relative Market Share
+  const thresholdX = mapX(1.0);  // 1.0 Relative Market Share
   const thresholdY = mapY(20.0); // 20% Growth Rate
 
+  const activeFirmBCG = bcgMetrics.find(f => f.id === selectedCompanyId) || bcgMetrics[0];
+  const p = activeFirmBCG.prescription;
+
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
       
-      {/* Title & Theoretical Framing */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      {/* Title & Controls Bar */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
         <div>
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
@@ -66,21 +81,21 @@ export default function BCGMatrixView() {
                   BCG Growth-Share Matrix
                 </h2>
                 <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-violet-500/20 text-violet-300 border border-violet-500/30">
-                  Bruce Henderson (1970)
+                  Henderson (1970)
                 </span>
               </div>
-              <p className="text-sm text-slate-400 mt-1">
-                X-Axis: Relative Market Share (log scale vs #1 rival) &bull; Y-Axis: Annual Growth Rate (%) &bull; Bubble Area: FY24 Revenue.
+              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                X-Axis: Relative Market Share vs #1 Rival (log scale) &bull; Y-Axis: Annual Growth Rate (%) &bull; Bubble Area: FY24 Revenue.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Shock Lab Quick-Action Bar */}
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-xs text-slate-400 font-mono flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-amber-400" />
-            Quick Shocks:
+        {/* Quick Shocks Bar */}
+        <div className="flex items-center gap-2 flex-wrap self-start lg:self-auto">
+          <span className="text-xs text-slate-400 font-mono flex items-center gap-1.5 mr-1">
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            Macro Shocks:
           </span>
           {allShocks.slice(0, 3).map(shock => {
             const isActive = activeShocks.some(s => s.id === shock.id);
@@ -102,7 +117,7 @@ export default function BCGMatrixView() {
             <button
               onClick={resetShocks}
               className="p-1.5 rounded-xl bg-dark-800 border border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer"
-              title="Reset all shocks"
+              title="Reset all active shocks"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
@@ -110,64 +125,110 @@ export default function BCGMatrixView() {
         </div>
       </div>
 
-      {/* Main BCG Interactive Canvas & Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Main BCG Layout Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left 8 Cols: Animated SVG Bubble Chart */}
-        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-dark-900/90 p-6 sm:p-7 relative overflow-hidden shadow-2xl flex flex-col justify-between">
+        {/* Left 8 Cols: Clean SVG Matrix (No colliding text overlays!) */}
+        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-dark-900/95 p-5 sm:p-6 relative overflow-hidden shadow-2xl flex flex-col justify-between">
           
-          {/* Quadrant Watermark Labels */}
-          <div className="absolute inset-0 pointer-events-none p-12 grid grid-cols-2 grid-rows-2">
-            <div className="p-4 border-r border-b border-slate-800/60 flex flex-col justify-start">
-              <span className="text-xs font-mono font-bold tracking-widest text-pink-400/50 uppercase flex items-center gap-1.5">
-                <HelpCircle className="w-4 h-4 text-pink-500/40" />
-                QUESTION MARKS (High Growth, Low Share)
-              </span>
-              <span className="text-xs text-slate-500 mt-1">High cash drain; Build share or Divest</span>
-            </div>
-            <div className="p-4 border-b border-slate-800/60 flex flex-col justify-start items-end text-right">
-              <span className="text-xs font-mono font-bold tracking-widest text-violet-400/50 uppercase flex items-center gap-1.5">
-                <Star className="w-4 h-4 text-violet-500/40" />
-                STARS (High Growth, High Share)
-              </span>
-              <span className="text-xs text-slate-500 mt-1">Self-sustaining; Reinvest to hold lead</span>
-            </div>
-            <div className="p-4 border-r border-slate-800/60 flex flex-col justify-end">
-              <span className="text-xs font-mono font-bold tracking-widest text-amber-400/50 uppercase flex items-center gap-1.5">
-                <AlertTriangle className="w-4 h-4 text-amber-500/40" />
-                DOGS (Low Growth, Low Share)
-              </span>
-              <span className="text-xs text-slate-500 mt-1">Harvest or Restructure / Exit</span>
-            </div>
-            <div className="p-4 flex flex-col justify-end items-end text-right">
-              <span className="text-xs font-mono font-bold tracking-widest text-emerald-400/50 uppercase flex items-center gap-1.5">
-                <DollarSign className="w-4 h-4 text-emerald-500/40" />
-                CASH COWS (Low Growth, High Share)
-              </span>
-              <span className="text-xs text-slate-500 mt-1">High cash generation; Milk margins</span>
-            </div>
-          </div>
-
-          {/* SVG Matrix */}
-          <div className="relative z-10 w-full overflow-x-auto py-2">
+          <div className="w-full overflow-x-auto">
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-              className="w-full h-auto min-w-[540px]"
+              className="w-full h-auto min-w-[580px] select-none"
             >
+              {/* Quadrant Background Zones */}
+              {/* Top-Left: Question Marks */}
+              <rect
+                x={paddingLeft}
+                y={paddingTop}
+                width={thresholdX - paddingLeft}
+                height={thresholdY - paddingTop}
+                fill="#ec4899"
+                fillOpacity="0.03"
+              />
+              {/* Top-Right: Stars */}
+              <rect
+                x={thresholdX}
+                y={paddingTop}
+                width={svgWidth - paddingRight - thresholdX}
+                height={thresholdY - paddingTop}
+                fill="#8b5cf6"
+                fillOpacity="0.04"
+              />
+              {/* Bottom-Left: Dogs */}
+              <rect
+                x={paddingLeft}
+                y={thresholdY}
+                width={thresholdX - paddingLeft}
+                height={svgHeight - paddingBottom - thresholdY}
+                fill="#f59e0b"
+                fillOpacity="0.03"
+              />
+              {/* Bottom-Right: Cash Cows */}
+              <rect
+                x={thresholdX}
+                y={thresholdY}
+                width={svgWidth - paddingRight - thresholdX}
+                height={svgHeight - paddingBottom - thresholdY}
+                fill="#10b981"
+                fillOpacity="0.03"
+              />
+
+              {/* Clean Non-Colliding Quadrant Headers */}
+              {/* Question Marks Header */}
+              <g transform={`translate(${paddingLeft + 16}, ${paddingTop + 20})`}>
+                <text fill="#f472b6" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+                  ? QUESTION MARKS (High Growth, Low Share)
+                </text>
+                <text y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
+                  Cash drain; Aggressively build density or divest
+                </text>
+              </g>
+
+              {/* Stars Header */}
+              <g transform={`translate(${svgWidth - paddingRight - 16}, ${paddingTop + 20})`}>
+                <text textAnchor="end" fill="#c084fc" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+                  ★ STARS (High Growth, High Share)
+                </text>
+                <text textAnchor="end" y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
+                  Self-sustaining; Reinvest cash to defend lead
+                </text>
+              </g>
+
+              {/* Dogs Header */}
+              <g transform={`translate(${paddingLeft + 16}, ${thresholdY + 22})`}>
+                <text fill="#fbbf24" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+                  ▲ DOGS (Low Growth, Low Share)
+                </text>
+                <text y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
+                  Weak market position; Harvest cash or pivot
+                </text>
+              </g>
+
+              {/* Cash Cows Header */}
+              <g transform={`translate(${svgWidth - paddingRight - 16}, ${thresholdY + 22})`}>
+                <text textAnchor="end" fill="#34d399" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.5">
+                  $ CASH COWS (Low Growth, High Share)
+                </text>
+                <text textAnchor="end" y="14" fill="#64748b" fontSize="9.5" fontFamily="system-ui, sans-serif">
+                  High cash flow; Milk margins to fund challengers
+                </text>
+              </g>
+
               {/* Grid Lines */}
               <line
-                x1={padding}
-                y1={svgHeight - padding}
-                x2={svgWidth - padding}
-                y2={svgHeight - padding}
+                x1={paddingLeft}
+                y1={svgHeight - paddingBottom}
+                x2={svgWidth - paddingRight}
+                y2={svgHeight - paddingBottom}
                 stroke="#334155"
                 strokeWidth="1.5"
               />
               <line
-                x1={padding}
-                y1={padding}
-                x2={padding}
-                y2={svgHeight - padding}
+                x1={paddingLeft}
+                y1={paddingTop}
+                x2={paddingLeft}
+                y2={svgHeight - paddingBottom}
                 stroke="#334155"
                 strokeWidth="1.5"
               />
@@ -176,19 +237,19 @@ export default function BCGMatrixView() {
               {/* RMS = 1.0 vertical threshold */}
               <line
                 x1={thresholdX}
-                y1={padding}
+                y1={paddingTop}
                 x2={thresholdX}
-                y2={svgHeight - padding}
+                y2={svgHeight - paddingBottom}
                 stroke="#8b5cf6"
                 strokeWidth="1.5"
-                strokeDasharray="4 4"
-                strokeOpacity="0.8"
+                strokeDasharray="5 5"
+                strokeOpacity="0.85"
               />
               <text
                 x={thresholdX + 8}
-                y={padding + 16}
+                y={paddingTop + 48}
                 fill="#a78bfa"
-                fontSize="11"
+                fontSize="10"
                 fontFamily="monospace"
                 fontWeight="bold"
               >
@@ -197,20 +258,20 @@ export default function BCGMatrixView() {
 
               {/* Growth = 20% horizontal threshold */}
               <line
-                x1={padding}
+                x1={paddingLeft}
                 y1={thresholdY}
-                x2={svgWidth - padding}
+                x2={svgWidth - paddingRight}
                 y2={thresholdY}
                 stroke="#06b6d4"
                 strokeWidth="1.5"
-                strokeDasharray="4 4"
-                strokeOpacity="0.8"
+                strokeDasharray="5 5"
+                strokeOpacity="0.85"
               />
               <text
-                x={svgWidth - padding - 160}
+                x={svgWidth - paddingRight - 150}
                 y={thresholdY - 10}
                 fill="#38bdf8"
-                fontSize="11"
+                fontSize="10"
                 fontFamily="monospace"
                 fontWeight="bold"
               >
@@ -219,25 +280,25 @@ export default function BCGMatrixView() {
 
               {/* Axis Labels */}
               <text
-                x={svgWidth / 2}
-                y={svgHeight - 14}
+                x={(paddingLeft + svgWidth - paddingRight) / 2}
+                y={svgHeight - 12}
                 textAnchor="middle"
                 fill="#94a3b8"
-                fontSize="12"
-                fontFamily="monospace"
+                fontSize="11"
+                fontFamily="system-ui, sans-serif"
                 fontWeight="600"
               >
-                Relative Market Share (log scale vs #1 Competitor) →
+                Relative Market Share (log scale vs #1 Rival) →
               </text>
 
               <text
-                x={-svgHeight / 2}
+                x={-(paddingTop + svgHeight - paddingBottom) / 2}
                 y={22}
                 transform="rotate(-90)"
                 textAnchor="middle"
                 fill="#94a3b8"
-                fontSize="12"
-                fontFamily="monospace"
+                fontSize="11"
+                fontFamily="system-ui, sans-serif"
                 fontWeight="600"
               >
                 Annual Market Growth Rate (%) →
@@ -245,7 +306,7 @@ export default function BCGMatrixView() {
 
               {/* Tick Marks for RMS: 0.2, 0.5, 1.0, 1.5, 2.0 */}
               {[0.2, 0.5, 1.0, 1.5, 2.0].map(tick => (
-                <g key={tick} transform={`translate(${mapX(tick)}, ${svgHeight - padding})`}>
+                <g key={tick} transform={`translate(${mapX(tick)}, ${svgHeight - paddingBottom})`}>
                   <line y2="6" stroke="#475569" strokeWidth="1.5" />
                   <text y="20" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">
                     {tick}x
@@ -255,20 +316,20 @@ export default function BCGMatrixView() {
 
               {/* Tick Marks for Growth: 0%, 20%, 40%, 60%, 80%, 100% */}
               {[0, 20, 40, 60, 80, 100].map(tick => (
-                <g key={tick} transform={`translate(${padding}, ${mapY(tick)})`}>
+                <g key={tick} transform={`translate(${paddingLeft}, ${mapY(tick)})`}>
                   <line x2="-6" stroke="#475569" strokeWidth="1.5" />
-                  <text x="-12" y="4" textAnchor="end" fill="#94a3b8" fontSize="10" fontFamily="monospace">
+                  <text x="-12" y="3.5" textAnchor="end" fill="#94a3b8" fontSize="10" fontFamily="monospace">
                     {tick}%
                   </text>
                 </g>
               ))}
 
-              {/* Animated Company Bubbles */}
+              {/* Company Bubbles */}
               {bcgMetrics.map((firm) => {
                 const cx = mapX(firm.relativeMarketShare);
                 const cy = mapY(firm.effectiveGrowthRate);
                 // Bubble radius proportional to sqrt(revenue)
-                const radius = Math.max(18, Math.min(42, Math.sqrt(firm.revenue) * 0.48));
+                const radius = Math.max(22, Math.min(46, Math.sqrt(firm.revenue) * 0.52));
                 const isSelected = firm.id === selectedCompanyId;
                 const isHovered = hoveredFirm?.id === firm.id;
 
@@ -294,11 +355,11 @@ export default function BCGMatrixView() {
                       />
                     )}
 
-                    {/* Outer Glow on hover */}
+                    {/* Outer Glow */}
                     <circle
                       cx={cx}
                       cy={cy}
-                      r={radius + 5}
+                      r={radius + 4}
                       fill={firm.color}
                       opacity={isHovered ? 0.35 : 0.15}
                       className="transition-all duration-300"
@@ -312,11 +373,11 @@ export default function BCGMatrixView() {
                       fill={firm.color}
                       opacity={0.92}
                       stroke="#ffffff"
-                      strokeWidth={isSelected ? 2.5 : 1}
+                      strokeWidth={isSelected ? 3 : 1.5}
                       className="transition-all duration-300 group-hover:scale-105"
                     />
 
-                    {/* Bubble Label inside */}
+                    {/* Company Name inside bubble */}
                     <text
                       cx={cx}
                       cy={cy}
@@ -325,135 +386,146 @@ export default function BCGMatrixView() {
                       textAnchor="middle"
                       fill="#06070c"
                       fontSize="11"
-                      fontFamily="Space Grotesk, sans-serif"
-                      fontWeight="bold"
+                      fontFamily="system-ui, -apple-system, sans-serif"
+                      fontWeight="800"
                       className="pointer-events-none select-none"
                     >
                       {firm.name.split(' ')[0]}
                     </text>
 
-                    {/* Revenue Tag */}
-                    <text
-                      x={cx}
-                      y={cy + radius + 16}
-                      textAnchor="middle"
-                      fill="#cbd5e1"
-                      fontSize="10"
-                      fontFamily="monospace"
-                      fontWeight="600"
-                    >
-                      ₹{firm.revenue}Cr ({firm.relativeMarketShare}x)
-                    </text>
+                    {/* Floating Revenue Tag with Pill Background */}
+                    <g transform={`translate(${cx}, ${cy + radius + 8})`}>
+                      <rect
+                        x="-48"
+                        y="0"
+                        width="96"
+                        height="18"
+                        rx="9"
+                        fill="#0b0e17"
+                        stroke={firm.color}
+                        strokeWidth="1"
+                        opacity="0.95"
+                      />
+                      <text
+                        x="0"
+                        y="12"
+                        textAnchor="middle"
+                        fill="#e2e8f0"
+                        fontSize="9.5"
+                        fontFamily="monospace"
+                        fontWeight="600"
+                      >
+                        ₹{firm.revenue}Cr ({firm.relativeMarketShare}x)
+                      </text>
+                    </g>
                   </g>
                 );
               })}
             </svg>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-400 font-mono pt-4 border-t border-slate-800">
-            <span>Tip: Click any bubble to inspect position & strategic prescription.</span>
-            <span>Thresholds: RMS 1.0x | Growth 20%</span>
+          <div className="flex items-center justify-between text-xs text-slate-400 font-mono pt-4 border-t border-slate-800/80">
+            <span>Click any bubble to select company & simulate strategy responses.</span>
+            <span>Thresholds: RMS 1.0x &bull; Growth 20%</span>
           </div>
         </div>
 
-        {/* Right 4 Cols: Selected Firm BCG Card & Strategic Action */}
+        {/* Right 4 Cols: Selected Firm BCG Card with CompanyBrandIcon */}
         <div className="lg:col-span-4">
-          {(() => {
-            const activeFirmBCG = bcgMetrics.find(f => f.id === selectedCompanyId) || bcgMetrics[0];
-            const p = activeFirmBCG.prescription;
+          <SpotlightCard
+            spotlightColor="rgba(139, 92, 246, 0.25)"
+            className="p-6 border border-slate-800 bg-dark-900/95 rounded-2xl shadow-2xl space-y-5"
+          >
+            {/* Firm Header with Official Brand Icon */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
+              <div className="flex items-center gap-3">
+                <CompanyBrandIcon id={activeFirmBCG.id} className="w-8 h-8" showBg={true} />
+                <div>
+                  <h3 className="text-xl font-bold text-white font-sans flex items-center gap-1.5">
+                    {activeFirmBCG.name}
+                  </h3>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {activeFirmBCG.brandTag || "Quick Commerce"}
+                  </span>
+                </div>
+              </div>
 
-            return (
-              <SpotlightCard
-                spotlightColor="rgba(139, 92, 246, 0.25)"
-                className="p-6 border border-slate-800 bg-dark-900/90 rounded-2xl h-full flex flex-col justify-between shadow-2xl space-y-6"
+              <div className={`px-3 py-1 rounded-full text-xs font-bold font-mono border ${
+                activeFirmBCG.quadrant === 'Stars' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40' :
+                activeFirmBCG.quadrant === 'Cash Cows' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' :
+                activeFirmBCG.quadrant === 'Question Marks' ? 'bg-pink-500/20 text-pink-300 border-pink-500/40' :
+                'bg-amber-500/20 text-amber-300 border-amber-500/40'
+              }`}>
+                {activeFirmBCG.quadrant}
+              </div>
+            </div>
+
+            {/* Quantitative Coordinates */}
+            <div className="grid grid-cols-2 gap-3.5 p-3.5 rounded-xl bg-dark-950 border border-slate-800">
+              <div>
+                <div className="text-[11px] text-slate-400 uppercase font-mono">Relative Market Share</div>
+                <div className="text-xl font-bold font-mono text-white mt-0.5">
+                  <CountUp to={activeFirmBCG.relativeMarketShare} decimals={2} suffix="x" />
+                </div>
+                <div className="text-[11px] text-slate-400 mt-0.5">
+                  {activeFirmBCG.relativeMarketShare >= 1.0 ? "Market Leader" : "Market Challenger"}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-[11px] text-slate-400 uppercase font-mono">Effective Growth</div>
+                <div className="text-xl font-bold font-mono text-cyan-400 mt-0.5">
+                  <CountUp to={activeFirmBCG.effectiveGrowthRate} decimals={1} prefix="+" suffix="%" />
+                </div>
+                <div className="text-[11px] text-slate-400 mt-0.5">
+                  {activeFirmBCG.effectiveGrowthRate >= 20 ? "High Growth Sector" : "Mature Sector"}
+                </div>
+              </div>
+            </div>
+
+            {/* Prescribed Strategic Action */}
+            <div className="space-y-1.5">
+              <div className="text-xs font-semibold uppercase font-mono text-violet-400 tracking-wider">
+                Prescribed Strategic Imperative
+              </div>
+              <div className="p-4 rounded-xl border border-violet-500/30 bg-violet-950/20 space-y-1.5">
+                <div className="text-sm font-bold text-white font-sans">{p.action}</div>
+                <p className="text-xs text-slate-300 leading-relaxed font-sans">{p.recommendation}</p>
+              </div>
+            </div>
+
+            {/* Operational Dynamics */}
+            <div className="space-y-2 text-xs text-slate-300 border-t border-slate-800/80 pt-3">
+              <div className="flex justify-between py-1">
+                <span className="text-slate-400">Cash Flow Dynamics:</span>
+                <span className="font-mono text-white font-medium">{p.cashFlow}</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-400">POSDCORB Priority:</span>
+                <span className="font-mono text-cyan-400 font-medium">{p.posdcorbPriority}</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-400">Dark Store Fleet:</span>
+                <span className="font-mono text-emerald-400 font-medium">{activeFirmBCG.darkStoreCount} stores</span>
+              </div>
+            </div>
+
+            {/* Source Reference */}
+            <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between font-mono">
+              <span>Bruce Henderson (BCG 1970)</span>
+              <button
+                onClick={() => {
+                  const all = useSimStore.getState();
+                  all.setActiveTab('recommender');
+                }}
+                className="text-violet-400 hover:text-violet-300 font-medium flex items-center gap-1 cursor-pointer transition-colors"
               >
-                <div className="space-y-5">
-                  
-                  {/* Firm Header */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-xs font-mono uppercase text-slate-400 block mb-0.5">BCG Position</span>
-                      <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                        <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: activeFirmBCG.color }} />
-                        {activeFirmBCG.name}
-                      </h3>
-                    </div>
-                    <div className={`px-3 py-1.5 rounded-xl text-xs font-bold font-mono border ${
-                      activeFirmBCG.quadrant === 'Stars' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40' :
-                      activeFirmBCG.quadrant === 'Cash Cows' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' :
-                      activeFirmBCG.quadrant === 'Question Marks' ? 'bg-pink-500/20 text-pink-300 border-pink-500/40' :
-                      'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                    }`}>
-                      {activeFirmBCG.quadrant}
-                    </div>
-                  </div>
+                <span>Full Strategy</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
 
-                  {/* Quantitative Coordinates */}
-                  <div className="grid grid-cols-2 gap-3.5 p-4 rounded-xl bg-dark-950 border border-slate-800">
-                    <div>
-                      <div className="text-xs text-slate-400 uppercase font-mono">Relative Market Share</div>
-                      <div className="text-xl font-bold font-mono text-white mt-0.5">
-                        <CountUp to={activeFirmBCG.relativeMarketShare} decimals={2} suffix="x" />
-                      </div>
-                      <div className="text-xs text-slate-500 mt-0.5">
-                        {activeFirmBCG.relativeMarketShare >= 1.0 ? "Market Leader" : "Market Challenger"}
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="text-xs text-slate-400 uppercase font-mono">Effective Growth</div>
-                      <div className="text-xl font-bold font-mono text-cyan-400 mt-0.5">
-                        <CountUp to={activeFirmBCG.effectiveGrowthRate} decimals={1} prefix="+" suffix="%" />
-                      </div>
-                      <div className="text-xs text-slate-500 mt-0.5">
-                        {activeFirmBCG.effectiveGrowthRate >= 20 ? "High Growth Market" : "Mature Market"}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Prescribed Strategic Action */}
-                  <div className="space-y-2">
-                    <div className="text-xs font-semibold uppercase font-mono text-violet-400 tracking-wider">
-                      Prescribed Strategic Action
-                    </div>
-                    <div className="p-4 rounded-xl border border-violet-500/30 bg-violet-950/20 space-y-1.5">
-                      <div className="text-base font-bold text-white">{p.action}</div>
-                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">{p.recommendation}</p>
-                    </div>
-                  </div>
-
-                  {/* Cash Flow Dynamics */}
-                  <div className="space-y-2 text-xs text-slate-300">
-                    <div className="flex justify-between border-b border-slate-800 py-1.5">
-                      <span className="text-slate-400">Cash Flow Dynamics:</span>
-                      <span className="font-mono text-white font-medium">{p.cashFlow}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-slate-800 py-1.5">
-                      <span className="text-slate-400">POSDCORB Priority:</span>
-                      <span className="font-mono text-cyan-400 font-medium">{p.posdcorbPriority}</span>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Footer Link */}
-                <div className="pt-4 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
-                  <span>Henderson Experience Curve</span>
-                  <button
-                    onClick={() => {
-                      const all = useSimStore.getState();
-                      all.setActiveTab('recommender');
-                    }}
-                    className="text-violet-400 hover:text-violet-300 font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-                  >
-                    <span>Full Recommender</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-
-              </SpotlightCard>
-            );
-          })()}
+          </SpotlightCard>
         </div>
 
       </div>

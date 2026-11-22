@@ -3,6 +3,7 @@ import { useSimStore } from '../../store/useSimStore';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import Stepper from '../reactbits/Stepper';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import confetti from 'canvas-confetti';
 import {
   Swords,
@@ -174,13 +175,16 @@ export default function PriceWarView() {
             className="p-6 border-2 border-pink-500/50 bg-dark-800/90 shadow-xl space-y-5"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <span className="text-xs uppercase font-mono text-pink-400 font-bold tracking-wider">
-                  Player Decision
-                </span>
-                <h3 className="text-xl font-bold text-white font-sans mt-0.5">
-                  Zepto Delivery & Handling Fee
-                </h3>
+              <div className="flex items-center gap-3">
+                <CompanyBrandIcon id={userFirm.id} className="w-8 h-8" showBg={true} />
+                <div>
+                  <span className="text-xs uppercase font-mono text-pink-400 font-bold tracking-wider">
+                    Player Decision
+                  </span>
+                  <h3 className="text-xl font-bold text-white font-sans mt-0.5">
+                    {userFirm.name} Delivery & Handling Fee
+                  </h3>
+                </div>
               </div>
               <div className="text-right">
                 <div className="text-3xl font-extrabold font-mono text-pink-400">
@@ -280,11 +284,11 @@ export default function PriceWarView() {
                     className="p-3.5 rounded-xl bg-dark-800/80 border border-slate-800 flex items-center justify-between gap-3 text-xs"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: rival.color }} />
+                      <CompanyBrandIcon id={rival.id} className="w-8 h-8" showBg={true} />
                       <div>
                         <div className="font-bold text-white font-sans text-sm">{rival.name}</div>
                         <div className="text-xs font-mono text-slate-400">
-                          Price: <strong className="text-white">₹{rivalPrice.toFixed(1)}</strong> &bull; Cost: ₹{rival.unitCost}
+                          Price: <strong className="text-white">₹{rivalPrice.toFixed(1)}</strong> &bull; Unit Cost: ₹{rival.unitCost}
                         </div>
                       </div>
                     </div>

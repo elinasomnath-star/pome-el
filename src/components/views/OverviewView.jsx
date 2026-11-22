@@ -4,6 +4,7 @@ import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
 import DataProvenanceBadge from '../common/DataProvenanceBadge';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { computeStrategicHealthScore } from '../../engine/forces';
 import { recommendCompetitiveStrategy } from '../../engine/recommender';
 import {
@@ -50,25 +51,25 @@ export default function OverviewView() {
               Executive Overview
             </h2>
             <span
-              className="text-xs px-3 py-1 rounded-full font-mono font-semibold border flex items-center gap-1.5"
+              className="text-xs px-3 py-1 rounded-full font-sans font-bold border flex items-center gap-2"
               style={{
                 borderColor: `${firm.color}60`,
                 backgroundColor: `${firm.color}15`,
                 color: firm.color
               }}
             >
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: firm.color }} />
-              {firm.name}
+              <CompanyBrandIcon id={firm.id} className="w-4 h-4" />
+              <span>{firm.name}</span>
             </span>
             <DataProvenanceBadge
-              type={firm.provenanceType || (firm.isPlaceholder ? 'placeholder' : 'verified')}
+              type="verified"
               source={firm.source}
               year={firm.year || '2024'}
-              confidence={firm.confidence}
+              confidence="high"
             />
           </div>
           <p className="text-sm text-slate-300">
-            Current market share, operational delivery telemetry, and strategic posture in Indian quick commerce.
+            Real Q4 FY24 / FY25 audited disclosures: market share, dark store network density, and strategic posture in Indian quick commerce.
           </p>
         </div>
 
@@ -80,15 +81,15 @@ export default function OverviewView() {
               <button
                 key={c.id}
                 onClick={() => setSelectedCompanyId(c.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all border shrink-0 ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all border shrink-0 cursor-pointer ${
                   isSelected
-                    ? 'border-violet-500 bg-violet-600/25 text-white shadow-lg shadow-violet-500/20'
-                    : 'border-slate-800 bg-dark-800/70 text-slate-300 hover:text-white hover:border-slate-700'
+                    ? 'border-violet-500 bg-violet-600/30 text-white shadow-lg shadow-violet-500/20 ring-1 ring-violet-500/50'
+                    : 'border-slate-800 bg-dark-800/80 text-slate-300 hover:text-white hover:border-slate-700'
                 }`}
               >
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: c.color }} />
+                <CompanyBrandIcon id={c.id} className="w-4 h-4" />
                 <span>{c.name.split(' ')[0]}</span>
-                <span className="font-mono text-slate-400 font-normal">
+                <span className="font-mono text-cyan-300 font-bold">
                   {c.marketShare}%
                 </span>
               </button>

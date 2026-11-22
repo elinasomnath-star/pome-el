@@ -9,7 +9,9 @@ export default {
     extend: {
       colors: {
         dark: {
+          950: '#030408',
           900: '#06070c',
+          850: '#090c14',
           800: '#0b0e17',
           700: '#121826',
           600: '#1a2236',
@@ -25,8 +27,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+        sans: ['Inter', 'Space Grotesk', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"Fira Code"', '"Cascadia Code"', 'Consolas', 'monospace']
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -43,4 +45,3 @@ export default {
   },
   plugins: [],
 }
-

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSimStore } from '../../store/useSimStore';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import GradientText from '../reactbits/GradientText';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { recommendCompetitiveStrategy } from '../../engine/recommender';
 import { MANAGEMENT_SCHOOLS, POSDCORB_FUNCTIONS } from '../../engine/caseLayer';
 import {
@@ -72,13 +73,14 @@ export default function StrategyRecommenderView() {
               <button
                 key={c.id}
                 onClick={() => setSelectedCompanyId(c.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold font-mono transition-all border cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold font-sans transition-all border cursor-pointer ${
                   isSelected
                     ? 'bg-violet-600/30 border-violet-500 text-white shadow-lg shadow-violet-500/20 ring-1 ring-violet-500/50'
                     : 'bg-dark-800/80 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
                 }`}
               >
-                {c.name.split(' ')[0]}
+                <CompanyBrandIcon id={c.id} className="w-4 h-4" />
+                <span>{c.name.split(' ')[0]}</span>
               </button>
             );
           })}

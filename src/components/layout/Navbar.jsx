@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSimStore } from '../../store/useSimStore';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import {
   Zap,
   ShieldAlert,
@@ -119,20 +120,21 @@ export default function Navbar({
             {presentationMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
           </button>
 
-          {/* Company Selector Dropdown */}
-          <div className="relative">
+          {/* Company Selector Dropdown with Brand Icon */}
+          <div className="relative flex items-center gap-1.5 bg-dark-800 border border-slate-700 rounded-xl px-2.5 py-1 hover:border-violet-500/60 transition-colors shadow-md">
+            <CompanyBrandIcon id={selectedCompanyId} className="w-5 h-5 rounded-md" />
             <select
               value={selectedCompanyId}
               onChange={(e) => setSelectedCompanyId(e.target.value)}
-              className="appearance-none bg-dark-800 border border-slate-700 rounded-xl px-3.5 py-1.5 pr-8 text-xs font-medium text-slate-100 hover:border-violet-500/60 focus:outline-none focus:border-violet-500 cursor-pointer shadow-md"
+              className="appearance-none bg-transparent pr-6 text-xs font-semibold text-slate-100 focus:outline-none cursor-pointer"
             >
               {baselineCompanies.map((c) => (
-                <option key={c.id} value={c.id}>
+                <option key={c.id} value={c.id} className="bg-dark-900 text-slate-100 py-1">
                   {c.name} ({c.marketShare}%)
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
               </svg>
