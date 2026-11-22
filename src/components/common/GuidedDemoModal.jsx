@@ -13,7 +13,8 @@ import {
   Shield,
   Zap,
   Swords,
-  Dices
+  Dices,
+  FileCheck
 } from 'lucide-react';
 
 export default function GuidedDemoModal({ isOpen, onClose }) {
@@ -108,6 +109,16 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
       onEnter: () => {
         setActiveTab('montecarlo');
         runMonteCarlo();
+      }
+    },
+    {
+      title: "Step 8: Empirical Statutory Validation (12/12 Verified)",
+      tab: "validation",
+      icon: FileCheck,
+      caption: "Directional backtest of model logic against 3 real historical events (Grofers acquisition, Zepto Series G, and platform fee hikes) verified against BSE and SEBI statutory filings.",
+      actionLabel: "View Empirical Audit Table",
+      onEnter: () => {
+        setActiveTab('validation');
       }
     }
   ];

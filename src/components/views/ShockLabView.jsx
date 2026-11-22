@@ -57,7 +57,7 @@ export default function ShockLabView() {
   const timelineData = generateShockTimeline(baselineForces, baselineCompanies, activeWithParams, 8);
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-40">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-52">
       
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">

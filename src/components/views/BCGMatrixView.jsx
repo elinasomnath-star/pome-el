@@ -153,7 +153,7 @@ export default function BCGMatrixView() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-40">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-52">
       
       {/* Title & Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
       <div className="space-y-3 pb-4 border-b border-slate-800/80">

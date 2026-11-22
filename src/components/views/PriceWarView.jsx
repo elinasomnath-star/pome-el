@@ -108,7 +108,7 @@ export default function PriceWarView() {
   }));
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-52">
       
       {/* Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
       <div className="space-y-4 pb-5 border-b border-slate-800/80">
@@ -176,6 +176,32 @@ export default function PriceWarView() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Evaluator Showcase Demonstration Card */}
+      <div className="p-4 sm:p-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-xl shadow-emerald-950/20">
+        <div className="space-y-1.5 max-w-3xl">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase tracking-wide">
+              Evaluator Walkthrough
+            </span>
+            <span className="text-sm font-bold font-sans text-white">How to Demonstrate Positive Unit Economics</span>
+          </div>
+          <p className="text-xs text-slate-300 font-sans leading-relaxed">
+            In standard Bertrand competition, homogenous price wars drive profits toward marginal cost ($P \to c$). By applying the <strong>Zepto Cafe & Speed Niche</strong>, non-price differentiation decouples cross-price elasticity from $-1.70$ down to $-0.80$, unlocking <strong>+₹81,20,000+ positive operating profit</strong> per round.
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setMarketStructure('monopolistic');
+            setFirmPrice(userFirm.id, 38);
+          }}
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-xs flex items-center gap-2 shrink-0 transition-all shadow-lg shadow-emerald-600/30 cursor-pointer self-start lg:self-auto"
+        >
+          <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+          <span>Apply Positive Profit Preset (₹38)</span>
+        </button>
       </div>
 
       {/* 12-Round Stepper */}

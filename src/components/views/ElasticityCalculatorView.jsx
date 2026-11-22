@@ -66,7 +66,7 @@ export default function ElasticityCalculatorView() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-52">
       
       {/* Title & Header - De-cramped with Generous Spacing */}
       <div className="space-y-4 pb-5 border-b border-slate-800/80">
