@@ -515,6 +515,10 @@ export default function BCGMatrixView() {
                 const rawCy = mapY(firm.effectiveGrowthRate);
                 // Scaled radius based on FY24 Revenue
                 const radius = Math.max(26, Math.min(40, Math.sqrt(firm.revenue) * 0.50));
+                const isSelected = firm.id === selectedCompanyId;
+                const isHovered = hoveredFirm?.id === firm.id;
+                const offset = getBadgeOffset(firm.id, radius);
+
                 // Hard mathematical clamping: guarantees NO bubble ever leaves the canvas or clips boundaries
                 const minCx = paddingLeft + radius + 10;
                 const maxCx = svgWidth - paddingRight - radius - 10;

@@ -34,7 +34,7 @@ export default function ValidationView() {
   const activeEvent = events.find(e => e.id === selectedEventId) || events[0];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-56">
       
       {/* Title & Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
@@ -183,26 +183,24 @@ export default function ValidationView() {
         </button>
       </div>
 
-      {/* Main Grid: Event Selector + Detailed Replay Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Left 4 Cols: Event List */}
-        <div className="lg:col-span-4 space-y-3.5">
-          {filteredEvents.map(ev => {
-            const isSelected = ev.id === selectedEventId;
-            const isCalibration = ev.split === 'in_sample_calibration';
+      {/* Executive 3-Card Event Selector (Full Width Horizontal Grid) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {filteredEvents.map(ev => {
+          const isSelected = ev.id === selectedEventId;
+          const isCalibration = ev.split === 'in_sample_calibration';
 
-            return (
-              <div
-                key={ev.id}
-                onClick={() => setSelectedEventId(ev.id)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer text-left ${
-                  isSelected
-                    ? 'bg-violet-950/40 border-violet-500 text-white shadow-xl shadow-violet-950/40 ring-1 ring-violet-500/40'
-                    : 'bg-dark-900/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-dark-850'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
+          return (
+            <div
+              key={ev.id}
+              onClick={() => setSelectedEventId(ev.id)}
+              className={`p-5 rounded-2xl border transition-all cursor-pointer text-left relative overflow-hidden flex flex-col justify-between ${
+                isSelected
+                  ? 'bg-violet-950/40 border-violet-500 text-white shadow-xl shadow-violet-950/40 ring-2 ring-violet-500/50'
+                  : 'bg-dark-900/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-dark-850'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2.5">
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold ${
                     isCalibration
                       ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40'
@@ -217,149 +215,155 @@ export default function ValidationView() {
                 <h4 className="text-sm font-bold font-sans line-clamp-2 leading-snug">
                   {ev.title}
                 </h4>
-                <div className="text-xs text-slate-400 mt-3 pt-2 border-t border-slate-800/80 font-mono flex items-center justify-between">
-                  <span>{ev.date}</span>
-                  <span className="text-[10px] text-cyan-400">
-                    {ev.metricsVerified}/{ev.metricsTotal} Verified
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Right 8 Cols: Replay Deep-Dive */}
-        <div className="lg:col-span-8">
-          <SpotlightCard
-            spotlightColor="rgba(16, 185, 129, 0.2)"
-            className="p-6 sm:p-8 border border-slate-800 bg-dark-900/90 rounded-2xl space-y-6 shadow-2xl"
-          >
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-mono uppercase text-cyan-400 font-bold">{activeEvent.splitLabel}</span>
-                  <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
-                </div>
-                <h3 className="text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
               </div>
 
-              <div className="px-4 py-2 rounded-xl bg-dark-800 border border-slate-700 font-mono text-xs font-bold flex items-center gap-2 self-start sm:self-auto shadow-sm">
-                <span className="text-emerald-400 font-bold">{activeEvent.metricsMatched} of {activeEvent.metricsTotal} Metrics Matched</span>
+              <div className="text-xs text-slate-400 mt-4 pt-2.5 border-t border-slate-800/80 font-mono flex items-center justify-between">
+                <span>{ev.date}</span>
+                <span className="text-[11px] text-cyan-400 font-semibold">
+                  {ev.metricsVerified}/{ev.metricsTotal} Verified
+                </span>
               </div>
             </div>
-
-            {/* Context */}
-            <div className="space-y-2">
-              <h5 className="text-xs uppercase font-mono font-bold text-slate-400 tracking-wider">Historical Episode Background</h5>
-              <p className="text-sm text-slate-200 leading-relaxed font-sans">
-                {activeEvent.context}
-              </p>
-            </div>
-
-            {/* Metric-by-Metric Directional Evaluation Table with Verification Badges */}
-            <div className="space-y-3">
-              <h5 className="text-xs uppercase font-mono font-bold text-slate-300 flex items-center gap-2 tracking-wider">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Tracked Metric Outcomes, Empirical Citations & Verification Status</span>
-              </h5>
-
-              <div className="overflow-x-auto rounded-xl border border-slate-800 bg-dark-950/90 shadow-sm">
-                <table className="w-full text-left text-xs font-mono">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-slate-400 bg-dark-900/60">
-                      <th className="py-3 px-3.5">Tracked Dimension</th>
-                      <th className="py-3 px-3.5">Predicted Direction</th>
-                      <th className="py-3 px-3.5">Actual Realized Outcome</th>
-                      <th className="py-3 px-3.5 text-center">Concordance</th>
-                      <th className="py-3 px-3.5">Evidence & Citation</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-slate-200">
-                    {activeEvent.trackedMetrics.map((m, mIdx) => (
-                      <tr key={mIdx} className="hover:bg-dark-800/40 transition-colors">
-                        <td className="py-3.5 px-3.5 font-semibold text-white">{m.metric}</td>
-                        <td className="py-3.5 px-3.5 text-cyan-300">{m.predictedDirection}</td>
-                        <td className="py-3.5 px-3.5 text-slate-300 font-sans text-xs">{m.actualOutcome || m.actualDirection}</td>
-                        <td className="py-3.5 px-3.5 text-center">
-                          {m.match ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-                              <CheckCircle2 className="w-3 h-3" /> MATCH
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40">
-                              <XCircle className="w-3 h-3" /> MISMATCH
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-3.5 px-3.5 space-y-1">
-                          <div>
-                            {m.isVerified ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                                Verified Statutory
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                                <AlertTriangle className="w-3 h-3 text-amber-400" />
-                                Unverified (Team to Confirm)
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-[10px] text-slate-400 font-sans leading-tight">
-                            <strong>{m.sourceName}</strong> &bull; {m.date}
-                          </div>
-                          <div className="text-[10px] font-mono">
-                            {m.sourceUrl ? (
-                              <a
-                                href={m.sourceUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 underline cursor-pointer max-w-[260px] truncate"
-                                title={`Open statutory filing / reference: ${m.sourceUrlOrReference}`}
-                              >
-                                <span className="truncate">{m.sourceUrlOrReference}</span>
-                                <ExternalLink className="w-3 h-3 shrink-0" />
-                              </a>
-                            ) : (
-                              <span className="text-slate-500 truncate max-w-[240px] block" title={m.sourceUrlOrReference}>
-                                {m.sourceUrlOrReference}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Variance & Economic Mechanism Analysis */}
-            <div className="p-5 rounded-2xl bg-dark-950/70 border border-slate-800 space-y-2">
-              <h5 className="text-xs uppercase font-mono font-bold text-violet-400 tracking-wider">
-                Economic Mechanism & Variance Analysis
-              </h5>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-                {activeEvent.varianceAnalysis}
-              </p>
-            </div>
-
-            {/* Academic Tagging & Source Notice */}
-            <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono text-slate-400 gap-2">
-              <span>Primary Source: {activeEvent.source}</span>
-              <DataProvenanceBadge
-                type={activeEvent.isPlaceholder ? 'placeholder' : 'verified'}
-                source={activeEvent.source}
-                year={activeEvent.year}
-                confidence={activeEvent.confidence}
-              />
-            </div>
-
-          </SpotlightCard>
-        </div>
-
+          );
+        })}
       </div>
+
+      {/* Full-Width Replay Deep-Dive Card */}
+      <SpotlightCard
+        spotlightColor="rgba(16, 185, 129, 0.15)"
+        className="p-6 sm:p-8 border border-slate-800 bg-dark-900/90 rounded-2xl space-y-6 shadow-2xl w-full"
+      >
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-mono uppercase text-cyan-400 font-bold">{activeEvent.splitLabel}</span>
+              <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
+            </div>
+            <h3 className="text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
+          </div>
+
+          <div className="px-4 py-2 rounded-xl bg-dark-800 border border-slate-700 font-mono text-xs font-bold flex items-center gap-2 self-start sm:self-auto shadow-sm">
+            <span className="text-emerald-400 font-bold">{activeEvent.metricsMatched} of {activeEvent.metricsTotal} Metrics Matched</span>
+            <span className="text-slate-500">&bull;</span>
+            <span className="text-cyan-300">{activeEvent.metricsVerified} of {activeEvent.metricsTotal} Verified</span>
+          </div>
+        </div>
+
+        {/* Context */}
+        <div className="space-y-2">
+          <h5 className="text-xs uppercase font-mono font-bold text-slate-400 tracking-wider">Historical Episode Background</h5>
+          <p className="text-sm text-slate-200 leading-relaxed font-sans max-w-5xl">
+            {activeEvent.context}
+          </p>
+        </div>
+
+        {/* Metric-by-Metric Directional Evaluation Table with Verification Badges */}
+        <div className="space-y-3">
+          <h5 className="text-xs uppercase font-mono font-bold text-slate-300 flex items-center gap-2 tracking-wider">
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <span>Tracked Metric Outcomes, Empirical Citations & Verification Status</span>
+          </h5>
+
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-dark-950/90 shadow-sm">
+            <table className="w-full text-left text-xs font-mono table-fixed">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400 bg-dark-900/60">
+                  <th className="py-3 px-4 w-[18%]">Tracked Dimension</th>
+                  <th className="py-3 px-4 w-[18%]">Predicted Direction</th>
+                  <th className="py-3 px-4 w-[26%]">Actual Realized Outcome</th>
+                  <th className="py-3 px-4 text-center w-[12%]">Concordance</th>
+                  <th className="py-3 px-4 w-[26%]">Evidence & Citation</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-slate-200">
+                {activeEvent.trackedMetrics.map((m, mIdx) => (
+                  <tr key={mIdx} className="hover:bg-dark-800/40 transition-colors">
+                    <td className="py-4 px-4 font-semibold text-white align-top">
+                      <div className="font-sans font-bold text-sm text-white mb-0.5">{m.metric}</div>
+                    </td>
+                    <td className="py-4 px-4 text-cyan-300 align-top">
+                      <span className="font-mono text-xs leading-relaxed">{m.predictedDirection}</span>
+                    </td>
+                    <td className="py-4 px-4 text-slate-200 font-sans text-xs sm:text-sm leading-relaxed align-top">
+                      {m.actualOutcome || m.actualDirection}
+                    </td>
+                    <td className="py-4 px-4 text-center align-top">
+                      {m.match ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> MATCH
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40">
+                          <XCircle className="w-3.5 h-3.5" /> MISMATCH
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-4 px-4 space-y-1.5 align-top">
+                      <div>
+                        {m.isVerified ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                            Verified Statutory
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            <AlertTriangle className="w-3 h-3 text-amber-400" />
+                            Unverified (Team to Confirm)
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-slate-300 font-sans leading-snug">
+                        <strong>{m.sourceName}</strong> &bull; <span className="text-slate-400 font-mono text-[10px]">{m.date}</span>
+                      </div>
+                      <div className="text-[11px] font-mono">
+                        {m.sourceUrl ? (
+                          <a
+                            href={m.sourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 underline cursor-pointer hover:drop-shadow leading-tight group"
+                            title={`Open official statutory source: ${m.sourceUrlOrReference}`}
+                          >
+                            <span className="group-hover:text-cyan-200">{m.sourceUrlOrReference}</span>
+                            <ExternalLink className="w-3.5 h-3.5 shrink-0 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
+                          </a>
+                        ) : (
+                          <span className="text-slate-400 leading-tight block" title={m.sourceUrlOrReference}>
+                            {m.sourceUrlOrReference}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Variance & Economic Mechanism Analysis */}
+        <div className="p-5 rounded-2xl bg-dark-950/70 border border-slate-800 space-y-2">
+          <h5 className="text-xs uppercase font-mono font-bold text-violet-400 tracking-wider">
+            Economic Mechanism & Variance Analysis
+          </h5>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+            {activeEvent.varianceAnalysis}
+          </p>
+        </div>
+
+        {/* Academic Tagging & Source Notice */}
+        <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono text-slate-400 gap-2">
+          <span>Primary Source: {activeEvent.source}</span>
+          <DataProvenanceBadge
+            type={activeEvent.isPlaceholder ? 'placeholder' : 'verified'}
+            source={activeEvent.source}
+            year={activeEvent.year}
+            confidence={activeEvent.confidence}
+          />
+        </div>
+
+      </SpotlightCard>
 
     </div>
   );
