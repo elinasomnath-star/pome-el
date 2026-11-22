@@ -344,21 +344,14 @@ export default function FiveForcesView() {
                 <SpotlightCard
                   key={force.id}
                   spotlightColor="rgba(6, 182, 212, 0.12)"
-                  className="p-5 border border-slate-800 bg-dark-800/80 space-y-4"
+                  className="p-5 border border-slate-800 bg-dark-900/90 rounded-2xl space-y-4 shadow-sm"
                 >
-                  {/* Top Bar: Name, Hostility Score, Weight Input */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-2.5">
+                  {/* Top Bar: Name, Badges, Hostility Pill & Weight Stepper */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+                    <div className="flex items-center gap-2.5 flex-wrap">
                       <h4 className="text-base font-bold text-white font-sans">
                         {force.name}
                       </h4>
-                      <span className={`text-xs font-mono px-2.5 py-0.5 rounded font-semibold ${
-                        currentScore >= 8 ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
-                        currentScore >= 6 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                        'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      }`}>
-                        Hostility: {currentScore.toFixed(1)} / 10
-                      </span>
                       <DataProvenanceBadge
                         type={force.provenanceType || (force.isPlaceholder ? 'placeholder' : 'verified')}
                         source={force.source}
@@ -367,27 +360,35 @@ export default function FiveForcesView() {
                       />
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                      <span>Weight:</span>
-                      <input
-                        type="number"
-                        step="0.05"
-                        min="0.05"
-                        max="0.8"
-                        value={currentWeight}
-                        onChange={(e) => setForceWeight(force.id, e.target.value)}
-                        className="w-16 px-2.5 py-1 rounded-lg bg-dark-900 border border-slate-700 text-cyan-400 text-xs text-center font-bold focus:border-cyan-500"
-                      />
+                    {/* Consolidated Hostility & Weight Controls */}
+                    <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                      <div className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold border flex items-center gap-1.5 shadow-sm ${
+                        currentScore >= 8 ? 'bg-rose-500/15 text-rose-300 border-rose-500/35 shadow-rose-950/20' :
+                        currentScore >= 6 ? 'bg-amber-500/15 text-amber-300 border-amber-500/35 shadow-amber-950/20' :
+                        'bg-emerald-500/15 text-emerald-300 border-emerald-500/35 shadow-emerald-950/20'
+                      }`}>
+                        <span className="text-[10px] text-slate-400 uppercase font-semibold">Hostility:</span>
+                        <span className="text-sm font-extrabold">{currentScore.toFixed(1)}</span>
+                        <span className="text-[10px] text-slate-400">/ 10</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono">
+                        <span className="text-[10px] text-slate-400 uppercase font-semibold">Weight:</span>
+                        <input
+                          type="number"
+                          step="0.05"
+                          min="0.05"
+                          max="0.8"
+                          value={currentWeight}
+                          onChange={(e) => setForceWeight(force.id, parseFloat(e.target.value) || 0.1)}
+                          className="w-12 bg-transparent text-cyan-300 text-xs text-center font-bold font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500/40 rounded"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Slider Control */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-slate-400 font-mono">
-                      <span>1.0 (Weak Force)</span>
-                      <strong className="text-white font-bold">{currentScore.toFixed(1)}</strong>
-                      <span>10.0 (Severe Squeeze)</span>
-                    </div>
+                  {/* Clean Slider with Live Gradient Progress Fill */}
+                  <div className="space-y-2 pt-1">
                     <input
                       type="range"
                       min="1.0"
@@ -395,12 +396,20 @@ export default function FiveForcesView() {
                       step="0.1"
                       value={currentScore}
                       onChange={(e) => setForceScore(force.id, parseFloat(e.target.value))}
-                      className="w-full h-2.5 bg-dark-900 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300 transition-all"
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300 transition-all border border-slate-800/80"
+                      style={{
+                        background: `linear-gradient(to right, #06b6d4 0%, #06b6d4 ${((currentScore - 1) / 9) * 100}%, #0f172a ${((currentScore - 1) / 9) * 100}%, #0f172a 100%)`
+                      }}
                     />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono select-none">
+                      <span>1.0 (Weak Force)</span>
+                      <span>5.5 (Neutral)</span>
+                      <span>10.0 (Severe Squeeze)</span>
+                    </div>
                   </div>
 
-                  {/* Expandable Details Toggle (Avoids cramped text) */}
-                  <div className="pt-2 border-t border-slate-800/80">
+                  {/* Expandable Details Toggle */}
+                  <div className="pt-2 border-t border-slate-800/60">
                     <button
                       onClick={() => toggleDetails(force.id)}
                       className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"

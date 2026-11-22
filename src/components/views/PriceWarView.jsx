@@ -206,7 +206,10 @@ export default function PriceWarView() {
                 value={currentPrice}
                 onChange={(e) => setFirmPrice(userFirm.id, parseFloat(e.target.value))}
                 disabled={gameCompleted}
-                className="w-full h-3 bg-dark-900 rounded-lg appearance-none cursor-pointer accent-pink-500 hover:accent-pink-400 transition-all"
+                className="w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-pink-400 hover:accent-pink-300 transition-all border border-slate-800"
+                style={{
+                  background: `linear-gradient(to right, #ec4899 0%, #ec4899 ${((currentPrice - 10) / 55) * 100}%, #0f172a ${((currentPrice - 10) / 55) * 100}%, #0f172a 100%)`
+                }}
               />
               <div className="flex justify-between text-xs font-mono text-slate-400">
                 <span>₹10 (Price War Floor)</span>
