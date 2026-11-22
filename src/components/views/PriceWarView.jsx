@@ -212,7 +212,7 @@ export default function PriceWarView() {
             Campaign Round: {currentRound} of {maxRounds}
           </span>
           <span className="text-xs font-mono text-cyan-400">
-            Controlling: <strong className="text-pink-400">Zepto</strong> &bull; Marginal Cost Floor: ₹{userFirm.unitCost}
+            Controlling: <strong className="text-pink-400">{userFirm.name}</strong> &bull; Marginal Cost Floor: ₹{userFirm.unitCost}
           </span>
         </div>
         <Stepper steps={steps} currentStep={currentRound - 1} />

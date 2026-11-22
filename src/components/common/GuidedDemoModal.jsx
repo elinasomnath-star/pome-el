@@ -25,7 +25,9 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
     nextPriceRound,
     runMonteCarlo,
     allShocks,
-    activeShocks
+    activeShocks,
+    currentRound,
+    maxRounds
   } = useSimStore();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -85,9 +87,9 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
       actionLabel: "Simulate 3 Rounds",
       onEnter: () => {
         setActiveTab('pricewar');
-        setTimeout(() => nextPriceRound(), 300);
-        setTimeout(() => nextPriceRound(), 600);
-        setTimeout(() => nextPriceRound(), 900);
+        setTimeout(() => { if (currentRound < maxRounds) nextPriceRound(); }, 300);
+        setTimeout(() => { if (currentRound + 1 < maxRounds) nextPriceRound(); }, 600);
+        setTimeout(() => { if (currentRound + 2 < maxRounds) nextPriceRound(); }, 900);
       }
     },
     {

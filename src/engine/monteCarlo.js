@@ -165,6 +165,7 @@ export function runMonteCarloSimulation(
       p5: Number(p5Attr.toFixed(2)),
       p50: Number(p50Attr.toFixed(2)),
       p95: Number(p95Attr.toFixed(2)),
+      confidenceInterval: `${Number(p5Attr.toFixed(2))} – ${Number(p95Attr.toFixed(2))}`,
       histogram: createHistogram(attractivenessResults, 12, false)
     },
     profit: {
@@ -173,6 +174,7 @@ export function runMonteCarloSimulation(
       p5: Math.round(p5Profit),
       p50: Math.round(p50Profit),
       p95: Math.round(p95Profit),
+      confidenceInterval: `₹${Math.round(p5Profit / 1000).toLocaleString()}k – ₹${Math.round(p95Profit / 1000).toLocaleString()}k`,
       histogram: createHistogram(profitResults, 12, true)
     }
   };
