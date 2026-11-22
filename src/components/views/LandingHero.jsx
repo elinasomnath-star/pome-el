@@ -5,7 +5,7 @@ import BlurText from '../reactbits/BlurText';
 import ShinyText from '../reactbits/ShinyText';
 import GradientText from '../reactbits/GradientText';
 import Magnet from '../reactbits/Magnet';
-import { ArrowRight, Flame, BarChart2, Shield, Network, Scale, FileText } from 'lucide-react';
+import { ArrowRight, Flame, BarChart2, Shield, Network, Scale, FileText, Sparkles } from 'lucide-react';
 
 export default function LandingHero({ onStartSimulation, onStartGuidedDemo, reduceEffects = false }) {
   const frameworks = [
