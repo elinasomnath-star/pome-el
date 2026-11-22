@@ -1,0 +1,77 @@
+{
+  "title": "Porter's Five Forces Analysis - Indian Quick Commerce",
+  "academicCitation": "Porter, M. E. (1979). How competitive forces shape strategy. Harvard Business Review, 57(2), 137-145.",
+  "forces": [
+    {
+      "id": "rivalry",
+      "name": "Competitive Rivalry",
+      "baseScore": 9.2,
+      "defaultWeight": 0.30,
+      "rationale": "Fierce oligopolistic head-to-head battle between Blinkit, Zepto, and Instamart. Dark store proximity leads to direct geographic overlaps. Heavy discounts on delivery fees, customer poaching with ₹100 vouchers, and bidding wars for prime urban real estate.",
+      "dataDrivers": [
+        "4 players control >95% market",
+        "Sub-10 min promises create commoditized service expectations",
+        "Customer CAC rising from ₹250 to ₹450"
+      ],
+      "source": "Bernstein Quick Commerce India Report 2024 [PLACEHOLDER benchmark]",
+      "confidence": "High"
+    },
+    {
+      "id": "newEntrants",
+      "name": "Threat of New Entrants",
+      "baseScore": 4.5,
+      "defaultWeight": 0.15,
+      "rationale": "High capital barrier to entry: requires thousands of dark stores, advance warehouse leases, advanced micro-fulfillment ERP, and massive burn. However, well-capitalized tech incumbents (Flipkart Minutes, Reliance JioMart, Amazon) possess existing capital and logistics leverage.",
+      "dataDrivers": [
+        "High initial capex (~₹30-40 Lakh per dark store)",
+        "Deep pockets needed to absorb negative unit economics",
+        "Flipkart & Amazon entering Tier-1 clusters"
+      ],
+      "source": "JM Financial Quick Commerce Sector Initiation 2024",
+      "confidence": "Medium-High"
+    },
+    {
+      "id": "substitutes",
+      "name": "Threat of Substitutes",
+      "baseScore": 6.8,
+      "defaultWeight": 0.20,
+      "rationale": "Local mom-and-pop Kirana stores (12M+ in India) offer immediate physical proximity, zero delivery fees, and informal credit (khata). Next-day e-commerce (Amazon Fresh, Flipkart Grocery) provides lower bulk prices. Consumer substitutes are plentiful if quick commerce charges true delivery costs.",
+      "dataDrivers": [
+        "12M+ Kirana stores across India",
+        "Supermarket chains (D-Mart, Reliance Smart Bazaar) offer 10-15% cheaper staples",
+        "Switching cost for consumers is virtually zero"
+      ],
+      "source": "Kearney India Retail Outlook 2024",
+      "confidence": "High"
+    },
+    {
+      "id": "buyerPower",
+      "name": "Bargaining Power of Buyers",
+      "baseScore": 7.8,
+      "defaultWeight": 0.20,
+      "rationale": "High consumer price elasticity and negligible switching costs. Modern urban consumers have 3 to 4 quick commerce apps installed and multi-home to compare delivery fee, platform fee, and ETAs. Loyalty programs (Swiggy One, Zomato Gold) offer only partial defense.",
+      "dataDrivers": [
+        "Multi-homing: 68% of users compare Blinkit vs Zepto before placing an order",
+        "Order cancellation spike when platform fee increases by just ₹3",
+        "High sensitivity to minimum order value (MOV) thresholds"
+      ],
+      "source": "Redseer Strategy Consultants Consumer Pulse Survey 2024 [PLACEHOLDER]",
+      "confidence": "Medium"
+    },
+    {
+      "id": "supplierPower",
+      "name": "Bargaining Power of Suppliers",
+      "baseScore": 6.5,
+      "defaultWeight": 0.15,
+      "rationale": "FMCG giants (HUL, Nestlé, ITC, Amul, Coca-Cola) hold brand equity that dark stores cannot omit without losing customers. However, quick commerce provides real-time sales telemetry, sponsored brand placements, and high conversion rates, giving platforms some counter-bargaining leverage.",
+      "dataDrivers": [
+        "Top 10 FMCG brands represent 40%+ of staple basket value",
+        "Brands demand strict 18-22% margin caps on high-velocity SKUs",
+        "Emerging D2C brands offer higher 35-45% margins in exchange for shelf visibility"
+      ],
+      "source": "FMCG Distributor Council Filings & Company Disclosures [PLACEHOLDER]",
+      "confidence": "Medium"
+    }
+  ]
+}
+

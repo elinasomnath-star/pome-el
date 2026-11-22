@@ -1,0 +1,22 @@
+import React from 'react';
+
+export default function ShinyText({
+  text,
+  disabled = false,
+  speed = 4,
+  className = ''
+}) {
+  return (
+    <span
+      className={`inline-block bg-[linear-gradient(110deg,#94a3b8,45%,#ffffff,55%,#94a3b8)] bg-[length:250%_100%] bg-clip-text text-transparent font-medium ${
+        !disabled ? 'animate-[shine_4s_infinite]' : ''
+      } ${className}`}
+      style={{
+        animationDuration: `${speed}s`,
+      }}
+    >
+      {text}
+    </span>
+  );
+}
+

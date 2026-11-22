@@ -1,0 +1,52 @@
+{
+  "title": "StratSim: Theoretical Frameworks, Mathematical Formulations & Assumptions",
+  "version": "1.0-academic",
+  "courseContext": "Principles of Management & Economics (POME) - Undergraduate / MBA Core",
+  "theories": [
+    {
+      "name": "BCG Growth-Share Matrix",
+      "pioneer": "Bruce Henderson, Boston Consulting Group (1970)",
+      "formula": "Relative Market Share (RMS) = Firm Revenue / Leading Competitor Revenue. (Logarithmic scale). Market Growth Rate = YoY GMV/Revenue Expansion (%).",
+      "quadrants": {
+        "Stars": "High Growth (>20%), High Relative Share (>1.0). Requires heavy capex to defend lead; self-sustaining or near break-even.",
+        "Cash Cows": "Low Growth (<20%), High Relative Share (>1.0). Generates surplus cash to fund other ventures; harvest margins.",
+        "Question Marks": "High Growth (>20%), Low Relative Share (<1.0). High cash drain; dilemma between heavy investment to build or divesting.",
+        "Dogs": "Low Growth (<20%), Low Relative Share (<1.0). Weak competitive positioning; prime candidate for restructuring or harvest/exit."
+      },
+      "assumptions": "Market share correlates with cumulative operational experience (Experience Curve) and purchasing scale discounts."
+    },
+    {
+      "name": "Porter's Five Forces & Industry Attractiveness Index",
+      "pioneer": "Michael E. Porter, Harvard Business School (1979, 2008)",
+      "formula": "Attractiveness Index = 10 - \\sum_{i=1}^{5} (w_i \\cdot S_i) / \\sum_{i=1}^{5} w_i, where S_i \\in [1, 10] represents force hostility and w_i is force weight.",
+      "interpretation": "Scores range from 0 (hyper-competitive, zero economic profit) to 10 (benign monopoly/monopolistic profit haven). An index between 2.0 and 4.0 indicates an industry with intense rivalry and value capture compressed by buyers and suppliers.",
+      "assumptions": "Industry structure drives long-run average profitability across firms irrespective of individual operational effectiveness."
+    },
+    {
+      "name": "Oligopolistic Pricing & Constant-Elasticity Demand System",
+      "pioneer": "Bertrand (1883), Cournot (1838), Hotelling (1929)",
+      "formula": "Q_i(P_i, \\mathbf{P}_{-i}) = A_i \\cdot P_i^{-\\epsilon_{ii}} \\cdot \\prod_{j \\neq i} P_j^{\\epsilon_{ij}}. Total Profit \\Pi_i = Q_i \\cdot (P_i - c_i) - F_i.",
+      "nashEquilibrium": "A price vector \\mathbf{P}^* where no individual firm can increase \\Pi_i by unilaterally altering P_i given competitors' prices.",
+      "assumptions": "Consumers make rational trade-offs between delivery price and speed. Cross-price elasticity \\epsilon_{ij} capture consumer multi-homing degree."
+    },
+    {
+      "name": "Organizational Architecture & POSDCORB",
+      "pioneer": "Luther Gulick & Lyndall Urwick (1937), Max Weber (1922), Tom Burns & G.M. Stalker (1961)",
+      "formula": "Hierarchical Layers L = \\lceil \\frac{\\ln(\\text{Headcount})}{\\ln(\\text{Span of Control})} \\rceil. Coordination Cost Index = \\text{Headcount} \\cdot L \\cdot \\left(\\frac{\\text{Centralization \\%}}{100}\\right) \\cdot \\left(1 + \\frac{\\text{Formalization}}{10}\\right) \\cdot 10^{-3}.",
+      "contingencySpectrum": "Mechanistic Score = 0.5 \\cdot \\text{Centralization \\%} + 5.0 \\cdot \\text{Formalization}. Scores > 65 classify as Mechanistic Bureaucracy; < 45 classify as Organic Agile Network.",
+      "assumptions": "Information distortion increases exponentially with each management layer (Fayol's Scalar Chain principle)."
+    },
+    {
+      "name": "Monte Carlo Uncertainty Propagation",
+      "pioneer": "Stanislaw Ulam & John von Neumann (1946)",
+      "formula": "1,000 randomized draws: \\tilde{S}_i = \\text{clamp}(S_i + \\mathcal{N}(0, \\sigma_S^2), 1, 10), \\tilde{\\epsilon} = \\epsilon + \\mathcal{N}(0, \\sigma_\\epsilon^2). Empirical 5th and 95th percentiles computed from sorted simulation distributions.",
+      "assumptions": "Uncertainty parameters follow bounded Gaussian distributions reflecting macro volatility and survey estimation variance."
+    }
+  ],
+  "limitations": [
+    "Quick commerce is undergoing rapid daily price experimentation; baseline figures represent FY24 estimates.",
+    "Dark store geographic distribution has local sub-monopolies not fully captured by city-wide aggregation.",
+    "Rider labor supply elasticity is subject to localized seasonal and weather shocks."
+  ]
+}
+

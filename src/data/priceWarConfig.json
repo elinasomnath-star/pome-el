@@ -1,0 +1,132 @@
+{
+  "marketConfig": {
+    "baseMarketPotential": 1000000,
+    "marketScaleFactor": "orders_per_month_metro_tier1",
+    "defaultRoundCount": 12,
+    "userFirmId": "zepto",
+    "marketStructure": "oligopoly",
+    "structures": {
+      "oligopoly": {
+        "name": "Oligopoly (Bertrand-Nash with Differentiation)",
+        "description": "High mutual interdependence, significant cross-price elasticity. Price cuts trigger aggressive retaliation.",
+        "ownElasticityMultiplier": 1.0,
+        "crossElasticityMultiplier": 1.0
+      },
+      "monopolistic": {
+        "name": "Monopolistic Competition (High SKU / Brand Differentiation)",
+        "description": "Firms possess captive niches (e.g., Zepto Cafe, BB Fresh Organic). Cross-price elasticity is lower; price cuts steal fewer rivals' customers.",
+        "ownElasticityMultiplier": 0.8,
+        "crossElasticityMultiplier": 0.4
+      }
+    }
+  },
+  "firms": [
+    {
+      "id": "blinkit",
+      "name": "Blinkit",
+      "color": "#facc15",
+      "isUser": false,
+      "aiStrategy": "tit_for_tat",
+      "basePrice": 35.0,
+      "minPrice": 10.0,
+      "maxPrice": 70.0,
+      "unitCost": 22.0,
+      "fixedCost": 4500000,
+      "baseDemandCoeff": 420000,
+      "ownElasticity": 1.6,
+      "crossElasticities": {
+        "zepto": 0.65,
+        "swiggy_instamart": 0.50,
+        "bigbasket_now": 0.20
+      },
+      "source": "Derived from Q4 FY24 delivery fee + handling fee benchmarks [PLACEHOLDER]",
+      "confidence": "Medium"
+    },
+    {
+      "id": "zepto",
+      "name": "Zepto",
+      "color": "#ec4899",
+      "isUser": true,
+      "aiStrategy": "user_controlled",
+      "basePrice": 32.0,
+      "minPrice": 10.0,
+      "maxPrice": 70.0,
+      "unitCost": 23.5,
+      "fixedCost": 3800000,
+      "baseDemandCoeff": 350000,
+      "ownElasticity": 1.75,
+      "crossElasticities": {
+        "blinkit": 0.75,
+        "swiggy_instamart": 0.45,
+        "bigbasket_now": 0.15
+      },
+      "source": "Zepto pricing model & promotional delivery fee tiers [PLACEHOLDER]",
+      "confidence": "Medium"
+    },
+    {
+      "id": "swiggy_instamart",
+      "name": "Swiggy Instamart",
+      "color": "#f97316",
+      "isUser": false,
+      "aiStrategy": "undercut",
+      "basePrice": 30.0,
+      "minPrice": 10.0,
+      "maxPrice": 70.0,
+      "unitCost": 24.0,
+      "fixedCost": 3500000,
+      "baseDemandCoeff": 300000,
+      "ownElasticity": 1.7,
+      "crossElasticities": {
+        "blinkit": 0.55,
+        "zepto": 0.45,
+        "bigbasket_now": 0.25
+      },
+      "source": "Swiggy platform fee + surge fee pricing logs [PLACEHOLDER]",
+      "confidence": "Medium"
+    },
+    {
+      "id": "bigbasket_now",
+      "name": "BB Now",
+      "color": "#10b981",
+      "isUser": false,
+      "aiStrategy": "hold",
+      "basePrice": 25.0,
+      "minPrice": 10.0,
+      "maxPrice": 70.0,
+      "unitCost": 26.0,
+      "fixedCost": 2200000,
+      "baseDemandCoeff": 180000,
+      "ownElasticity": 1.4,
+      "crossElasticities": {
+        "blinkit": 0.25,
+        "zepto": 0.20,
+        "swiggy_instamart": 0.30
+      },
+      "source": "Tata BB Now promotional policy documents [PLACEHOLDER]",
+      "confidence": "Low"
+    }
+  ],
+  "aiStrategies": [
+    {
+      "id": "match",
+      "name": "Price Matcher",
+      "description": "Sets price to match the lowest price set by any competitor in the previous round."
+    },
+    {
+      "id": "undercut",
+      "name": "Predatory Undercutter",
+      "description": "Sets price 5% to 8% lower than the lowest competitor price, bounded by unit cost floor."
+    },
+    {
+      "id": "hold",
+      "name": "Margin Defender (Hold)",
+      "description": "Maintains a constant disciplined price aimed at protecting unit profit margins, ignoring competitor cuts."
+    },
+    {
+      "id": "tit_for_tat",
+      "name": "Tit-For-Tat Retaliator",
+      "description": "Cooperates at baseline if rivals hold, but punishes aggressively if the user or any rival initiates an undercut."
+    }
+  ]
+}
+

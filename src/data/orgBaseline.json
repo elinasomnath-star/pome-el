@@ -1,0 +1,39 @@
+{
+  "title": "Organizational Architecture Baseline - Quick Commerce Operations",
+  "citation": "Gulick, L., & Urwick, L. (Eds.). (1937). Papers on the Science of Administration. Institute of Public Administration, New York.",
+  "posdcorbFramework": {
+    "P": { "code": "P", "name": "Planning", "color": "#8b5cf6", "role": "Demand forecasting, algorithmic SKU placement, dark-store geo-clustering" },
+    "O": { "code": "O", "name": "Organizing", "color": "#06b6d4", "role": "Hub-and-spoke dark store networks, micro-fulfillment station layouts" },
+    "S": { "code": "S", "name": "Staffing", "color": "#10b981", "role": "Picker and packer onboarding, 50,000+ rider fleet gig management" },
+    "D": { "code": "D", "name": "Directing", "color": "#f59e0b", "role": "Automated dispatch engines, dynamic ETA updates, rider route guidance" },
+    "CO": { "code": "CO", "name": "Coordinating", "color": "#ec4899", "role": "FMCG vendor deliveries, cold-chain replenishment, 3-minute picking SLA" },
+    "R": { "code": "R", "name": "Reporting", "color": "#6366f1", "role": "Real-time dark store telemetry, out-of-stock (OOS) rates, rider idle time" },
+    "B": { "code": "B", "name": "Budgeting", "color": "#ef4444", "role": "Dark store lease capex, rider surge incentives, customer CAC burn" }
+  },
+  "archetypes": {
+    "mechanistic": {
+      "name": "Mechanistic Bureaucracy (Taylor / Weber)",
+      "characteristics": "High formalization, specialized roles, high centralization, tall hierarchy, rigid SLAs.",
+      "pros": "Flawless operational consistency, minimal picking errors, strict inventory control.",
+      "cons": "Slow innovation, rider alienation, inability to respond rapidly to local neighborhood shifts."
+    },
+    "organic": {
+      "name": "Organic Agile Network (Burns & Stalker / Contingency)",
+      "characteristics": "Low formalization, decentralized decision rights, broad span of control, flat hierarchy.",
+      "pros": "Rapid hyper-local experimentation (Zepto Cafe, fresh flower delivery), agile rider redeployment.",
+      "cons": "Higher coordination overhead, potential shrinkage/pilferage, inconsistent customer service."
+    }
+  },
+  "defaultConfig": {
+    "companyId": "zepto",
+    "headcount": 3200,
+    "spanOfControl": 6,
+    "centralizationPercent": 65,
+    "formalizationLevel": 7.5,
+    "tier1CityDarkStores": 280,
+    "tier2CityDarkStores": 140,
+    "source": "Interviews with former Quick Commerce City Heads & Corporate filings [PLACEHOLDER benchmark]",
+    "confidence": "Medium"
+  }
+}
+

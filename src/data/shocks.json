@@ -1,0 +1,142 @@
+[
+  {
+    "id": "new_funded_entrant",
+    "name": "New Funded Mega-Entrant",
+    "icon": "Rocket",
+    "category": "Market Structure",
+    "summary": "Flipkart Minutes / Reliance JioMart launches a $500M aggressive quick-commerce rollout with 500 dark stores.",
+    "forceDeltas": {
+      "rivalry": 0.8,
+      "newEntrants": 3.5,
+      "substitutes": 0.2,
+      "buyerPower": 0.9,
+      "supplierPower": 0.4
+    },
+    "marketGrowthDelta": 12.0,
+    "costDelta": 6.5,
+    "firmShareDeltas": {
+      "blinkit": -3.5,
+      "zepto": -4.0,
+      "swiggy_instamart": -3.0,
+      "bigbasket_now": -1.5
+    },
+    "posdcorbTags": ["Planning", "Organizing", "Budgeting"],
+    "managementApproach": "Contingency Theory",
+    "managementNote": "Under Contingency Theory (Fiedler, Lawrence & Lorsch), external environmental turbulence invalidates rigid plans. Organizations must adapt dark-store positioning and resource deployment.",
+    "source": "Historical precedent: Flipkart 2024 launch of 'Minutes' and Amazon rapid delivery tests [PLACEHOLDER]",
+    "confidence": "High",
+    "rationale": "Massive capital injection floods customer acquisition channels, increases dark-store lease bidding, and temporarily accelerates total market growth while eating into incumbent margins."
+  },
+  {
+    "id": "price_war",
+    "name": "Aggressive Price War",
+    "icon": "Flame",
+    "category": "Competitive Dynamics",
+    "summary": "Rivals slash delivery fees to ₹0 and offer ₹150 discounts on ₹399 baskets, sparking an industry-wide Bertrand price war.",
+    "forceDeltas": {
+      "rivalry": 1.5,
+      "newEntrants": -0.8,
+      "substitutes": -1.2,
+      "buyerPower": 1.6,
+      "supplierPower": 0.1
+    },
+    "marketGrowthDelta": 15.0,
+    "costDelta": 14.0,
+    "firmShareDeltas": {
+      "blinkit": 2.0,
+      "zepto": 1.0,
+      "swiggy_instamart": -1.0,
+      "bigbasket_now": -2.0
+    },
+    "posdcorbTags": ["Directing", "Budgeting"],
+    "managementApproach": "Behavioral Approach",
+    "managementNote": "Firms react emotionally to rival aggression. Behavioral economics (Simon's Bounded Rationality) shows price wars often stem from minimax heuristics rather than long-term profit optimization.",
+    "source": "2021-2022 Quick Commerce introductory discount wars in Bengaluru/Mumbai [PLACEHOLDER]",
+    "confidence": "High",
+    "rationale": "Drastically increases rivalry and buyer power. Expands overall volume but severely impairs contribution margins, worsening industry-wide EBITDA."
+  },
+  {
+    "id": "gst_regulation_spike",
+    "name": "GST & Gig Worker Social Security Bill",
+    "icon": "Scale",
+    "category": "Regulatory & Macro",
+    "summary": "State governments mandate social security welfare cess (2-4% on platform fee) and stringent urban dark store zoning regulations.",
+    "forceDeltas": {
+      "rivalry": -0.3,
+      "newEntrants": -2.0,
+      "substitutes": 1.4,
+      "buyerPower": -0.4,
+      "supplierPower": 1.2
+    },
+    "marketGrowthDelta": -8.0,
+    "costDelta": 11.0,
+    "firmShareDeltas": {
+      "blinkit": 1.5,
+      "zepto": -1.0,
+      "swiggy_instamart": 0.5,
+      "bigbasket_now": -1.0
+    },
+    "posdcorbTags": ["Reporting", "Budgeting", "Organizing"],
+    "managementApproach": "Systems Theory",
+    "managementNote": "Systems Theory (von Bertalanffy) treats the firm as an open system permeable to government legislation and societal stakeholder pressures.",
+    "source": "Karnataka Platform-based GIG Workers Bill 2024 & Rajasthan Gig Workers Act 2023 [PLACEHOLDER for national rollout]",
+    "confidence": "High",
+    "rationale": "Raises barrier to new entrants (compliance moat benefits well-funded leaders), but drives up rider payouts and operational costs, reducing consumer demand elasticity."
+  },
+  {
+    "id": "supplier_cost_spike",
+    "name": "FMCG Margin Squeeze & Inflation",
+    "icon": "TrendingUp",
+    "category": "Supply Chain",
+    "summary": "Top FMCG conglomerates reduce quick commerce commission margins from 20% to 14% citing traditional distributor boycotts (AICPDF).",
+    "forceDeltas": {
+      "rivalry": 0.5,
+      "newEntrants": -0.4,
+      "substitutes": 0.8,
+      "buyerPower": 0.3,
+      "supplierPower": 2.8
+    },
+    "marketGrowthDelta": -4.0,
+    "costDelta": 9.5,
+    "firmShareDeltas": {
+      "blinkit": 0.0,
+      "zepto": -0.5,
+      "swiggy_instamart": -0.5,
+      "bigbasket_now": 1.0
+    },
+    "posdcorbTags": ["Planning", "Coordinating"],
+    "managementApproach": "Classical Management",
+    "managementNote": "Fayol's administrative principles (Subordination of individual interest, Centralized authority) highlight the battle for channel control between manufacturer and distributor.",
+    "source": "All India Consumer Products Distributors Federation (AICPDF) antitrust petitions to CCI 2024 [PLACEHOLDER]",
+    "confidence": "Medium-High",
+    "rationale": "Sharply escalates supplier power. Forces platforms to substitute branded goods with private label SKUs (e.g., Zepto's Relish, Blinkit's private brands)."
+  },
+  {
+    "id": "funding_drought",
+    "name": "Global Tech Funding Winter",
+    "icon": "Snowflake",
+    "category": "Capital Markets",
+    "summary": "Venture capital interest rates jump, drying up growth equity. Investors demand immediate EBITDA break-even and path to cash generation.",
+    "forceDeltas": {
+      "rivalry": -1.8,
+      "newEntrants": -3.2,
+      "substitutes": 0.5,
+      "buyerPower": -1.2,
+      "supplierPower": -0.6
+    },
+    "marketGrowthDelta": -14.0,
+    "costDelta": -5.0,
+    "firmShareDeltas": {
+      "blinkit": 4.5,
+      "zepto": -3.5,
+      "swiggy_instamart": 1.0,
+      "bigbasket_now": -2.0
+    },
+    "posdcorbTags": ["Staffing", "Budgeting", "Directing"],
+    "managementApproach": "Classical Management",
+    "managementNote": "Under scientific management (Taylorism) and administrative management (Fayol), financial constraint forces extreme operational rationalization and cost accounting.",
+    "source": "Macro VC funding cycles 2022-2023 tech correction [PLACEHOLDER]",
+    "confidence": "High",
+    "rationale": "Reduces competitive rivalry and threat of entrants. Strongly favors public-backed balance sheets (Zomato for Blinkit, Prosus/public for Swiggy) over venture-backed private pure-plays."
+  }
+]
