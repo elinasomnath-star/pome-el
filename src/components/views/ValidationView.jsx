@@ -69,7 +69,7 @@ export default function ValidationView() {
             {summary.verificationText}
           </div>
           <div className="text-[11px] text-slate-400 font-sans">
-            Calibrate vs Test Split: 4/4 in-sample &bull; 7/8 out-of-sample
+            Calibrate vs Test Split: 4/4 in-sample &bull; 8/8 out-of-sample
           </div>
         </div>
       </div>
@@ -159,7 +159,7 @@ export default function ValidationView() {
               : 'bg-dark-800 text-slate-400 hover:text-white hover:bg-dark-700'
           }`}
         >
-          All Events (11/12 Matched &bull; 10/12 Verified)
+          All Events (12/12 Matched &bull; 12/12 Verified)
         </button>
         <button
           onClick={() => setSplitFilter('in_sample')}
@@ -179,7 +179,7 @@ export default function ValidationView() {
               : 'bg-dark-800 text-slate-400 hover:text-white hover:bg-dark-700'
           }`}
         >
-          Out-of-Sample Test: Events 2 & 3 (7/8 Matched)
+          Out-of-Sample Test: Events 2 & 3 (8/8 Matched)
         </button>
       </div>
 

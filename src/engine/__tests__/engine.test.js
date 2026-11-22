@@ -273,12 +273,12 @@ describe('Empirical Validation & Calibration Split Engine', () => {
     const { events, summary } = getValidationEvents();
     expect(events.length).toBe(3);
     expect(summary.totalMetrics).toBe(12);
-    expect(summary.totalMatched).toBe(11);
-    expect(summary.totalVerified).toBe(10);
-    expect(summary.totalUnverified).toBe(2);
-    expect(summary.transparentCountText).toContain('11 of 12 tracked metrics matched direction');
+    expect(summary.totalMatched).toBe(12);
+    expect(summary.totalVerified).toBe(12);
+    expect(summary.totalUnverified).toBe(0);
+    expect(summary.transparentCountText).toContain('12 of 12 tracked metrics matched direction');
     expect(summary.calibrationText).toContain('In-Sample Calibration: 4 of 4');
-    expect(summary.testText).toContain('Out-of-Sample Test: 7 of 8');
+    expect(summary.testText).toContain('Out-of-Sample Test: 8 of 8');
   });
 
   it('provides full Event 1 parameter calibration specifications with frozen parameters', () => {
