@@ -105,5 +105,27 @@
       "source": "Tata Digital Disclosures & BigBasket FY24 Reports",
       "confidence": "Medium"
     }
+  ],
+  "aiStrategies": [
+    {
+      "id": "match",
+      "name": "Price Matcher",
+      "description": "Sets price to match the lowest price set by any competitor in the previous round."
+    },
+    {
+      "id": "undercut",
+      "name": "Predatory Undercutter",
+      "description": "Sets price 5% to 8% lower than the lowest competitor price, bounded by unit cost floor."
+    },
+    {
+      "id": "hold",
+      "name": "Margin Defender (Hold)",
+      "description": "Maintains a constant disciplined price aimed at protecting unit profit margins, ignoring competitor cuts."
+    },
+    {
+      "id": "tit_for_tat",
+      "name": "Tit-For-Tat Retaliator",
+      "description": "Cooperates at baseline if rivals hold, but punishes aggressively if the user or any rival initiates an undercut."
+    }
   ]
 }

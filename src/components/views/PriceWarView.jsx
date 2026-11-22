@@ -383,7 +383,7 @@ export default function PriceWarView() {
                       disabled={gameCompleted}
                       className="bg-dark-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-cyan-300 focus:border-cyan-500"
                     >
-                      {priceWarConfigData.aiStrategies.map(strat => (
+                      {(priceWarConfigData.aiStrategies || []).map(strat => (
                         <option key={strat.id} value={strat.id}>
                           {strat.name}
                         </option>
