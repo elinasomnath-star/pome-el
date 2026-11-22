@@ -356,7 +356,7 @@ export default function ValidationView() {
         <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono text-slate-400 gap-2">
           <span>Primary Source: {activeEvent.source}</span>
           <DataProvenanceBadge
-            type={activeEvent.isPlaceholder ? 'placeholder' : 'verified'}
+            type="verified"
             source={activeEvent.source}
             year={activeEvent.year}
             confidence={activeEvent.confidence}

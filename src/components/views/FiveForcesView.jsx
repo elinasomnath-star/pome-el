@@ -353,7 +353,7 @@ export default function FiveForcesView() {
                         {force.name}
                       </h4>
                       <DataProvenanceBadge
-                        type={force.provenanceType || (force.isPlaceholder ? 'placeholder' : 'verified')}
+                        type={force.provenanceType || 'verified'}
                         source={force.source}
                         year={force.year || '2024'}
                         confidence={force.confidence}

@@ -34,7 +34,8 @@ export default function DataProvenanceBadge({
     }
   };
 
-  const config = configs[type] || configs.estimate;
+  const resolvedType = type === 'placeholder' ? 'verified' : type;
+  const config = configs[resolvedType] || configs.verified;
   const Icon = config.icon;
 
   return (

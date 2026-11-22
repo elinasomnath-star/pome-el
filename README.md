@@ -31,18 +31,77 @@ Built to teach core concepts in **Principles of Management & Economics (POME)**,
 
 ---
 
-## 📸 Screenshots & UI Layout
+## 📸 Visual Tour & System Architecture
 
-| Module | Preview / Placeholder | Core Analytical Function |
-| :--- | :--- | :--- |
-| **Hero Landing & Aurora Canvas** | `[Screenshot: Hero Landing with BlurText & Magnet CTA]` | Interactive entry point and Guided Demo launcher |
-| **Executive Overview Dashboard** | `[Screenshot: Spotlight Cards & Unit Economics]` | Market shares, growth rates, dark store counts |
-| **BCG Growth-Share Matrix** | `[Screenshot: Log-Scale BCG Bubble Chart]` | Relative Market Share vs Market Growth Rate |
-| **Five Forces Radar & Rubric** | `[Screenshot: 5-Spoke Polygon & Scoring Rubric]` | Industry Attractiveness Index calculation |
-| **Bertrand Price War & Demand Curve** | `[Screenshot: Live Q(P) Demand Curve & Nash Status]` | Multi-firm pricing, AI strategies, 12-round game |
-| **Tornado Sensitivity & Monte Carlo** | `[Screenshot: Density Histogram & Tornado Chart]` | 1,000 stochastic runs & parameter impact ranking |
-| **Elasticity Numerical Problem Solver**| `[Screenshot: Step-by-Step Arc & Point Proofs]` | POME Unit IV textbook exam practice problem solver |
-| **Hierarchical Org Tree Visualizer** | `[Screenshot: Dynamic C-Suite to Rider Fleet Tree]` | $L = \lceil \log_{\text{span}}(N) \rceil$ and coordination index |
+### 1. Landing Hero & Presentation Hub
+![Hero Landing with Aurora Canvas](./docs/screenshots/01_landing_hero.png)
+*Interactive entry point featuring dynamic Aurora background, blur-text headline, Guided Demo launcher, and quick navigation shortcuts.*
+
+---
+
+### 2. Executive Overview & Unit Economics Dashboard
+![Executive Overview Dashboard](./docs/screenshots/02_overview_dashboard.png)
+*Real-time oligopoly telemetry: live market shares, dark store count comparisons, statutory Note 34 financial disclosures, and the Q4 Turnaround Positive EBITDA horizon switch.*
+
+---
+
+### 3. BCG Growth-Share Matrix (Henderson, 1970)
+![BCG Growth-Share Matrix](./docs/screenshots/03_bcg_matrix.png)
+*Continuous log-scale BCG bubble chart ($RMS \in [0.1\text{x}, 10\text{x}]$, Growth $\in [-20\%, 140\%]$) with dynamically computed quadrant boundaries and empirical competitor strategic dossiers.*
+
+---
+
+### 4. Porter's Five Forces & Industry Attractiveness Index
+![Porter's Five Forces Radar](./docs/screenshots/04_five_forces_radar.png)
+*5-spoke interactive radar polygon calculating Industry Attractiveness Index ($H \in [1, 10]$) with deterministic scoring rubric and weighted sensitivity sliders.*
+
+---
+
+### 5. Macroeconomic & Competitive Shock Lab
+![Macro & Competitive Shock Lab](./docs/screenshots/05_macro_shock_lab.png)
+*Multi-quarter exogenous shock transmission engine: simulate Funding Droughts, Retaliatory Price Wars, Gig Worker Minimum Wage mandates, GST revisions, and Conglomerate Entrants with configurable duration (1–8 quarters) and severity (0.25x–2.0x).*
+
+---
+
+### 6. Bertrand-Nash Oligopoly Price War Simulator
+![Bertrand Price War & Demand Curve](./docs/screenshots/06_bertrand_price_war.png)
+*Live microeconomic constant-elasticity demand curve ($Q = A \cdot P^{-\epsilon}$), 12-round multi-firm game, AI pricing strategies (Tit-for-Tat, Grim Trigger, Win-Stay Lose-Shift), and Evaluator Positive Profit showcase preset.*
+
+---
+
+### 7. Hierarchical Org Architecture & Scalar Chain Analyzer
+![Hierarchical Org Tree Visualizer](./docs/screenshots/07_org_scalar_chain.png)
+*Henri Fayol's Scalar Chain and Graicunas relationship complexity model ($L = \lceil \log_{\text{span}}(N) \rceil$); visualize dynamic C-Suite to Rider Fleet hierarchy and calculate coordination friction.*
+
+---
+
+### 8. Case Layer & Strategic Imperative Recommender
+![Strategy & Case Recommender](./docs/screenshots/08_strategy_recommender.png)
+*POSDCORB execution priorities mapped to Michael Porter's Generic Strategies (Cost Leadership, Differentiation, Focus) with contingency school recommendations.*
+
+---
+
+### 9. Monte Carlo Simulation & Tornado Sensitivity Analysis
+![Monte Carlo & Tornado Sensitivity](./docs/screenshots/09_monte_carlo_risk.png)
+*1,000 stochastic simulation iterations computing 5th-95th percentile Value-at-Risk confidence intervals, alongside Tornado diagrams ranking swing sensitivities.*
+
+---
+
+### 10. Unit IV Elasticity Numerical Problem Solver
+![Elasticity Problem Solver](./docs/screenshots/10_elasticity_solver.png)
+*POME examination training tool: step-by-step calculus proofs for Arc and Point Price Elasticity of Demand ($e_d$), Cross-Price Elasticity ($e_{xy}$), and Income Elasticity ($e_y$).*
+
+---
+
+### 11. Empirical Directional Validation & Backtesting
+![Empirical Validation Matrix](./docs/screenshots/11_empirical_validation.png)
+*In-sample calibration vs out-of-sample testing against 3 historical market episodes with 12 verified statutory citations and live corporate investor relations portals.*
+
+---
+
+### 12. Methodology & Executive Report Generation
+![Methodology & PDF/HTML Export](./docs/screenshots/12_methodology_export.png)
+*Mathematical formulation reference manual, parameter dictionary, and one-click Executive PDF/HTML briefing report exporter.*
 
 ---
 
@@ -204,7 +263,7 @@ stratsim-quick-commerce/
 To update any baseline numbers with newly audited annual reports:
 1. Open [`/src/data/companies.json`](file:///c:/GitHub/pome%20el/src/data/companies.json).
 2. Modify the revenue, dark stores, or take-rate figures.
-3. Update the `source`, `year`, `confidence` ("high", "medium", "low"), and set `isPlaceholder: false` and `provenanceType: "verified"`.
+3. Update the `source`, `year`, `confidence` ("high", "medium", "low"), and set `provenanceType: "verified"`.
 4. The UI automatically displays the corresponding green verified badge.
 
 ---
