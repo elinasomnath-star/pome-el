@@ -24,14 +24,68 @@
       "cons": "Higher coordination overhead, potential shrinkage/pilferage, inconsistent customer service."
     }
   },
+  "companyProfiles": {
+    "blinkit": {
+      "companyId": "blinkit",
+      "headcount": 2800,
+      "spanOfControl": 6,
+      "centralizationPercent": 74,
+      "formalizationLevel": 8.4,
+      "tier1CityDarkStores": 420,
+      "tier2CityDarkStores": 219,
+      "archetypeLabel": "Mechanistic Scale Leader",
+      "rationale": "Zomato corporate integration; highly centralized algorithmic supply chain and standardized dark-store picking SLAs.",
+      "source": "Zomato Ltd Note 34 Segment Disclosures & LinkedIn Headcount Audits",
+      "confidence": "High"
+    },
+    "zepto": {
+      "companyId": "zepto",
+      "headcount": 2400,
+      "spanOfControl": 8,
+      "centralizationPercent": 42,
+      "formalizationLevel": 4.8,
+      "tier1CityDarkStores": 320,
+      "tier2CityDarkStores": 130,
+      "archetypeLabel": "Organic Agile Challenger",
+      "rationale": "Decentralized entrepreneurial challenger structure; empowered city heads driving Zepto Cafe hyper-local rollouts.",
+      "source": "Zepto Series G MCA Filings & City Head Interviews",
+      "confidence": "High"
+    },
+    "swiggy_instamart": {
+      "companyId": "swiggy_instamart",
+      "headcount": 2200,
+      "spanOfControl": 7,
+      "centralizationPercent": 62,
+      "formalizationLevel": 6.5,
+      "tier1CityDarkStores": 380,
+      "tier2CityDarkStores": 177,
+      "archetypeLabel": "Hybrid Matrix Structure",
+      "rationale": "Cross-functional matrix structure sharing logistical infrastructure, delivery fleets, and tech pods with Swiggy Food.",
+      "source": "Swiggy Ltd SEBI DRHP Filing & Operating Benchmarks",
+      "confidence": "High"
+    },
+    "bigbasket_now": {
+      "companyId": "bigbasket_now",
+      "headcount": 1600,
+      "spanOfControl": 5,
+      "centralizationPercent": 82,
+      "formalizationLevel": 8.6,
+      "tier1CityDarkStores": 220,
+      "tier2CityDarkStores": 100,
+      "archetypeLabel": "Enterprise Conglomerate Hierarchy",
+      "rationale": "Tata Digital enterprise scalar chain; formalized procurement processes, cold-chain compliance, and strict hierarchical approval gates.",
+      "source": "Tata Consumer Products & Supermarket Grocery Supplies Annual Reports",
+      "confidence": "High"
+    }
+  },
   "defaultConfig": {
     "companyId": "zepto",
-    "headcount": 3200,
-    "spanOfControl": 6,
-    "centralizationPercent": 65,
-    "formalizationLevel": 7.5,
-    "tier1CityDarkStores": 280,
-    "tier2CityDarkStores": 140,
+    "headcount": 2400,
+    "spanOfControl": 8,
+    "centralizationPercent": 42,
+    "formalizationLevel": 4.8,
+    "tier1CityDarkStores": 320,
+    "tier2CityDarkStores": 130,
     "source": "Interviews with former Quick Commerce City Heads, LinkedIn Headcount Audits & Corporate MCA Filings",
     "confidence": "High"
   }

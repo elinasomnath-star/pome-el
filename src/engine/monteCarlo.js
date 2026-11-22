@@ -147,6 +147,12 @@ export function runMonteCarloSimulation(
       bins[bIdx].count++;
     });
 
+    // Populate density percentage and canonical label for chart rendering
+    bins.forEach(b => {
+      b.density = Number(((b.count / arr.length) * 100).toFixed(1));
+      b.label = b.rangeLabel;
+    });
+
     return bins;
   }
 

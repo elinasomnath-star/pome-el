@@ -30,6 +30,7 @@ export default function OrgDesignView() {
     setOrgConfig,
     orgMetrics,
     selectedCompanyId,
+    setSelectedCompanyId,
     baselineCompanies
   } = useSimStore();
 
@@ -130,11 +131,24 @@ export default function OrgDesignView() {
             </div>
           </div>
 
-          {/* Company & Archetype Badge */}
-          <div className="flex items-center gap-2.5 self-start md:self-auto">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700 shadow-sm">
-              <CompanyBrandIcon id={company.id} className="w-5 h-5" showBg={false} />
-              <span className="text-xs text-white font-bold">{company.name}</span>
+          {/* Quick Company Selector & Archetype Badge */}
+          <div className="flex items-center gap-2.5 self-start md:self-auto flex-wrap">
+            <div className="flex items-center gap-1 p-1 rounded-xl bg-dark-950 border border-slate-800">
+              {baselineCompanies.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCompanyId(c.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                    selectedCompanyId === c.id
+                      ? 'bg-emerald-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-dark-800'
+                  }`}
+                  title={`Load ${c.name} organizational structure baseline`}
+                >
+                  <CompanyBrandIcon id={c.id} className="w-3.5 h-3.5" showBg={false} />
+                  <span>{c.name}</span>
+                </button>
+              ))}
             </div>
             <div className="px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono shadow-sm">
               <span className="text-slate-400">Archetype: </span>
@@ -142,7 +156,7 @@ export default function OrgDesignView() {
                 orgMetrics.mechanisticScore >= 65 ? 'text-rose-400' :
                 orgMetrics.mechanisticScore <= 45 ? 'text-emerald-400' : 'text-cyan-400'
               }`}>
-                {orgMetrics.orgType}
+                {orgConfig.archetypeLabel || orgMetrics.orgType}
               </strong>
             </div>
           </div>

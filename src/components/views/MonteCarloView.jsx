@@ -156,24 +156,35 @@ export default function MonteCarloView() {
 
                 {/* Histogram Visualization */}
                 <div className="space-y-2 pt-3 border-t border-slate-800">
-                  <div className="text-xs text-slate-400 font-mono">Density Distribution (Frequency of Trials):</div>
-                  <div className="flex items-end gap-1.5 h-28 pt-2">
-                    {monteCarloResults.attractiveness.histogram.map((bin, bIdx) => (
-                      <div
-                        key={bIdx}
-                        className="flex-1 bg-cyan-500/30 hover:bg-cyan-400/90 rounded-t-sm transition-all group relative cursor-pointer"
-                        style={{ height: `${Math.max(6, bin.density * 3.6)}%` }}
-                      >
-                        <div className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-dark-950 px-2.5 py-1 rounded text-[10px] font-mono text-cyan-200 border border-slate-700 whitespace-nowrap z-20 shadow-lg">
-                          {bin.label}: {bin.count} runs ({bin.density}%)
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-slate-300 font-bold">Density Distribution (Frequency of Trials):</span>
+                    <span className="text-[11px] text-cyan-400">N=1,000 trials &bull; Gaussian Noise &sigma;=0.6</span>
                   </div>
-                  <div className="flex justify-between text-xs font-mono text-slate-500 pt-1">
-                    <span>{monteCarloResults.attractiveness.histogram[0]?.label}</span>
-                    <span>Industry Attractiveness Score (1-10)</span>
-                    <span>{monteCarloResults.attractiveness.histogram[monteCarloResults.attractiveness.histogram.length - 1]?.label}</span>
+                  <div className="flex items-end gap-1.5 h-28 pt-2">
+                    {(() => {
+                      const maxAttrDensity = Math.max(...monteCarloResults.attractiveness.histogram.map(b => b.density || (b.count / 10) || 1), 1);
+                      return monteCarloResults.attractiveness.histogram.map((bin, bIdx) => {
+                        const densityVal = bin.density !== undefined ? bin.density : Number(((bin.count / 1000) * 100).toFixed(1));
+                        const heightPct = Math.max(8, Math.min(96, (densityVal / maxAttrDensity) * 92));
+                        const labelText = bin.label || bin.rangeLabel || `Bin ${bIdx + 1}`;
+                        return (
+                          <div
+                            key={bIdx}
+                            className="flex-1 bg-cyan-500/40 hover:bg-cyan-400/90 rounded-t-sm transition-all group relative cursor-pointer border-t border-cyan-400/60"
+                            style={{ height: `${heightPct}%` }}
+                          >
+                            <div className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-dark-950 px-2.5 py-1 rounded text-[10px] font-mono text-cyan-200 border border-slate-700 whitespace-nowrap z-20 shadow-lg">
+                              {labelText}: {bin.count} runs ({densityVal}%)
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
+                  </div>
+                  <div className="flex justify-between text-xs font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+                    <span>{monteCarloResults.attractiveness.histogram[0]?.label || monteCarloResults.attractiveness.histogram[0]?.rangeLabel}</span>
+                    <span className="text-[11px] text-slate-500">Industry Attractiveness Score (1-10)</span>
+                    <span>{monteCarloResults.attractiveness.histogram[monteCarloResults.attractiveness.histogram.length - 1]?.label || monteCarloResults.attractiveness.histogram[monteCarloResults.attractiveness.histogram.length - 1]?.rangeLabel}</span>
                   </div>
                 </div>
               </div>
@@ -212,24 +223,35 @@ export default function MonteCarloView() {
 
                 {/* Histogram Visualization */}
                 <div className="space-y-2 pt-3 border-t border-slate-800">
-                  <div className="text-xs text-slate-400 font-mono">Density Distribution (Frequency of Trials):</div>
-                  <div className="flex items-end gap-1.5 h-28 pt-2">
-                    {monteCarloResults.profit.histogram.map((bin, bIdx) => (
-                      <div
-                        key={bIdx}
-                        className="flex-1 bg-pink-500/30 hover:bg-pink-400/90 rounded-t-sm transition-all group relative cursor-pointer"
-                        style={{ height: `${Math.max(6, bin.density * 3.6)}%` }}
-                      >
-                        <div className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-dark-950 px-2.5 py-1 rounded text-[10px] font-mono text-pink-200 border border-slate-700 whitespace-nowrap z-20 shadow-lg">
-                          {bin.label}: {bin.count} runs ({bin.density}%)
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-slate-300 font-bold">Density Distribution (Frequency of Trials):</span>
+                    <span className="text-[11px] text-pink-400">Elasticity &sigma;=0.15 &bull; Cost &sigma;=1.2</span>
                   </div>
-                  <div className="flex justify-between text-xs font-mono text-slate-500 pt-1">
-                    <span>{monteCarloResults.profit.histogram[0]?.label}</span>
-                    <span>Profit ₹ (Post Fixed & Variable Costs)</span>
-                    <span>{monteCarloResults.profit.histogram[monteCarloResults.profit.histogram.length - 1]?.label}</span>
+                  <div className="flex items-end gap-1.5 h-28 pt-2">
+                    {(() => {
+                      const maxProfitDensity = Math.max(...monteCarloResults.profit.histogram.map(b => b.density || (b.count / 10) || 1), 1);
+                      return monteCarloResults.profit.histogram.map((bin, bIdx) => {
+                        const densityVal = bin.density !== undefined ? bin.density : Number(((bin.count / 1000) * 100).toFixed(1));
+                        const heightPct = Math.max(8, Math.min(96, (densityVal / maxProfitDensity) * 92));
+                        const labelText = bin.label || bin.rangeLabel || `Bin ${bIdx + 1}`;
+                        return (
+                          <div
+                            key={bIdx}
+                            className="flex-1 bg-pink-500/40 hover:bg-pink-400/90 rounded-t-sm transition-all group relative cursor-pointer border-t border-pink-400/60"
+                            style={{ height: `${heightPct}%` }}
+                          >
+                            <div className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-dark-950 px-2.5 py-1 rounded text-[10px] font-mono text-pink-200 border border-slate-700 whitespace-nowrap z-20 shadow-lg">
+                              {labelText}: {bin.count} runs ({densityVal}%)
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
+                  </div>
+                  <div className="flex justify-between text-xs font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+                    <span>{monteCarloResults.profit.histogram[0]?.label || monteCarloResults.profit.histogram[0]?.rangeLabel}</span>
+                    <span className="text-[11px] text-slate-500">Operating Profit Per Round (₹)</span>
+                    <span>{monteCarloResults.profit.histogram[monteCarloResults.profit.histogram.length - 1]?.label || monteCarloResults.profit.histogram[monteCarloResults.profit.histogram.length - 1]?.rangeLabel}</span>
                   </div>
                 </div>
               </div>

@@ -14,10 +14,10 @@ export default function BlurText({
       {elements.map((element, index) => (
         <motion.span
           key={index}
-          initial={{ opacity: 0, filter: 'blur(10px)', y: 15 }}
+          initial={{ opacity: 0.3, filter: 'blur(3px)', y: 6 }}
           animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
           transition={{
-            duration: 0.6,
+            duration: 0.35,
             delay: index * delay,
             ease: [0.2, 0.65, 0.3, 0.9]
           }}

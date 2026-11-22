@@ -66,7 +66,24 @@ export const useSimStore = create((set, get) => {
 
     // Selected Firm
     selectedCompanyId: 'zepto',
-    setSelectedCompanyId: (id) => set({ selectedCompanyId: id }),
+    setSelectedCompanyId: (id) => {
+      const companyOrg = orgBaselineData.companyProfiles?.[id] || orgBaselineData.defaultConfig;
+      const metrics = calculateOrgMetrics(
+        companyOrg.headcount,
+        companyOrg.spanOfControl,
+        companyOrg.centralizationPercent,
+        companyOrg.formalizationLevel
+      );
+      const companyName = companiesData.find(c => c.id === id)?.name || "Quick Commerce Corp";
+      const tree = generateOrgTree(metrics.managementLayers, companyOrg.spanOfControl, companyName);
+      
+      set({
+        selectedCompanyId: id,
+        orgConfig: companyOrg,
+        orgMetrics: metrics,
+        orgTree: tree
+      });
+    },
 
     // Companies & Baseline
     baselineCompanies: companiesData,
