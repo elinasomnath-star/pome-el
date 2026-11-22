@@ -13,7 +13,9 @@ import {
   RotateCcw,
   ArrowRight,
   TrendingUp,
-  Info
+  Info,
+  Sparkles,
+  Layers
 } from 'lucide-react';
 
 export default function BCGMatrixView() {
@@ -30,14 +32,13 @@ export default function BCGMatrixView() {
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
   // SVG Coordinate mapping:
-  // X: Relative Market Share on Log scale from 0.1 to 2.8
-  // Log10(0.11) = -0.95, Log10(1.0) = 0.0, Log10(2.8) = ~0.45
-  const svgWidth = 820;
-  const svgHeight = 530;
-  const paddingLeft = 85;
-  const paddingRight = 55;
-  const paddingTop = 50;
-  const paddingBottom = 75;
+  // X: Relative Market Share on Log scale from ~0.11x to ~2.8x
+  const svgWidth = 840;
+  const svgHeight = 510;
+  const paddingLeft = 75;
+  const paddingRight = 75;
+  const paddingTop = 45;
+  const paddingBottom = 65;
 
   const minLogRMS = -0.95; // ~0.11x RMS
   const maxLogRMS = 0.45;  // ~2.8x RMS
@@ -53,7 +54,6 @@ export default function BCGMatrixView() {
 
   const mapY = (growth) => {
     const safeGrowth = Math.max(minGrowth, Math.min(maxGrowth, growth));
-    // Invert Y because SVG origin is top-left
     const normalized = (safeGrowth - minGrowth) / (maxGrowth - minGrowth);
     return svgHeight - paddingBottom - normalized * (svgHeight - paddingTop - paddingBottom);
   };
@@ -84,14 +84,8 @@ export default function BCGMatrixView() {
     posdcorbPriority: 'Organizing & Budgeting'
   };
 
-  // Group companies by quadrant for the executive summary strip
-  const starsFirms = bcgMetrics.filter(f => f.quadrant === 'Stars');
-  const qmFirms = bcgMetrics.filter(f => f.quadrant === 'Question Marks');
-  const dogsFirms = bcgMetrics.filter(f => f.quadrant === 'Dogs');
-  const cowsFirms = bcgMetrics.filter(f => f.quadrant === 'Cash Cows');
-
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-20">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-24">
       
       {/* Title & Controls Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
@@ -110,7 +104,7 @@ export default function BCGMatrixView() {
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-                X-Axis: Relative Market Share vs #1 Rival (log scale) &bull; Y-Axis: Annual Growth Rate (%) &bull; Bubble Area: FY24 Revenue.
+                X-Axis: Relative Market Share vs #1 Rival (log scale) &bull; Y-Axis: Annual Market Growth (%) &bull; Bubble Area: FY24 Revenue.
               </p>
             </div>
           </div>
@@ -150,170 +144,196 @@ export default function BCGMatrixView() {
         </div>
       </div>
 
-      {/* Executive 4-Quadrant Status Strip */}
+      {/* Modern Interactive Company Portfolio Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {/* Stars */}
-        <div className="p-3 rounded-xl bg-violet-950/25 border border-violet-500/30 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-bold text-violet-300 flex items-center gap-1">
-              ★ STARS
-            </span>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-violet-500/20 text-violet-200">
-              {starsFirms.length}
-            </span>
-          </div>
-          <div className="text-xs text-slate-200 font-medium truncate">
-            {starsFirms.length > 0 ? starsFirms.map(f => f.name.split(' ')[0]).join(', ') : 'None currently'}
-          </div>
-          <div className="text-[10px] text-slate-400">High Share &bull; High Growth</div>
-        </div>
-
-        {/* Question Marks */}
-        <div className="p-3 rounded-xl bg-pink-950/25 border border-pink-500/30 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-bold text-pink-300 flex items-center gap-1">
-              ? QUESTION MARKS
-            </span>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-pink-500/20 text-pink-200">
-              {qmFirms.length}
-            </span>
-          </div>
-          <div className="text-xs text-slate-200 font-medium truncate">
-            {qmFirms.length > 0 ? qmFirms.map(f => f.name.split(' ')[0]).join(', ') : 'None currently'}
-          </div>
-          <div className="text-[10px] text-slate-400">Low Share &bull; High Growth</div>
-        </div>
-
-        {/* Dogs */}
-        <div className="p-3 rounded-xl bg-amber-950/25 border border-amber-500/30 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-bold text-amber-300 flex items-center gap-1">
-              ▲ DOGS
-            </span>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-200">
-              {dogsFirms.length}
-            </span>
-          </div>
-          <div className="text-xs text-slate-200 font-medium truncate">
-            {dogsFirms.length > 0 ? dogsFirms.map(f => f.name.split(' ')[0]).join(', ') : 'None currently'}
-          </div>
-          <div className="text-[10px] text-slate-400">Low Share &bull; Low Growth</div>
-        </div>
-
-        {/* Cash Cows */}
-        <div className="p-3 rounded-xl bg-emerald-950/25 border border-emerald-500/30 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-bold text-emerald-300 flex items-center gap-1">
-              $ CASH COWS
-            </span>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-200">
-              {cowsFirms.length}
-            </span>
-          </div>
-          <div className="text-xs text-slate-200 font-medium truncate">
-            {cowsFirms.length > 0 ? cowsFirms.map(f => f.name.split(' ')[0]).join(', ') : 'Mature Phase'}
-          </div>
-          <div className="text-[10px] text-slate-400">High Share &bull; Low Growth</div>
-        </div>
+        {bcgMetrics.map(firm => {
+          const isSelected = firm.id === selectedCompanyId;
+          return (
+            <div
+              key={firm.id}
+              onClick={() => setSelectedCompanyId(firm.id)}
+              className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-dark-800 border-violet-500/80 shadow-lg shadow-violet-950/30 ring-1 ring-violet-500/40'
+                  : 'bg-dark-900/80 border-slate-800 hover:border-slate-700 hover:bg-dark-850'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <CompanyBrandIcon id={firm.id} className="w-5 h-5 shrink-0" showBg={false} />
+                  <span className="text-xs font-bold text-white truncate font-sans">{firm.name}</span>
+                </div>
+                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0 border ${
+                  firm.quadrant === 'Stars' ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' :
+                  firm.quadrant === 'Question Marks' ? 'bg-pink-500/20 text-pink-300 border-pink-500/30' :
+                  firm.quadrant === 'Dogs' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' :
+                  'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                }`}>
+                  {firm.quadrant}
+                </span>
+              </div>
+              <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-800/60 text-[11px] font-mono text-slate-400">
+                <span>RMS: <strong className="text-cyan-300">{firm.relativeMarketShare}x</strong></span>
+                <span>₹{firm.revenue.toLocaleString()} Cr</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Main BCG Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left 8 Cols: Clean SVG Matrix (No colliding text overlays!) */}
-        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-dark-900/95 p-5 sm:p-6 relative overflow-hidden shadow-2xl flex flex-col justify-between">
+        {/* Left 8 Cols: Aesthetic Precision SVG Matrix */}
+        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-gradient-to-b from-dark-900 via-dark-950 to-dark-900 p-5 sm:p-6 relative overflow-hidden shadow-2xl flex flex-col justify-between">
           
           <div className="w-full overflow-x-auto">
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-              className="w-full h-auto min-w-[580px] select-none"
+              className="w-full h-auto min-w-[620px] select-none"
             >
-              {/* Quadrant Background Zones */}
-              {/* Top-Left: Question Marks */}
+              <defs>
+                {/* Radial Glows for Quadrants */}
+                <radialGradient id="starsGlow" cx="65%" cy="35%" r="60%">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.10" />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+                </radialGradient>
+                <radialGradient id="qmGlow" cx="35%" cy="35%" r="60%">
+                  <stop offset="0%" stopColor="#ec4899" stopOpacity="0.08" />
+                  <stop offset="100%" stopColor="#ec4899" stopOpacity="0" />
+                </radialGradient>
+                <radialGradient id="dogsGlow" cx="35%" cy="75%" r="60%">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.06" />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+                </radialGradient>
+                <radialGradient id="cowsGlow" cx="65%" cy="75%" r="60%">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.07" />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                </radialGradient>
+
+                {/* Soft Card Drop Shadow */}
+                <filter id="cardShadow" x="-15%" y="-15%" width="130%" height="130%">
+                  <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#000000" floodOpacity="0.55" />
+                </filter>
+              </defs>
+
+              {/* Quadrant Soft Glow Backgrounds */}
+              {/* Question Marks (Top-Left) */}
               <rect
                 x={paddingLeft}
                 y={paddingTop}
                 width={thresholdX - paddingLeft}
                 height={thresholdY - paddingTop}
-                fill="#ec4899"
-                fillOpacity="0.03"
+                fill="url(#qmGlow)"
               />
-              {/* Top-Right: Stars */}
+              {/* Stars (Top-Right) */}
               <rect
                 x={thresholdX}
                 y={paddingTop}
                 width={svgWidth - paddingRight - thresholdX}
                 height={thresholdY - paddingTop}
-                fill="#8b5cf6"
-                fillOpacity="0.04"
+                fill="url(#starsGlow)"
               />
-              {/* Bottom-Left: Dogs */}
+              {/* Dogs (Bottom-Left) */}
               <rect
                 x={paddingLeft}
                 y={thresholdY}
                 width={thresholdX - paddingLeft}
                 height={svgHeight - paddingBottom - thresholdY}
-                fill="#f59e0b"
-                fillOpacity="0.03"
+                fill="url(#dogsGlow)"
               />
-              {/* Bottom-Right: Cash Cows */}
+              {/* Cash Cows (Bottom-Right) */}
               <rect
                 x={thresholdX}
                 y={thresholdY}
                 width={svgWidth - paddingRight - thresholdX}
                 height={svgHeight - paddingBottom - thresholdY}
-                fill="#10b981"
-                fillOpacity="0.03"
+                fill="url(#cowsGlow)"
               />
 
-              {/* Elegant Watermark Quadrant Titles (Never collide with lines or bubbles) */}
-              {/* Top-Left: Question Marks Watermark */}
-              <g transform={`translate(${paddingLeft + 24}, ${paddingTop + 28})`}>
-                <text fill="#ec4899" fillOpacity="0.45" fontSize="12" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" letterSpacing="0.5">
-                  ? QUESTION MARKS
+              {/* Precision Background Dotted Grid */}
+              {/* Vertical dotted grid lines */}
+              {[0.2, 0.5, 1.5, 2.0].map(tick => (
+                <line
+                  key={`vgrid-${tick}`}
+                  x1={mapX(tick)}
+                  y1={paddingTop}
+                  x2={mapX(tick)}
+                  y2={svgHeight - paddingBottom}
+                  stroke="#334155"
+                  strokeWidth="1"
+                  strokeDasharray="2 4"
+                  opacity="0.35"
+                />
+              ))}
+
+              {/* Horizontal dotted grid lines */}
+              {[40, 60, 80, 100].map(tick => (
+                <line
+                  key={`hgrid-${tick}`}
+                  x1={paddingLeft}
+                  y1={mapY(tick)}
+                  x2={svgWidth - paddingRight}
+                  y2={mapY(tick)}
+                  stroke="#334155"
+                  strokeWidth="1"
+                  strokeDasharray="2 4"
+                  opacity="0.35"
+                />
+              ))}
+
+              {/* Modern Minimalist Quadrant Badges */}
+              {/* Question Marks Badge */}
+              <g transform={`translate(${paddingLeft + 16}, ${paddingTop + 16})`}>
+                <rect x="0" y="0" width="180" height="24" rx="6" fill="#ec4899" fillOpacity="0.10" stroke="#ec4899" strokeOpacity="0.25" strokeWidth="1" />
+                <text x="10" y="15.5" fill="#f472b6" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.6">
+                  QUESTION MARKS
                 </text>
-                <text y="14" fill="#64748b" fillOpacity="0.8" fontSize="9.5" fontFamily="system-ui, -apple-system, sans-serif">
-                  High Growth &bull; Low Share &bull; Build scale or divest
+                <text x="110" y="15.5" fill="#64748b" fontSize="8" fontFamily="monospace">
+                  LOW SHARE
                 </text>
               </g>
 
-              {/* Top-Right: Stars Watermark */}
-              <g transform={`translate(${thresholdX + 24}, ${paddingTop + 28})`}>
-                <text fill="#c084fc" fillOpacity="0.55" fontSize="12" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" letterSpacing="0.5">
-                  ★ STARS
+              {/* Stars Badge */}
+              <g transform={`translate(${thresholdX + 16}, ${paddingTop + 16})`}>
+                <rect x="0" y="0" width="150" height="24" rx="6" fill="#8b5cf6" fillOpacity="0.10" stroke="#8b5cf6" strokeOpacity="0.25" strokeWidth="1" />
+                <text x="10" y="15.5" fill="#c084fc" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.6">
+                  STARS
                 </text>
-                <text y="14" fill="#64748b" fillOpacity="0.8" fontSize="9.5" fontFamily="system-ui, -apple-system, sans-serif">
-                  High Growth &bull; High Share &bull; Reinvest to hold lead
-                </text>
-              </g>
-
-              {/* Bottom-Left: Dogs Watermark */}
-              <g transform={`translate(${paddingLeft + 24}, ${thresholdY + 28})`}>
-                <text fill="#fbbf24" fillOpacity="0.45" fontSize="12" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" letterSpacing="0.5">
-                  ▲ DOGS
-                </text>
-                <text y="14" fill="#64748b" fillOpacity="0.8" fontSize="9.5" fontFamily="system-ui, -apple-system, sans-serif">
-                  Low Growth &bull; Low Share &bull; Harvest cash or pivot
+                <text x="60" y="15.5" fill="#64748b" fontSize="8" fontFamily="monospace">
+                  HIGH SHARE
                 </text>
               </g>
 
-              {/* Bottom-Right: Cash Cows Watermark */}
-              <g transform={`translate(${thresholdX + 24}, ${thresholdY + 28})`}>
-                <text fill="#34d399" fillOpacity="0.5" fontSize="12" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" letterSpacing="0.5">
-                  $ CASH COWS
+              {/* Dogs Badge */}
+              <g transform={`translate(${paddingLeft + 16}, ${thresholdY + 16})`}>
+                <rect x="0" y="0" width="150" height="24" rx="6" fill="#f59e0b" fillOpacity="0.10" stroke="#f59e0b" strokeOpacity="0.25" strokeWidth="1" />
+                <text x="10" y="15.5" fill="#fbbf24" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.6">
+                  DOGS
                 </text>
-                <text y="14" fill="#64748b" fillOpacity="0.8" fontSize="9.5" fontFamily="system-ui, -apple-system, sans-serif">
-                  Low Growth &bull; High Share &bull; Milk margins to fund stars
+                <text x="56" y="15.5" fill="#64748b" fontSize="8" fontFamily="monospace">
+                  LOW GROWTH
                 </text>
               </g>
 
-              {/* Grid Lines */}
+              {/* Cash Cows Badge */}
+              <g transform={`translate(${thresholdX + 16}, ${thresholdY + 16})`}>
+                <rect x="0" y="0" width="160" height="24" rx="6" fill="#10b981" fillOpacity="0.10" stroke="#10b981" strokeOpacity="0.25" strokeWidth="1" />
+                <text x="10" y="15.5" fill="#34d399" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.6">
+                  CASH COWS
+                </text>
+                <text x="82" y="15.5" fill="#64748b" fontSize="8" fontFamily="monospace">
+                  HIGH SHARE
+                </text>
+              </g>
+
+              {/* Main Outer Axes */}
               <line
                 x1={paddingLeft}
                 y1={svgHeight - paddingBottom}
                 x2={svgWidth - paddingRight}
                 y2={svgHeight - paddingBottom}
-                stroke="#334155"
+                stroke="#475569"
                 strokeWidth="1.5"
               />
               <line
@@ -321,11 +341,11 @@ export default function BCGMatrixView() {
                 y1={paddingTop}
                 x2={paddingLeft}
                 y2={svgHeight - paddingBottom}
-                stroke="#334155"
+                stroke="#475569"
                 strokeWidth="1.5"
               />
 
-              {/* Threshold Lines (Dashed neon with non-overlapping badges) */}
+              {/* Glowing Threshold Dividers */}
               {/* RMS = 1.0 vertical threshold */}
               <line
                 x1={thresholdX}
@@ -334,12 +354,12 @@ export default function BCGMatrixView() {
                 y2={svgHeight - paddingBottom}
                 stroke="#8b5cf6"
                 strokeWidth="1.5"
-                strokeDasharray="5 5"
-                strokeOpacity="0.85"
+                strokeDasharray="4 4"
+                strokeOpacity="0.8"
               />
-              <g transform={`translate(${thresholdX}, ${paddingTop - 12})`}>
-                <rect x="-44" y="0" width="88" height="18" rx="9" fill="#1e1b4b" stroke="#8b5cf6" strokeWidth="1" />
-                <text x="0" y="12.5" textAnchor="middle" fill="#c084fc" fontSize="9" fontFamily="monospace" fontWeight="bold">
+              <g transform={`translate(${thresholdX}, ${paddingTop - 14})`}>
+                <rect x="-42" y="0" width="84" height="18" rx="9" fill="#1e1b4b" stroke="#8b5cf6" strokeWidth="1" />
+                <text x="0" y="12" textAnchor="middle" fill="#c084fc" fontSize="9" fontFamily="monospace" fontWeight="bold">
                   RMS = 1.0x
                 </text>
               </g>
@@ -352,17 +372,17 @@ export default function BCGMatrixView() {
                 y2={thresholdY}
                 stroke="#06b6d4"
                 strokeWidth="1.5"
-                strokeDasharray="5 5"
-                strokeOpacity="0.85"
+                strokeDasharray="4 4"
+                strokeOpacity="0.8"
               />
-              <g transform={`translate(${svgWidth - paddingRight - 84}, ${thresholdY - 9})`}>
-                <rect x="0" y="0" width="80" height="18" rx="9" fill="#083344" stroke="#06b6d4" strokeWidth="1" />
-                <text x="40" y="12.5" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="monospace" fontWeight="bold">
-                  Growth 20%
+              <g transform={`translate(${svgWidth - paddingRight + 4}, ${thresholdY - 9})`}>
+                <rect x="0" y="0" width="66" height="18" rx="9" fill="#083344" stroke="#06b6d4" strokeWidth="1" />
+                <text x="33" y="12" textAnchor="middle" fill="#67e8f9" fontSize="8.5" fontFamily="monospace" fontWeight="bold">
+                  20% Growth
                 </text>
               </g>
 
-              {/* Axis Labels */}
+              {/* Axis Titles */}
               <text
                 x={(paddingLeft + svgWidth - paddingRight) / 2}
                 y={svgHeight - 16}
@@ -388,32 +408,31 @@ export default function BCGMatrixView() {
                 Annual Market Growth Rate (%) →
               </text>
 
-              {/* Tick Marks for RMS: 0.2, 0.5, 1.0, 1.5, 2.0 */}
+              {/* Ticks for RMS */}
               {[0.2, 0.5, 1.0, 1.5, 2.0].map(tick => (
                 <g key={tick} transform={`translate(${mapX(tick)}, ${svgHeight - paddingBottom})`}>
-                  <line y2="6" stroke="#475569" strokeWidth="1.5" />
+                  <line y2="6" stroke="#64748b" strokeWidth="1.2" />
                   <text y="20" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">
                     {tick}x
                   </text>
                 </g>
               ))}
 
-              {/* Tick Marks for Growth: 0%, 20%, 40%, 60%, 80%, 100% */}
+              {/* Ticks for Growth */}
               {[0, 20, 40, 60, 80, 100].map(tick => (
                 <g key={tick} transform={`translate(${paddingLeft}, ${mapY(tick)})`}>
-                  <line x2="-6" stroke="#475569" strokeWidth="1.5" />
+                  <line x2="-6" stroke="#64748b" strokeWidth="1.2" />
                   <text x="-12" y="3.5" textAnchor="end" fill="#94a3b8" fontSize="10" fontFamily="monospace">
                     {tick}%
                   </text>
                 </g>
               ))}
 
-              {/* Company Bubbles */}
+              {/* High-Fidelity Company Bubbles */}
               {bcgMetrics.map((firm) => {
                 const cx = mapX(firm.relativeMarketShare);
                 const cy = mapY(firm.effectiveGrowthRate);
-                // Bubble radius proportional to sqrt(revenue)
-                const radius = Math.max(24, Math.min(48, Math.sqrt(firm.revenue) * 0.54));
+                const radius = Math.max(26, Math.min(48, Math.sqrt(firm.revenue) * 0.54));
                 const isSelected = firm.id === selectedCompanyId;
                 const isHovered = hoveredFirm?.id === firm.id;
 
@@ -425,7 +444,7 @@ export default function BCGMatrixView() {
                     onMouseLeave={() => setHoveredFirm(null)}
                     className="cursor-pointer group"
                   >
-                    {/* Pulsing Selection Ring */}
+                    {/* Pulsing Selection Halo */}
                     {isSelected && (
                       <circle
                         cx={cx}
@@ -434,67 +453,73 @@ export default function BCGMatrixView() {
                         fill="none"
                         stroke={firm.color}
                         strokeWidth="2.5"
-                        strokeDasharray="4 3"
-                        className="animate-spin-slow opacity-90"
+                        strokeOpacity="0.8"
+                        className="animate-pulse"
                       />
                     )}
 
-                    {/* Outer Glow */}
+                    {/* Ambient Glow */}
                     <circle
                       cx={cx}
                       cy={cy}
                       r={radius + 4}
                       fill={firm.color}
-                      opacity={isHovered ? 0.35 : 0.15}
+                      opacity={isHovered ? 0.35 : 0.16}
                       className="transition-all duration-300"
                     />
 
-                    {/* Core Bubble */}
+                    {/* Core Bubble with Glass Aesthetic */}
                     <circle
                       cx={cx}
                       cy={cy}
                       r={radius}
-                      fill={firm.color}
-                      opacity={0.92}
-                      stroke="#ffffff"
-                      strokeWidth={isSelected ? 3 : 1.5}
+                      fill="#0d1322"
+                      stroke={firm.color}
+                      strokeWidth={isSelected ? 3.5 : 2}
                       className="transition-all duration-300 group-hover:scale-105"
                     />
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={radius - 2}
+                      fill={firm.color}
+                      fillOpacity="0.88"
+                    />
 
-                    {/* Company Vector Brand Icon inside the Bubble */}
+                    {/* Company Vector Brand Icon */}
                     <foreignObject
-                      x={cx - 14}
-                      y={cy - 14}
-                      width="28"
-                      height="28"
+                      x={cx - 15}
+                      y={cy - 15}
+                      width="30"
+                      height="30"
                       className="pointer-events-none select-none"
                     >
-                      <CompanyBrandIcon id={firm.id} className="w-7 h-7" showBg={false} />
+                      <CompanyBrandIcon id={firm.id} className="w-7.5 h-7.5" showBg={false} />
                     </foreignObject>
 
-                    {/* Floating Revenue Tag with Pill Background */}
-                    <g transform={`translate(${cx}, ${cy + radius + 10})`}>
+                    {/* Polished Floating Glass Badge */}
+                    <g transform={`translate(${cx}, ${cy + radius + 10})`} filter="url(#cardShadow)">
                       <rect
-                        x="-58"
+                        x="-60"
                         y="0"
-                        width="116"
-                        height="20"
-                        rx="10"
-                        fill="#0b0e17"
+                        width="120"
+                        height="22"
+                        rx="11"
+                        fill="#0a0e1a"
                         stroke={firm.color}
+                        strokeOpacity="0.6"
                         strokeWidth="1.2"
-                        opacity="0.95"
                       />
                       <text
                         x="0"
-                        y="13.5"
+                        y="14.5"
                         textAnchor="middle"
-                        fill="#f8fafc"
+                        fill="#ffffff"
                         fontSize="9.5"
-                        fontFamily="monospace"
+                        fontFamily="system-ui, sans-serif"
                         fontWeight="700"
                       >
-                        {firm.name.split(' ')[0]} • ₹{firm.revenue}Cr
+                        {firm.name.split(' ')[0]} • <tspan fill={firm.color}>₹{firm.revenue}Cr</tspan>
                       </text>
                     </g>
                   </g>
@@ -509,7 +534,7 @@ export default function BCGMatrixView() {
           </div>
         </div>
 
-        {/* Right 4 Cols: Selected Firm BCG Card with CompanyBrandIcon */}
+        {/* Right 4 Cols: Selected Firm Strategic Prescription Dossier */}
         <div className="lg:col-span-4">
           <SpotlightCard
             spotlightColor="rgba(139, 92, 246, 0.25)"
