@@ -309,8 +309,23 @@ export default function ValidationView() {
                           <div className="text-[10px] text-slate-400 font-sans leading-tight">
                             <strong>{m.sourceName}</strong> &bull; {m.date}
                           </div>
-                          <div className="text-[10px] text-slate-500 font-mono truncate max-w-[220px]" title={m.sourceUrlOrReference}>
-                            {m.sourceUrlOrReference}
+                          <div className="text-[10px] font-mono">
+                            {m.sourceUrl ? (
+                              <a
+                                href={m.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 underline cursor-pointer max-w-[260px] truncate"
+                                title={`Open statutory filing / reference: ${m.sourceUrlOrReference}`}
+                              >
+                                <span className="truncate">{m.sourceUrlOrReference}</span>
+                                <ExternalLink className="w-3 h-3 shrink-0" />
+                              </a>
+                            ) : (
+                              <span className="text-slate-500 truncate max-w-[240px] block" title={m.sourceUrlOrReference}>
+                                {m.sourceUrlOrReference}
+                              </span>
+                            )}
                           </div>
                         </td>
                       </tr>

@@ -70,15 +70,15 @@ export default function BCGMatrixView() {
   };
 
   const mapY = (growth) => {
-    const safeGrowth = Math.max(0, Math.min(115, growth));
+    const safeGrowth = Math.max(0, Math.min(135, growth));
     if (safeGrowth <= 20.0) {
       // 0% to 20% mapped to bottom half [thresholdY ... svgHeight - paddingBottom]
       const norm = safeGrowth / 20.0; // 0 to 1
       return (svgHeight - paddingBottom) - norm * (svgHeight - paddingBottom - thresholdY);
     } else {
-      // 20% to 110% mapped to top half [paddingTop ... thresholdY]
-      const norm = (safeGrowth - 20.0) / 90.0; // 0 to 1
-      return thresholdY - norm * (thresholdY - paddingTop);
+      // 20% to 135% mapped to top half [paddingTop + 24 ... thresholdY]
+      const norm = (safeGrowth - 20.0) / 115.0; // 0 to 1
+      return thresholdY - norm * (thresholdY - (paddingTop + 24));
     }
   };
 
@@ -135,8 +135,8 @@ export default function BCGMatrixView() {
   const getBadgeOffset = (firmId, radius) => {
     switch (firmId) {
       case 'zepto':
-        // Zepto badge placed cleanly to the LEFT of the bubble - zero collision with 1.0x divider, top edge, or Swiggy
-        return { x: -radius - 64, y: 0 };
+        // Zepto badge placed cleanly above its bubble inside ample headroom
+        return { x: 0, y: -radius - 12 };
       case 'swiggy_instamart':
       case 'swiggy':
         // Swiggy is at y ~220; place badge cleanly BELOW bubble, sitting safely above 20% line
@@ -262,11 +262,11 @@ export default function BCGMatrixView() {
         })}
       </div>
 
-      {/* Main BCG Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      {/* Main BCG Layout Grid - items-stretch aligns Left Matrix and Right Dossier Cards perfectly */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         
         {/* Left 8 Cols: Balanced Executive 2x2 Matrix Canvas */}
-        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-dark-950 p-4 sm:p-6 shadow-2xl space-y-4">
+        <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-dark-950 p-4 sm:p-6 shadow-2xl h-full flex flex-col justify-between space-y-4">
           
           <div className="w-full overflow-x-auto">
             <svg
@@ -321,13 +321,10 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.25"
                 />
                 {/* Header Tag - Positioned safely in top-left corner */}
-                <g transform={`translate(${qmBox.x + 14}, ${qmBox.y + 14})`}>
-                  <rect x="0" y="0" width="138" height="22" rx="6" fill="#be185d" fillOpacity="0.25" stroke="#ec4899" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#f472b6" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                <g transform={`translate(${qmBox.x + 12}, ${qmBox.y + 12})`}>
+                  <rect x="0" y="0" width="126" height="22" rx="6" fill="#be185d" fillOpacity="0.25" stroke="#ec4899" strokeOpacity="0.4" strokeWidth="1" />
+                  <text x="63" y="14.5" textAnchor="middle" fill="#f472b6" fontSize="9.5" fontFamily="system-ui, sans-serif" fontWeight="800">
                     ? QUESTION MARKS
-                  </text>
-                  <text x="146" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
-                    HIGH GROWTH &bull; LOW SHARE
                   </text>
                 </g>
                 {/* Watermark in bottom-right of quadrant */}
@@ -350,13 +347,10 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.3"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${starsBox.x + 14}, ${starsBox.y + 14})`}>
-                  <rect x="0" y="0" width="90" height="22" rx="6" fill="#6d28d9" fillOpacity="0.25" stroke="#8b5cf6" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#c084fc" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                <g transform={`translate(${starsBox.x + 12}, ${starsBox.y + 12})`}>
+                  <rect x="0" y="0" width="80" height="22" rx="6" fill="#6d28d9" fillOpacity="0.25" stroke="#8b5cf6" strokeOpacity="0.4" strokeWidth="1" />
+                  <text x="40" y="14.5" textAnchor="middle" fill="#c084fc" fontSize="9.5" fontFamily="system-ui, sans-serif" fontWeight="800">
                     ★ STARS
-                  </text>
-                  <text x="98" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
-                    HIGH GROWTH &bull; HIGH SHARE
                   </text>
                 </g>
                 {/* Watermark in bottom-right of quadrant */}
@@ -379,13 +373,10 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.22"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${dogsBox.x + 14}, ${dogsBox.y + 14})`}>
-                  <rect x="0" y="0" width="82" height="22" rx="6" fill="#b45309" fillOpacity="0.25" stroke="#f59e0b" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#fbbf24" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                <g transform={`translate(${dogsBox.x + 12}, ${dogsBox.y + 12})`}>
+                  <rect x="0" y="0" width="76" height="22" rx="6" fill="#b45309" fillOpacity="0.25" stroke="#f59e0b" strokeOpacity="0.4" strokeWidth="1" />
+                  <text x="38" y="14.5" textAnchor="middle" fill="#fbbf24" fontSize="9.5" fontFamily="system-ui, sans-serif" fontWeight="800">
                     ▲ DOGS
-                  </text>
-                  <text x="90" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
-                    LOW GROWTH &bull; LOW SHARE
                   </text>
                 </g>
                 {/* Watermark */}
@@ -408,13 +399,10 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.25"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${cowsBox.x + 14}, ${cowsBox.y + 14})`}>
-                  <rect x="0" y="0" width="118" height="22" rx="6" fill="#047857" fillOpacity="0.25" stroke="#10b981" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#34d399" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                <g transform={`translate(${cowsBox.x + 12}, ${cowsBox.y + 12})`}>
+                  <rect x="0" y="0" width="104" height="22" rx="6" fill="#047857" fillOpacity="0.25" stroke="#10b981" strokeOpacity="0.4" strokeWidth="1" />
+                  <text x="52" y="14.5" textAnchor="middle" fill="#34d399" fontSize="9.5" fontFamily="system-ui, sans-serif" fontWeight="800">
                     ₹ CASH COWS
-                  </text>
-                  <text x="126" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
-                    LOW GROWTH &bull; HIGH SHARE
                   </text>
                 </g>
                 {/* Watermark */}
@@ -465,13 +453,6 @@ export default function BCGMatrixView() {
                 strokeDasharray="5 5"
                 strokeOpacity="0.9"
               />
-              {/* RMS Badge safely located on vertical divider below center reticle where no bubbles exist */}
-              <g transform={`translate(${thresholdX}, ${thresholdY + 30})`} filter="url(#badgeShadow)">
-                <rect x="-65" y="0" width="130" height="20" rx="10" fill="#0f172a" stroke="#8b5cf6" strokeWidth="1.2" />
-                <text x="0" y="13.5" textAnchor="middle" fill="#c084fc" fontSize="9.5" fontFamily="monospace" fontWeight="bold">
-                  RMS = 1.0x (Leader)
-                </text>
-              </g>
 
               {/* Horizontal Growth = 20% Threshold */}
               <line
@@ -484,21 +465,14 @@ export default function BCGMatrixView() {
                 strokeDasharray="5 5"
                 strokeOpacity="0.9"
               />
-              {/* Growth Badge PINNED INSIDE RIGHT BORDER to prevent clipping */}
-              <g transform={`translate(${svgWidth - paddingRight - 94}, ${thresholdY - 10})`} filter="url(#badgeShadow)">
-                <rect x="0" y="0" width="90" height="20" rx="10" fill="#0f172a" stroke="#06b6d4" strokeWidth="1.2" />
-                <text x="45" y="13.5" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="monospace" fontWeight="bold">
-                  Growth: 20%
-                </text>
-              </g>
 
               {/* Reticle / Origin Marker at Intersection */}
               <circle cx={thresholdX} cy={thresholdY} r="6" fill="#0f172a" stroke="#ffffff" strokeOpacity="0.4" strokeWidth="1.5" />
               <circle cx={thresholdX} cy={thresholdY} r="2" fill="#8b5cf6" />
 
-              {/* ================= AXIS TICKS ================= */}
+              {/* ================= AXIS TICKS & THRESHOLD LABELS ON MARGINS ================= */}
               {/* RMS Ticks on Bottom */}
-              {[0.2, 0.5, 1.0, 1.5, 2.0].map(tick => (
+              {[0.2, 0.5, 1.5, 2.0].map(tick => (
                 <g key={`x-tick-${tick}`} transform={`translate(${mapX(tick)}, ${svgHeight - paddingBottom})`}>
                   <line y2="6" stroke="#64748b" strokeWidth="1.2" />
                   <text y="18" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">
@@ -507,8 +481,17 @@ export default function BCGMatrixView() {
                 </g>
               ))}
 
+              {/* 1.0x Market Leader Threshold Axis Pill */}
+              <g transform={`translate(${thresholdX}, ${svgHeight - paddingBottom})`} filter="url(#badgeShadow)">
+                <line y2="7" stroke="#8b5cf6" strokeWidth="2" />
+                <rect x="-46" y="8" width="92" height="19" rx="5" fill="#1e1035" stroke="#8b5cf6" strokeWidth="1.2" />
+                <text x="0" y="21" textAnchor="middle" fill="#c084fc" fontSize="9" fontFamily="monospace" fontWeight="bold">
+                  1.0x Leader
+                </text>
+              </g>
+
               {/* Growth Ticks on Left */}
-              {[0, 10, 20, 40, 60, 80, 100].map(tick => (
+              {[0, 10, 40, 60, 80, 100, 120].map(tick => (
                 <g key={`y-tick-${tick}`} transform={`translate(${paddingLeft}, ${mapY(tick)})`}>
                   <line x2="-6" stroke="#64748b" strokeWidth="1.2" />
                   <text x="-10" y="3.5" textAnchor="end" fill="#94a3b8" fontSize="10" fontFamily="monospace">
@@ -517,15 +500,29 @@ export default function BCGMatrixView() {
                 </g>
               ))}
 
+              {/* 20% Growth Benchmark Axis Pill */}
+              <g transform={`translate(${paddingLeft}, ${thresholdY})`} filter="url(#badgeShadow)">
+                <line x2="-8" stroke="#06b6d4" strokeWidth="2" />
+                <rect x="-74" y="-10" width="66" height="20" rx="5" fill="#082f49" stroke="#06b6d4" strokeWidth="1.2" />
+                <text x="-41" y="3.5" textAnchor="middle" fill="#67e8f9" fontSize="8.5" fontFamily="monospace" fontWeight="bold">
+                  20% Growth
+                </text>
+              </g>
+
               {/* ================= HIGH-FIDELITY COMPANY BUBBLES ================= */}
               {bcgMetrics.map((firm) => {
-                const cx = mapX(firm.relativeMarketShare);
-                const cy = mapY(firm.effectiveGrowthRate);
+                const rawCx = mapX(firm.relativeMarketShare);
+                const rawCy = mapY(firm.effectiveGrowthRate);
                 // Scaled radius based on FY24 Revenue
-                const radius = Math.max(28, Math.min(46, Math.sqrt(firm.revenue) * 0.56));
-                const isSelected = firm.id === selectedCompanyId;
-                const isHovered = hoveredFirm?.id === firm.id;
-                const offset = getBadgeOffset(firm.id, radius);
+                const radius = Math.max(26, Math.min(40, Math.sqrt(firm.revenue) * 0.50));
+                // Hard mathematical clamping: guarantees NO bubble ever leaves the canvas or clips boundaries
+                const minCx = paddingLeft + radius + 10;
+                const maxCx = svgWidth - paddingRight - radius - 10;
+                const cx = Math.max(minCx, Math.min(maxCx, rawCx));
+
+                const minCy = paddingTop + radius + 22;
+                const maxCy = svgHeight - paddingBottom - radius - 10;
+                const cy = Math.max(minCy, Math.min(maxCy, rawCy));
 
                 return (
                   <g
