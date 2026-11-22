@@ -90,7 +90,7 @@
       "color": "#10b981",
       "isUser": false,
       "aiStrategy": "hold",
-      "basePrice": 25.0,
+      "basePrice": 26.5,
       "minPrice": 10.0,
       "maxPrice": 70.0,
       "unitCost": 25.5,

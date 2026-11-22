@@ -40,6 +40,21 @@ export function recommendCompetitiveStrategy(firm, forcesMetrics, bcgMetrics) {
       'Leverage bulk procurement discounts with top-tier FMCG brands'
     ];
   }
+  // Rule 1b: Very low share (<15%) irrespective of AOV — cannot sustain broad Differentiation war
+  else if (marketShare < 15) {
+    firedRules.push({
+      ruleId: 'RULE_NICHE_FOCUS',
+      description: 'Market share < 15%: Cannot sustain direct price war against top 2 leaders. Must focus on defined customer niche or geography.'
+    });
+    strategy = 'Focused Differentiation';
+    badgeColor = 'lime';
+    rationale = `${firm.name} holds ${marketShare}% share. Fighting an unconstrained broad-market price war would rapidly deplete capital. It must pursue Focus: dominating scheduled fresh produce, organic staples, and integrated corporate loyalty ecosystems.`;
+    strategicPriorities = [
+      'Dominate fresh fruits, vegetables, and farm-to-table traceability',
+      'Integrate deeply with parent ecosystem loyalty (e.g. Tata Neu coins)',
+      'Selectively exit low-density Tier-2 pincodes to stem EBITDA bleed'
+    ];
+  }
   // Rule 2: Sub-10 min delivery OR High-margin specialty niches (Zepto Cafe, gourmet) -> Differentiation
   else if (deliveryTime <= 10.5 || aov >= 650) {
     firedRules.push({
@@ -53,21 +68,6 @@ export function recommendCompetitiveStrategy(firm, forcesMetrics, bcgMetrics) {
       'Expand proprietary high-margin categories (Cafe, ready-to-eat, fresh bakery)',
       'Protect sub-10 minute delivery SLA as a premium brand differentiator',
       'Monetize retail media network (brand ads inside search and checkout)'
-    ];
-  }
-  // Rule 3: Lower market share (<15%) but specialized product mix (e.g., BigBasket Fresh / Tata Neu) -> Focused Differentiation
-  else if (marketShare < 15) {
-    firedRules.push({
-      ruleId: 'RULE_NICHE_FOCUS',
-      description: 'Market share < 15%: Cannot sustain direct price war against top 2 leaders. Must focus on defined customer niche or geography.'
-    });
-    strategy = 'Focused Differentiation';
-    badgeColor = 'lime';
-    rationale = `${firm.name} holds ${marketShare}% share. Fighting an unconstrained broad-market price war would rapidly deplete capital. It must pursue Focus: dominating scheduled fresh produce, organic staples, and integrated corporate loyalty ecosystems.`;
-    strategicPriorities = [
-      'Dominate fresh fruits, vegetables, and farm-to-table traceability',
-      'Integrate deeply with parent ecosystem loyalty (e.g. Tata Neu coins)',
-      'Selectively exit low-density Tier-2 pincodes to stem EBITDA bleed'
     ];
   }
   // Rule 4: Moderate share with integrated cross-sell -> Platform Cost & Service Focus
