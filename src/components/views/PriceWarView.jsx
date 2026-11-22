@@ -15,7 +15,7 @@ import {
   Bot
 } from 'lucide-react';
 import priceWarConfigData from '../../data/priceWarConfig.json';
-import { calculateFirmDemand } from '../../engine/priceWar';
+import { calculateFirmDemand, simulatePriceRound } from '../../engine/priceWar';
 
 export default function PriceWarView() {
   const {

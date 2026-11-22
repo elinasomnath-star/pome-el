@@ -34,16 +34,16 @@ export default function BCGMatrixView() {
 
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
-  // Expanded SVG Canvas Dimensions for Maximum Breathing Room
-  const svgWidth = 880;
-  const svgHeight = 580;
-  const paddingLeft = 78;
-  const paddingRight = 65;
-  const paddingTop = 48;
-  const paddingBottom = 58;
+  // Balanced SVG Canvas Dimensions for Optimal Legibility and Vertical Clearance
+  const svgWidth = 860;
+  const svgHeight = 510;
+  const paddingLeft = 74;
+  const paddingRight = 60;
+  const paddingTop = 42;
+  const paddingBottom = 52;
 
-  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 737px
-  const usableHeight = svgHeight - paddingTop - paddingBottom; // 474px
+  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 726px
+  const usableHeight = svgHeight - paddingTop - paddingBottom; // 416px
 
   // Balanced 2x2 Threshold Centerpoints
   // Places RMS = 1.0x at 52% width, Growth = 20% benchmark at 50% height
@@ -135,8 +135,8 @@ export default function BCGMatrixView() {
   const getBadgeOffset = (firmId, radius) => {
     switch (firmId) {
       case 'zepto':
-        // Zepto is at y ~138; place badge cleanly ABOVE bubble with ample headroom
-        return { x: 0, y: -radius - 14 };
+        // Zepto badge placed cleanly to the LEFT of the bubble - zero collision with 1.0x divider, top edge, or Swiggy
+        return { x: -radius - 64, y: 0 };
       case 'swiggy_instamart':
       case 'swiggy':
         // Swiggy is at y ~220; place badge cleanly BELOW bubble, sitting safely above 20% line
@@ -230,21 +230,21 @@ export default function BCGMatrixView() {
             <div
               key={firm.id}
               onClick={() => setSelectedCompanyId(firm.id)}
-              className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+              className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                 isSelected
                   ? 'bg-dark-800 border-violet-500/80 shadow-lg shadow-violet-950/40 ring-1 ring-violet-500/40'
                   : 'bg-dark-900/90 border-slate-800 hover:border-slate-700 hover:bg-dark-850'
               }`}
             >
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <CompanyBrandIcon id={firm.id} className="w-6 h-6 shrink-0" showBg={false} />
+                <div className="flex items-center gap-2 min-w-0">
+                  <CompanyBrandIcon id={firm.id} className="w-5 h-5 shrink-0" showBg={false} />
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-white block truncate font-sans">{firm.name}</span>
                     <span className="text-[10px] text-slate-400 font-mono block">₹{firm.revenue.toLocaleString()} Cr</span>
                   </div>
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full shrink-0 border ${
+                <span className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0 border ${
                   isStar ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' :
                   isQM ? 'bg-pink-500/20 text-pink-300 border-pink-500/30' :
                   isDog ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' :
@@ -253,7 +253,7 @@ export default function BCGMatrixView() {
                   {firm.quadrant}
                 </span>
               </div>
-              <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
+              <div className="flex items-center justify-between mt-1.5 pt-1.5 border-t border-slate-800/80 text-[10.5px] font-mono text-slate-400">
                 <span>RMS: <strong className="text-cyan-300">{firm.relativeMarketShare}x</strong></span>
                 <span>Growth: <strong className="text-emerald-400">+{firm.effectiveGrowthRate}%</strong></span>
               </div>
@@ -465,8 +465,8 @@ export default function BCGMatrixView() {
                 strokeDasharray="5 5"
                 strokeOpacity="0.9"
               />
-              {/* RMS Badge at top of divider */}
-              <g transform={`translate(${thresholdX}, ${paddingTop - 12})`} filter="url(#badgeShadow)">
+              {/* RMS Badge safely located on vertical divider below center reticle where no bubbles exist */}
+              <g transform={`translate(${thresholdX}, ${thresholdY + 30})`} filter="url(#badgeShadow)">
                 <rect x="-65" y="0" width="130" height="20" rx="10" fill="#0f172a" stroke="#8b5cf6" strokeWidth="1.2" />
                 <text x="0" y="13.5" textAnchor="middle" fill="#c084fc" fontSize="9.5" fontFamily="monospace" fontWeight="bold">
                   RMS = 1.0x (Leader)
