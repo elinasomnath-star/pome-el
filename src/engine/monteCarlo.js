@@ -2,30 +2,51 @@
  * Monte Carlo Simulation Engine
  * Runs 1,000 stochastic iterations adding noise to Five Forces scores and price elasticity,
  * computing empirical probability distributions, histograms, and 5th-95th percentile confidence intervals.
+ * 
+ * Features a deterministic seeded pseudorandom number generator (Mulberry32)
+ * for 100% reproducible Monte Carlo experiments across sessions and academic audits.
  */
 
 import { calculateIndustryAttractiveness } from './forces.js';
 import { calculateFirmDemand, calculateFirmProfit } from './priceWar.js';
 
 /**
- * Standard Box-Muller transform for normal distribution sampling
+ * High-quality 32-bit Mulberry32 seeded pseudorandom number generator (PRNG)
+ * Uniform distribution over [0, 1) with period ~2^32.
+ * @param {number} seed 
+ * @returns {Function} Generator function returning random float [0, 1)
  */
-function randomNormal(mean = 0, stdev = 1) {
-  let u = 1 - Math.random();
-  let v = Math.random();
+export function createSeededRandom(seed = 42) {
+  let s = Math.floor(Math.abs(seed)) || 42;
+  return function() {
+    s |= 0;
+    s = (s + 0x6D2B79F5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Standard Box-Muller transform for normal distribution sampling using seeded PRNG
+ */
+function randomNormal(rng, mean = 0, stdev = 1) {
+  let u = 1 - rng();
+  let v = rng();
   let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   return mean + z * stdev;
 }
 
 /**
- * Executes 1,000 Monte Carlo runs
+ * Executes Monte Carlo runs with deterministic seeding
  * @param {Array} baselineForces 
  * @param {Object} currentScores 
  * @param {Object} currentWeights 
  * @param {Object} targetFirm 
  * @param {Object} priceWarConfig 
  * @param {number} iterations - Default 1000
- * @returns {Object} Monte Carlo results with confidence bounds, summary stats, and histogram bins
+ * @param {number} seed - Default 42 for full reproducibility
+ * @returns {Object} Monte Carlo results with confidence bounds, summary stats, histogram bins, and seed
  */
 export function runMonteCarloSimulation(
   baselineForces,
@@ -33,8 +54,10 @@ export function runMonteCarloSimulation(
   currentWeights = {},
   targetFirm,
   priceWarConfig,
-  iterations = 1000
+  iterations = 1000,
+  seed = 42
 ) {
+  const rng = createSeededRandom(seed);
   const attractivenessResults = [];
   const profitResults = [];
 
@@ -49,7 +72,7 @@ export function runMonteCarloSimulation(
     const noisyScores = {};
     baselineForces.forEach(f => {
       const base = currentScores[f.id] !== undefined ? currentScores[f.id] : f.baseScore;
-      const noise = randomNormal(0, 0.6);
+      const noise = randomNormal(rng, 0, 0.6);
       noisyScores[f.id] = Math.max(1, Math.min(10, base + noise));
     });
 
@@ -57,8 +80,8 @@ export function runMonteCarloSimulation(
     attractivenessResults.push(forceMetrics.attractivenessIndex);
 
     // 2. Add noise to own-price elasticity (sigma = 0.15) and cost noise (sigma = 1.2)
-    const noisyElasticity = Math.max(0.8, baseElasticity + randomNormal(0, 0.15));
-    const noisyUnitCost = Math.max(12, unitCost + randomNormal(0, 1.2));
+    const noisyElasticity = Math.max(0.8, baseElasticity + randomNormal(rng, 0, 0.15));
+    const noisyUnitCost = Math.max(12, unitCost + randomNormal(rng, 0, 1.2));
     
     // Compute demand with stochastic elasticity
     const noisyDemand = Math.max(500, Math.round(baseDemandCoeff * Math.pow(basePrice, -noisyElasticity)));
@@ -98,41 +121,44 @@ export function runMonteCarloSimulation(
 
   // Generate histogram bins (12 bins each)
   function createHistogram(arr, binCount = 12, isCurrency = false) {
-    const min = arr[0];
-    const max = arr[arr.length - 1];
-    const step = (max - min) / binCount;
+    const minVal = arr[0];
+    const maxVal = arr[arr.length - 1];
+    const binWidth = (maxVal - minVal) / binCount;
     const bins = [];
 
     for (let b = 0; b < binCount; b++) {
-      const lower = min + b * step;
-      const upper = lower + step;
-      const count = arr.filter(v => v >= lower && (b === binCount - 1 ? v <= upper : v < upper)).length;
-      
-      const label = isCurrency
-        ? `₹${Math.round(lower / 1000)}k`
-        : lower.toFixed(1);
-
+      const lower = minVal + b * binWidth;
+      const upper = lower + binWidth;
       bins.push({
-        label,
-        lower: Number(lower.toFixed(2)),
-        upper: Number(upper.toFixed(2)),
-        count,
-        density: Number(((count / arr.length) * 100).toFixed(1))
+        binIndex: b,
+        rangeLabel: isCurrency
+          ? `₹${Math.round(lower / 1000)}k`
+          : lower.toFixed(2),
+        lower,
+        upper,
+        count: 0
       });
     }
+
+    arr.forEach(val => {
+      let bIdx = Math.floor((val - minVal) / binWidth);
+      if (bIdx >= binCount) bIdx = binCount - 1;
+      if (bIdx < 0) bIdx = 0;
+      bins[bIdx].count++;
+    });
 
     return bins;
   }
 
   return {
     iterations,
+    seed,
     attractiveness: {
       mean: Number(meanAttr.toFixed(2)),
       stdev: Number(stdevAttr.toFixed(2)),
       p5: Number(p5Attr.toFixed(2)),
       p50: Number(p50Attr.toFixed(2)),
       p95: Number(p95Attr.toFixed(2)),
-      confidenceInterval: `[${p5Attr.toFixed(2)} - ${p95Attr.toFixed(2)}]`,
       histogram: createHistogram(attractivenessResults, 12, false)
     },
     profit: {
@@ -141,9 +167,7 @@ export function runMonteCarloSimulation(
       p5: Math.round(p5Profit),
       p50: Math.round(p50Profit),
       p95: Math.round(p95Profit),
-      confidenceInterval: `₹${Math.round(p5Profit).toLocaleString()} - ₹${Math.round(p95Profit).toLocaleString()}`,
       histogram: createHistogram(profitResults, 12, true)
     }
   };
 }
-

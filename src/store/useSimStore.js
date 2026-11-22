@@ -126,6 +126,8 @@ export const useSimStore = create((set, get) => {
     // Monte Carlo Results Cache
     monteCarloResults: null,
     isMonteCarloRunning: false,
+    monteCarloSeed: 42,
+    setMonteCarloSeed: (seed) => set({ monteCarloSeed: Number(seed) }),
 
     // ================= ACTIONS ================= //
 
@@ -407,10 +409,11 @@ export const useSimStore = create((set, get) => {
       });
     },
 
-    // Monte Carlo Runner
-    runMonteCarlo: () => {
-      const { baselineForces, currentForceScores, currentForceWeights, priceWarFirms, selectedCompanyId } = get();
-      set({ isMonteCarloRunning: true });
+    // Monte Carlo Runner with Seeded PRNG
+    runMonteCarlo: (customSeed) => {
+      const { baselineForces, currentForceScores, currentForceWeights, priceWarFirms, selectedCompanyId, monteCarloSeed } = get();
+      const seedToUse = customSeed !== undefined ? Number(customSeed) : (monteCarloSeed || 42);
+      set({ isMonteCarloRunning: true, monteCarloSeed: seedToUse });
 
       const targetFirm = priceWarFirms.find(f => f.id === selectedCompanyId) || priceWarFirms[0];
       
@@ -422,7 +425,8 @@ export const useSimStore = create((set, get) => {
           currentForceWeights,
           targetFirm,
           priceWarConfigData,
-          1000
+          1000,
+          seedToUse
         );
 
         set({

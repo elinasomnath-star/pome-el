@@ -84,7 +84,7 @@ cd "pome el"
 # Install dependencies
 npm install
 
-# Run pure engine unit test suite (12 passing tests)
+# Run pure engine unit test suite (23 passing tests)
 npm test
 
 # Launch development server
@@ -209,9 +209,9 @@ To update any baseline numbers with newly audited annual reports:
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing & Verification Audit
 
-The simulation logic is isolated in pure, deterministic JavaScript functions under `/src/engine`. To run the unit tests:
+The simulation logic is isolated in pure, deterministic JavaScript functions under `/src/engine`. To run the unit test suite:
 
 ```bash
 npm test
@@ -219,10 +219,67 @@ npm test
 
 Expected output:
 ```
- ✓ src/engine/__tests__/engine.test.js (12 tests)
+ ✓ src/engine/__tests__/engine.test.js (23 tests)
  Test Files  1 passed (1)
-      Tests  12 passed (12)
+      Tests  23 passed (23)
 ```
+
+### Complete Test Inventory (23 Passing Tests):
+1. `BCG Engine`: Calculates Relative Market Share against top competitor ($\text{RMS} = \text{Rev}_i / \max_{j \neq i}\text{Rev}_j$).
+2. `BCG Engine`: Correctly classifies BCG quadrants (Stars, Cash Cows, Question Marks, Dogs).
+3. `BCG Engine`: Computes full BCG metrics for all competing firms.
+4. `Five Forces Engine`: Computes Industry Attractiveness Index as $10 - \text{weighted average}$.
+5. `Five Forces Engine`: Computes Strategic Health Score within $[0, 100]$.
+6. `Rubric Engine`: Maps empirical metrics to continuous force scores via rubric.
+7. `Rubric Engine`: Retrieves all force rubrics with 5 dimensions.
+8. `Shock Lab Engine`: Applies shock deltas and re-normalizes market shares to $100\%$.
+9. `Shock Lab Engine`: Generates an 8-quarter timeline with scaled shock propagation.
+10. `Price War Engine`: Calculates downward sloping demand with own price elasticity.
+11. `Price War Engine`: Computes correct profit formulation $\Pi = Q(P - c) - F$.
+12. `Price War Engine`: Simulates price round returning demand, profit, and market share.
+13. `Price War Engine`: Evaluates Nash equilibrium and unilateral deviation profitability.
+14. `Elasticity Engine`: Computes Arc (Midpoint) Price Elasticity of Demand and revenue impact.
+15. `Elasticity Engine`: Computes Point Elasticity of Demand.
+16. `Elasticity Engine`: Computes Price Elasticity of Supply (PES) for rider incentives.
+17. `Org Design Engine`: Calculates management layers using $L = \lceil \log_{\text{span}}(N) \rceil$.
+18. `Org Design Engine`: Generates organizational tree hierarchy nodes.
+19. `Monte Carlo Engine`: Runs 1,000 stochastic iterations returning empirical percentiles and histograms.
+20. `Monte Carlo Engine`: Produces 100% reproducible results via deterministic Mulberry32 PRNG given a fixed seed.
+21. `Tornado Sensitivity Engine`: Computes assumption swings sorted in descending order of output impact.
+22. `Validation Engine`: Evaluates calibrate-vs-test split and transparent directional metric counts.
+23. `Calibration Engine`: Formally validates Event 1 parameter tuning specifications and frozen values.
+
+---
+
+## 🎯 Calibration vs. Test Split & Empirical Backtesting
+
+### Parameter Calibration on Event 1 (`/src/engine/calibration.js`):
+- **Training Event:** Event 1 (Zomato/Blinkit Integration & Density Clustering, FY23–FY24).
+- **Calibrated Parameters:**
+  - Baseline Fulfillment Cost ($c_0$): Initial estimate ₹54.0, tuned to **₹48.0 per order** (matches Blinkit's Q4 FY24 audited contribution break-even).
+  - Store Density Decay Exponent ($\alpha_{\text{density}}$): Tuned to **0.32** (matches transit distance drop from 2.4 km to 1.3 km).
+  - Own-Price Elasticity ($\epsilon_{ii} = 1.75$) and Cross-Price Elasticity ($\epsilon_{ij} = 0.75$).
+- **Frozen Protocol:** All parameters were frozen at Event 1 and evaluated **without refitting** against Event 2 (Zepto's Series G $665M round) and Event 3 (Industry Handling Fee Hikes).
+- **Directional Concordance:** 11 of 12 tracked metric dimensions matched direction (4/4 in-sample, 7/8 out-of-sample).
+- **Statutory Source Audit:** 10 of 12 metrics are verified against statutory filings (SEBI DRHP, NSE/BSE audited financials, MCA Form PAS-3). 2 metrics are secondary broker/survey estimates and marked with an amber "Unverified (Team to Confirm)" badge.
+
+---
+
+## 🎲 Reproducibility & Seeded PRNG
+
+The Monte Carlo risk lab uses a 32-bit **Mulberry32 pseudorandom number generator (PRNG)** paired with a Box-Muller normal transform.
+- **Default Seed:** `42`
+- **Guaranteed Reproducibility:** Every Monte Carlo execution with seed `42` generates identical 5th, 50th, and 95th percentiles and histogram bin counts across browsers and machines.
+- **Interactive Control:** Users can view, edit, or regenerate the seed directly in the UI.
+
+---
+
+## ⚠️ Known Limitations & Academic Bounded Scope
+
+1. **Small Sample Size ($N=3$ Events):** Directional backtesting against 3 macro episodes demonstrates qualitative economic plausibility, not asymptotic econometric forecasting.
+2. **City-Level Spatial Aggregation:** Dark stores operate within hyper-local 1.5 km radial catchments; city-wide aggregation ignores neighborhood-level sub-monopolies.
+3. **Seasonal & Climate Rider Elasticity:** Monsoons and heatwaves induce non-linear spikes in rider incentive costs not fully captured by static supply elasticities.
+4. **Non-Price Differentiation:** The Price War simulator assumes price and handling fee are the primary strategic levers; in reality, platforms also differentiate on delivery speed (sub-10m), SKU assortment, and private label / cafe categories.
 
 ---
 

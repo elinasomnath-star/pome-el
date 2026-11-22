@@ -4,7 +4,7 @@ import { calculateIndustryAttractiveness, computeStrategicHealthScore } from '..
 import { applyShocks } from '../shocks.js';
 import { calculateFirmDemand, calculateFirmProfit, simulatePriceRound, checkNashEquilibrium } from '../priceWar.js';
 import { calculateOrgMetrics, generateOrgTree } from '../org.js';
-import { runMonteCarloSimulation } from '../monteCarlo.js';
+import { runMonteCarloSimulation, createSeededRandom } from '../monteCarlo.js';
 import { mapMetricToForceScore, getAllForceRubrics } from '../rubric.js';
 import {
   calculateArcDemandElasticity,
@@ -14,6 +14,7 @@ import {
 import { computeTornadoSensitivity } from '../sensitivity.js';
 import { generateShockTimeline } from '../timeline.js';
 import { getValidationEvents } from '../validation.js';
+import { getCalibrationReport } from '../calibration.js';
 
 describe('BCG Matrix Engine', () => {
   const mockFirms = [
@@ -63,6 +64,13 @@ describe('Porter\'s Five Forces & Scoring Rubric Engine', () => {
     expect(result.tier).toBe('Hyper-Competitive Capital Burn');
   });
 
+  it('computes strategic health score within [0, 100]', () => {
+    const firm = { marketShare: 35, annualGrowthRate: 70, ebitdaMarginPercent: -4 };
+    const health = computeStrategicHealthScore(firm, 3.5, 60);
+    expect(health).toBeGreaterThanOrEqual(0);
+    expect(health).toBeLessThanOrEqual(100);
+  });
+
   it('maps empirical metrics to force scores via rubric', () => {
     const rivalryMap = mapMetricToForceScore('rivalry', 95);
     expect(rivalryMap.score).toBe(9.5);
@@ -80,38 +88,7 @@ describe('Porter\'s Five Forces & Scoring Rubric Engine', () => {
   });
 });
 
-describe('Elasticity Numerical Engine (Unit IV)', () => {
-  it('computes Arc (Midpoint) Price Elasticity of Demand', () => {
-    // P1=25, P2=35, Q1=50000, Q2=44000
-    // dQ = -6000, avgQ = 47000, %dQ = -0.127659
-    // dP = 10, avgP = 30, %dP = 0.333333
-    // Ed = -0.127659 / 0.333333 = -0.383 (Inelastic)
-    const result = calculateArcDemandElasticity(25, 35, 50000, 44000);
-    expect(result.arcValue).toBeCloseTo(-0.383, 2);
-    expect(result.absoluteArc).toBeLessThan(1.0);
-    expect(result.classification).toContain('Inelastic');
-    expect(result.revenueDelta).toBeGreaterThan(0); // Price hike in inelastic zone increases revenue
-  });
-
-  it('computes Point Elasticity of Demand', () => {
-    const pointRes = calculatePointDemandElasticity(25, 35, 50000, 44000);
-    // ( -6000 / 50000 ) / ( 10 / 25 ) = -0.12 / 0.40 = -0.30
-    expect(pointRes.pointValue).toBeCloseTo(-0.30, 2);
-    expect(pointRes.absolutePoint).toBeCloseTo(0.30, 2);
-  });
-
-  it('computes Price Elasticity of Supply (PES)', () => {
-    // Rider incentive increases from 40 to 60, fleet expands from 1000 to 1800
-    // dQ = 800, avgQ = 1400 -> 0.5714
-    // dP = 20, avgP = 50 -> 0.4000
-    // Es = 0.5714 / 0.4 = 1.428 (Elastic supply)
-    const supplyRes = calculateSupplyElasticity(40, 60, 1000, 1800);
-    expect(supplyRes.arcPes).toBeGreaterThan(1.0);
-    expect(supplyRes.classification).toContain('Elastic');
-  });
-});
-
-describe('Shock Severity & Multi-Quarter Timeline Engine', () => {
+describe('Shock Lab Engine', () => {
   const mockForces = [{ id: 'rivalry', baseScore: 8.0, defaultWeight: 0.5 }];
   const mockFirms = [
     { id: 'f1', marketShare: 60, revenue: 600, annualGrowthRate: 40 },
@@ -125,16 +102,140 @@ describe('Shock Severity & Multi-Quarter Timeline Engine', () => {
     firmShareDeltas: { f1: -5, f2: 5 }
   };
 
+  it('applies shock deltas and re-normalizes market shares', () => {
+    const result = applyShocks(mockForces, mockFirms, [shock]);
+    expect(result.updatedScores.rivalry).toBe(9.5);
+    expect(result.cumulativeGrowthDelta).toBe(10);
+    const totalShare = result.updatedFirms.reduce((sum, f) => sum + f.marketShare, 0);
+    expect(Math.round(totalShare)).toBe(100);
+  });
+
   it('generates an 8-quarter timeline with scaled shock propagation', () => {
     const activeWithParams = [
       { shock, severity: 1.5, durationQuarters: 4, startQuarter: 1 }
     ];
     const timeline = generateShockTimeline(mockForces, mockFirms, activeWithParams, 8);
     expect(timeline).toHaveLength(8);
-    // Q1 should have 1 active shock
     expect(timeline[0].activeShockCount).toBe(1);
-    // Q6 (after 4 quarters duration) should return to baseline 0 active shocks
     expect(timeline[5].activeShockCount).toBe(0);
+  });
+});
+
+describe('Price War & Bertrand Oligopoly Engine', () => {
+  const firms = [
+    {
+      id: 'f1',
+      basePrice: 30,
+      unitCost: 20,
+      fixedCost: 120000,
+      baseDemandCoeff: 100000,
+      ownElasticity: 1.5,
+      crossElasticities: { f2: 0.5 }
+    },
+    {
+      id: 'f2',
+      basePrice: 30,
+      unitCost: 20,
+      fixedCost: 120000,
+      baseDemandCoeff: 100000,
+      ownElasticity: 1.5,
+      crossElasticities: { f1: 0.5 }
+    }
+  ];
+
+  it('calculates downward sloping demand with own price elasticity', () => {
+    const priceMapLow = { f1: 25, f2: 30 };
+    const priceMapHigh = { f1: 35, f2: 30 };
+
+    const demandLow = calculateFirmDemand(firms[0], priceMapLow, firms);
+    const demandHigh = calculateFirmDemand(firms[0], priceMapHigh, firms);
+
+    expect(demandLow).toBeGreaterThan(demandHigh);
+  });
+
+  it('computes correct profit Pi = Q * (P - c) - F', () => {
+    const demand = 1000;
+    const price = 30;
+    const unitCost = 20;
+    const fixedCost = 5000;
+    const profit = calculateFirmProfit(demand, price, unitCost, fixedCost);
+    expect(profit).toBe(1000 * (30 - 20) - 5000); // 5000
+  });
+
+  it('simulates a price round returning demand, profit, and market share', () => {
+    const round = simulatePriceRound(firms, { f1: 30, f2: 30 });
+    expect(round.firms.f1.profit).toBeDefined();
+    expect(round.firms.f1.marketSharePercent).toBeCloseTo(50.0, 1);
+  });
+
+  it('evaluates Nash equilibrium and deviations', () => {
+    const nashCheck = checkNashEquilibrium(firms, { f1: 30, f2: 30 }, 'oligopoly', {});
+    expect(nashCheck.deviations).toBeDefined();
+    expect(nashCheck.statusText).toBeDefined();
+  });
+});
+
+describe('Elasticity Numerical Engine (Unit IV)', () => {
+  it('computes Arc (Midpoint) Price Elasticity of Demand', () => {
+    const result = calculateArcDemandElasticity(25, 35, 50000, 44000);
+    expect(result.arcValue).toBeCloseTo(-0.383, 2);
+    expect(result.absoluteArc).toBeLessThan(1.0);
+    expect(result.classification).toContain('Inelastic');
+    expect(result.revenueDelta).toBeGreaterThan(0);
+  });
+
+  it('computes Point Elasticity of Demand', () => {
+    const pointRes = calculatePointDemandElasticity(25, 35, 50000, 44000);
+    expect(pointRes.pointValue).toBeCloseTo(-0.30, 2);
+    expect(pointRes.absolutePoint).toBeCloseTo(0.30, 2);
+  });
+
+  it('computes Price Elasticity of Supply (PES)', () => {
+    const supplyRes = calculateSupplyElasticity(40, 60, 1000, 1800);
+    expect(supplyRes.arcPes).toBeGreaterThan(1.0);
+    expect(supplyRes.classification).toContain('Elastic');
+  });
+});
+
+describe('Org Design Engine', () => {
+  it('calculates management layers using log_span(headcount)', () => {
+    const metrics = calculateOrgMetrics(1000, 10, 50, 5);
+    expect(metrics.managementLayers).toBe(3);
+    expect(metrics.coordinationCostIndex).toBeGreaterThan(0);
+  });
+
+  it('generates an organizational tree hierarchy', () => {
+    const tree = generateOrgTree(3, 4, "Zepto");
+    expect(tree.level).toBe(1);
+    expect(tree.children.length).toBeGreaterThan(0);
+    expect(tree.children[0].level).toBe(2);
+  });
+});
+
+describe('Monte Carlo Simulation Engine & Reproducible PRNG', () => {
+  const mockForces = [{ id: 'rivalry', baseScore: 8.0, defaultWeight: 1.0 }];
+  const mockFirm = {
+    basePrice: 30,
+    unitCost: 20,
+    fixedCost: 240000,
+    ownElasticity: 1.5,
+    baseDemandCoeff: 50000
+  };
+
+  it('runs stochastic iterations and returns empirical percentiles and histograms', () => {
+    const result = runMonteCarloSimulation(mockForces, {}, {}, mockFirm, {}, 100, 42);
+    expect(result.iterations).toBe(100);
+    expect(result.seed).toBe(42);
+    expect(result.attractiveness.p5).toBeLessThanOrEqual(result.attractiveness.p95);
+    expect(result.profit.histogram.length).toBeGreaterThan(0);
+  });
+
+  it('produces 100% identical reproducible results when given the same seed', () => {
+    const runA = runMonteCarloSimulation(mockForces, {}, {}, mockFirm, {}, 100, 42);
+    const runB = runMonteCarloSimulation(mockForces, {}, {}, mockFirm, {}, 100, 42);
+    expect(runA.attractiveness.mean).toBe(runB.attractiveness.mean);
+    expect(runA.profit.mean).toBe(runB.profit.mean);
+    expect(runA.profit.p50).toBe(runB.profit.p50);
   });
 });
 
@@ -161,21 +262,30 @@ describe('Sensitivity Tornado Engine', () => {
   it('computes sensitivity items sorted in descending order of output swing', () => {
     const sensitivity = computeTornadoSensitivity(mockForces, {}, {}, mockTargetFirm, mockFirms);
     expect(sensitivity.length).toBeGreaterThan(0);
-    // Check descending order of swing
     for (let i = 0; i < sensitivity.length - 1; i++) {
       expect(sensitivity[i].swing).toBeGreaterThanOrEqual(sensitivity[i + 1].swing);
     }
   });
 });
 
-describe('Empirical Validation & Calibrate-vs-Test Split Engine', () => {
+describe('Empirical Validation & Calibration Split Engine', () => {
   it('evaluates calibrate-vs-test split and transparent metric counts', () => {
     const { events, summary } = getValidationEvents();
     expect(events.length).toBe(3);
     expect(summary.totalMetrics).toBe(12);
-    expect(summary.totalMatched).toBe(11); // 11 of 12 metrics matched
+    expect(summary.totalMatched).toBe(11);
+    expect(summary.totalVerified).toBe(10);
+    expect(summary.totalUnverified).toBe(2);
     expect(summary.transparentCountText).toContain('11 of 12 tracked metrics matched direction');
     expect(summary.calibrationText).toContain('In-Sample Calibration: 4 of 4');
     expect(summary.testText).toContain('Out-of-Sample Test: 7 of 8');
+  });
+
+  it('provides full Event 1 parameter calibration specifications with frozen parameters', () => {
+    const report = getCalibrationReport();
+    expect(report.calibratedParameters.baselineFulfillmentCost.status).toBe('FROZEN');
+    expect(report.calibratedParameters.baselineFulfillmentCost.calibratedValue).toBe(48.0);
+    expect(report.calibratedParameters.storeDensityDecayAlpha.calibratedValue).toBe(0.32);
+    expect(report.honestLimitations.length).toBeGreaterThanOrEqual(3);
   });
 });

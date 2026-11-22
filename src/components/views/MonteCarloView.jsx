@@ -11,6 +11,8 @@ export default function MonteCarloView() {
     monteCarloResults,
     isMonteCarloRunning,
     runMonteCarlo,
+    monteCarloSeed,
+    setMonteCarloSeed,
     selectedCompanyId,
     baselineCompanies,
     baselineForces,
@@ -65,8 +67,24 @@ export default function MonteCarloView() {
           </div>
         </div>
 
-        {/* Sub-tab & Runner Buttons */}
+        {/* Sub-tab, Seed & Runner Buttons */}
         <div className="flex items-center gap-3 flex-wrap">
+          {/* Seed Selector */}
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono text-slate-300">
+            <span className="text-slate-400">PRNG Seed:</span>
+            <input
+              type="number"
+              value={monteCarloSeed || 42}
+              onChange={(e) => {
+                const val = parseInt(e.target.value, 10) || 42;
+                setMonteCarloSeed(val);
+                runMonteCarlo(val);
+              }}
+              className="w-16 px-1.5 py-0.5 rounded bg-dark-950 border border-slate-700 text-cyan-300 font-bold font-mono text-center text-xs focus:outline-none focus:border-cyan-500"
+            />
+            <span className="text-[10px] text-emerald-400 font-bold">(Mulberry32)</span>
+          </div>
+
           <div className="flex items-center p-1 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono shadow-sm">
             <button
               onClick={() => setActiveSubTab('distribution')}
@@ -87,7 +105,7 @@ export default function MonteCarloView() {
           </div>
 
           <button
-            onClick={runMonteCarlo}
+            onClick={() => runMonteCarlo()}
             disabled={isMonteCarloRunning}
             className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-violet-600 hover:from-cyan-500 hover:to-violet-500 text-white font-mono text-xs font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/30 transition-all cursor-pointer disabled:opacity-50"
           >

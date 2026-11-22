@@ -34,24 +34,24 @@ export default function BCGMatrixView() {
 
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
-  // SVG Canvas Dimensions
-  const svgWidth = 840;
-  const svgHeight = 520;
+  // Expanded SVG Canvas Dimensions for Maximum Breathing Room
+  const svgWidth = 860;
+  const svgHeight = 580;
   const paddingLeft = 70;
   const paddingRight = 60;
   const paddingTop = 45;
   const paddingBottom = 55;
 
-  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 710px
-  const usableHeight = svgHeight - paddingTop - paddingBottom; // 420px
+  const usableWidth = svgWidth - paddingLeft - paddingRight;   // 730px
+  const usableHeight = svgHeight - paddingTop - paddingBottom; // 480px
 
   // Balanced 2x2 Threshold Centerpoints
-  // Places RMS = 1.0x at ~52% width, Growth = 20% benchmark at ~48% height
-  const thresholdX = paddingLeft + usableWidth * 0.52;   // 439.2px
-  const thresholdY = paddingTop + usableHeight * 0.48;   // 246.6px
+  // Places RMS = 1.0x at 52% width, Growth = 20% benchmark at 50% height
+  const thresholdX = paddingLeft + usableWidth * 0.52;   // 449.6px
+  const thresholdY = paddingTop + usableHeight * 0.50;   // 285px
 
   // Piecewise Logarithmic & Proportional Coordinate Mapping
-  // Ensures ALL 4 quadrants have balanced, dignified screen space and zero awkward squishing
+  // Ensures ALL 4 quadrants have generous, balanced screen space and zero awkward squishing
   const mapX = (rms) => {
     const safeRms = Math.max(0.08, Math.min(2.8, rms));
     if (safeRms <= 1.0) {
@@ -128,6 +128,28 @@ export default function BCGMatrixView() {
     y: thresholdY + 4,
     w: svgWidth - paddingRight - thresholdX - 8,
     h: svgHeight - paddingBottom - thresholdY - 8
+  };
+
+  // Collision-Free Badge Offsets
+  // Explicitly tuned so adjacent bubbles NEVER overlap each other or threshold lines
+  const getBadgeOffset = (firmId, radius) => {
+    switch (firmId) {
+      case 'zepto':
+        // Zepto is high up; offset badge horizontally to the left so it never collides with Swiggy below it
+        return { x: -radius - 75, y: -8, anchor: 'middle' };
+      case 'swiggy_instamart':
+      case 'swiggy':
+        // Swiggy badge placed below its bubble
+        return { x: 0, y: radius + 14, anchor: 'middle' };
+      case 'bigbasket_now':
+      case 'bb_now':
+        // BB Now badge placed ABOVE its bubble so it never touches the 20% growth line
+        return { x: 0, y: -radius - 14, anchor: 'middle' };
+      case 'blinkit':
+      default:
+        // Blinkit badge placed cleanly below its bubble
+        return { x: 0, y: radius + 14, anchor: 'middle' };
+    }
   };
 
   return (
@@ -245,7 +267,7 @@ export default function BCGMatrixView() {
           <div className="w-full overflow-x-auto">
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-              className="w-full h-auto min-w-[640px] select-none"
+              className="w-full h-auto min-w-[660px] select-none"
             >
               <defs>
                 {/* Quadrant Radial Glow Gradients */}
@@ -294,17 +316,14 @@ export default function BCGMatrixView() {
                   strokeWidth="1"
                   strokeOpacity="0.25"
                 />
-                {/* Header Tag */}
-                <g transform={`translate(${qmBox.x + 14}, ${qmBox.y + 16})`}>
+                {/* Header Tag - Positioned safely in top-left corner */}
+                <g transform={`translate(${qmBox.x + 14}, ${qmBox.y + 14})`}>
                   <rect x="0" y="0" width="138" height="22" rx="6" fill="#be185d" fillOpacity="0.25" stroke="#ec4899" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#f472b6" fontSize="10.5" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                  <text x="8" y="14.5" fill="#f472b6" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
                     ? QUESTION MARKS
                   </text>
-                  <text x="146" y="15" fill="#94a3b8" fontSize="9" fontFamily="monospace">
+                  <text x="146" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
                     HIGH GROWTH &bull; LOW SHARE
-                  </text>
-                  <text x="0" y="36" fill="#64748b" fontSize="8.5" fontFamily="system-ui, sans-serif">
-                    Strategic Dilemma: Heavy cash burn &bull; Invest to reach #1 or divest
                   </text>
                 </g>
                 {/* Watermark in bottom-right of quadrant */}
@@ -327,16 +346,13 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.3"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${starsBox.x + 14}, ${starsBox.y + 16})`}>
+                <g transform={`translate(${starsBox.x + 14}, ${starsBox.y + 14})`}>
                   <rect x="0" y="0" width="90" height="22" rx="6" fill="#6d28d9" fillOpacity="0.25" stroke="#8b5cf6" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#c084fc" fontSize="10.5" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                  <text x="8" y="14.5" fill="#c084fc" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
                     ★ STARS
                   </text>
-                  <text x="98" y="15" fill="#94a3b8" fontSize="9" fontFamily="monospace">
+                  <text x="98" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
                     HIGH GROWTH &bull; HIGH SHARE
-                  </text>
-                  <text x="0" y="36" fill="#64748b" fontSize="8.5" fontFamily="system-ui, sans-serif">
-                    Category Leader: Self-sustaining &bull; Reinvest cash to defend moat
                   </text>
                 </g>
                 {/* Watermark in bottom-right of quadrant */}
@@ -359,16 +375,13 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.22"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${dogsBox.x + 14}, ${dogsBox.y + 16})`}>
+                <g transform={`translate(${dogsBox.x + 14}, ${dogsBox.y + 14})`}>
                   <rect x="0" y="0" width="82" height="22" rx="6" fill="#b45309" fillOpacity="0.25" stroke="#f59e0b" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#fbbf24" fontSize="10.5" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                  <text x="8" y="14.5" fill="#fbbf24" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
                     ▲ DOGS
                   </text>
-                  <text x="90" y="15" fill="#94a3b8" fontSize="9" fontFamily="monospace">
+                  <text x="90" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
                     LOW GROWTH &bull; LOW SHARE
-                  </text>
-                  <text x="0" y="36" fill="#64748b" fontSize="8.5" fontFamily="system-ui, sans-serif">
-                    Sub-Scale Unit: Low or negative cash flow &bull; Harvest or pivot
                   </text>
                 </g>
                 {/* Watermark */}
@@ -391,16 +404,13 @@ export default function BCGMatrixView() {
                   strokeOpacity="0.25"
                 />
                 {/* Header Tag */}
-                <g transform={`translate(${cowsBox.x + 14}, ${cowsBox.y + 16})`}>
+                <g transform={`translate(${cowsBox.x + 14}, ${cowsBox.y + 14})`}>
                   <rect x="0" y="0" width="118" height="22" rx="6" fill="#047857" fillOpacity="0.25" stroke="#10b981" strokeOpacity="0.4" strokeWidth="1" />
-                  <text x="8" y="14.5" fill="#34d399" fontSize="10.5" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
+                  <text x="8" y="14.5" fill="#34d399" fontSize="10" fontFamily="system-ui, sans-serif" fontWeight="800" letterSpacing="0.4">
                     ₹ CASH COWS
                   </text>
-                  <text x="126" y="15" fill="#94a3b8" fontSize="9" fontFamily="monospace">
+                  <text x="126" y="15" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">
                     LOW GROWTH &bull; HIGH SHARE
-                  </text>
-                  <text x="0" y="36" fill="#64748b" fontSize="8.5" fontFamily="system-ui, sans-serif">
-                    Cash Engine: High margin surplus &bull; Milk cash to fund stars
                   </text>
                 </g>
                 {/* Watermark */}
@@ -470,10 +480,10 @@ export default function BCGMatrixView() {
                 strokeDasharray="5 5"
                 strokeOpacity="0.9"
               />
-              {/* Growth Badge at right of divider */}
-              <g transform={`translate(${svgWidth - paddingRight + 6}, ${thresholdY - 10})`} filter="url(#badgeShadow)">
-                <rect x="0" y="0" width="86" height="20" rx="10" fill="#0f172a" stroke="#06b6d4" strokeWidth="1.2" />
-                <text x="43" y="13.5" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="monospace" fontWeight="bold">
+              {/* Growth Badge PINNED INSIDE RIGHT BORDER to prevent clipping */}
+              <g transform={`translate(${svgWidth - paddingRight - 94}, ${thresholdY - 10})`} filter="url(#badgeShadow)">
+                <rect x="0" y="0" width="90" height="20" rx="10" fill="#0f172a" stroke="#06b6d4" strokeWidth="1.2" />
+                <text x="45" y="13.5" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="monospace" fontWeight="bold">
                   Growth: 20%
                 </text>
               </g>
@@ -508,9 +518,10 @@ export default function BCGMatrixView() {
                 const cx = mapX(firm.relativeMarketShare);
                 const cy = mapY(firm.effectiveGrowthRate);
                 // Scaled radius based on FY24 Revenue
-                const radius = Math.max(26, Math.min(46, Math.sqrt(firm.revenue) * 0.56));
+                const radius = Math.max(28, Math.min(46, Math.sqrt(firm.revenue) * 0.56));
                 const isSelected = firm.id === selectedCompanyId;
                 const isHovered = hoveredFirm?.id === firm.id;
+                const offset = getBadgeOffset(firm.id, radius);
 
                 return (
                   <g
@@ -565,33 +576,36 @@ export default function BCGMatrixView() {
                       fillOpacity="0.88"
                     />
 
-                    {/* Company Vector Brand Icon Centered */}
+                    {/* Company Vector Brand Icon Centered - Using 32x32 foreignObject */}
                     <foreignObject
-                      x={cx - 15}
-                      y={cy - 15}
-                      width="30"
-                      height="30"
-                      className="pointer-events-none select-none"
+                      x={cx - 16}
+                      y={cy - 16}
+                      width="32"
+                      height="32"
+                      style={{ overflow: 'visible', pointerEvents: 'none' }}
+                      className="select-none"
                     >
-                      <CompanyBrandIcon id={firm.id} className="w-7.5 h-7.5" showBg={false} />
+                      <div className="w-8 h-8 flex items-center justify-center">
+                        <CompanyBrandIcon id={firm.id} className="w-8 h-8" showBg={false} />
+                      </div>
                     </foreignObject>
 
-                    {/* Polished Floating Metric Badge */}
-                    <g transform={`translate(${cx}, ${cy + radius + 10})`} filter="url(#badgeShadow)">
+                    {/* Collision-Free Floating Metric Badge */}
+                    <g transform={`translate(${cx + offset.x}, ${cy + offset.y})`} filter="url(#badgeShadow)">
                       <rect
-                        x="-62"
-                        y="0"
-                        width="124"
+                        x="-60"
+                        y="-11"
+                        width="120"
                         height="22"
                         rx="11"
                         fill="#0b0f19"
                         stroke={firm.color}
-                        strokeOpacity="0.75"
+                        strokeOpacity="0.8"
                         strokeWidth="1.2"
                       />
                       <text
                         x="0"
-                        y="14.5"
+                        y="3.5"
                         textAnchor="middle"
                         fill="#ffffff"
                         fontSize="9.5"
