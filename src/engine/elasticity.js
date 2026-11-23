@@ -1,5 +1,5 @@
 /**
- * Elasticity Calculator Engine (POME Syllabus Unit IV)
+ * Elasticity Calculator Engine (Price Elasticity & Microeconomic Demand Analysis)
  * Computes Arc (Midpoint) and Point Price Elasticity of Demand (PED) and Supply (PES),
  * provides full step-by-step mathematical solutions, classifications, and revenue impact analysis.
  */
@@ -141,7 +141,7 @@ export function calculateSupplyElasticity(p1, p2, q1, q2) {
 }
 
 /**
- * Preloaded Syllabus Practice Problems
+ * Preloaded Practice Problems
  */
 export const PRACTICE_PROBLEMS = [
   {

@@ -178,7 +178,7 @@ export default function ElasticityCalculatorView() {
 
             {/* Quick Presets */}
             <div className="pt-4 border-t border-slate-800 space-y-2">
-              <span className="text-xs font-mono text-slate-400 block">Syllabus Quick Presets:</span>
+              <span className="text-xs font-mono text-slate-400 block">Quick Scenario Presets:</span>
               <div className="flex items-center gap-2 flex-wrap">
                 <button
                   onClick={() => { setDemandP1(25); setDemandP2(35); setDemandQ1(50000); setDemandQ2(44000); }}
@@ -333,7 +333,7 @@ export default function ElasticityCalculatorView() {
         <div className="space-y-6">
           <div className="text-sm font-mono text-slate-300 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>Curated syllabus exam numericals based on Indian quick commerce pricing decisions:</span>
+            <span>Curated practice numericals based on Indian quick commerce pricing decisions:</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
