@@ -17,8 +17,9 @@ function hashFor(tabId) {
 }
 
 const SHOTS = [
-  { tabId: 'org',        file: '07_org_scalar_chain.png',    waitText: 'Organizational Architecture' },
-  { tabId: 'validation', file: '11_empirical_validation.png', waitText: 'Empirical Plausibility' },
+  { tabId: 'org',         file: '07_org_scalar_chain.png',    waitText: 'Organizational Architecture' },
+  { tabId: 'validation',  file: '11_empirical_validation.png', waitText: 'Empirical Plausibility' },
+  { tabId: 'methodology', file: '12_methodology_export.png',   waitText: 'Brand Logo Credits' },
 ];
 
 async function capture(browser, shot) {

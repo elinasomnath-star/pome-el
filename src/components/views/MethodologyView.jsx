@@ -472,6 +472,45 @@ export default function MethodologyView() {
         </ul>
       </div>
 
+      {/* SECTION 4: LOGO & BRAND CREDITS */}
+      <div className="p-5 rounded-2xl border border-slate-700/50 bg-slate-900/40 print:bg-gray-50 print:border-gray-200 space-y-3 shadow-sm">
+        <div className="flex items-center gap-2 text-sm font-bold text-slate-300 print:text-black font-sans">
+          <span className="text-base">🏷️</span>
+          <span>Brand Logo Credits &amp; Trademark Notices</span>
+        </div>
+        <p className="text-xs text-slate-400 print:text-gray-600 leading-relaxed font-sans">
+          Company logos displayed in this simulator are the intellectual property of their respective trademark holders
+          and are used here solely for educational, non-commercial academic purposes under fair-use principles.
+          Logos are fetched at runtime via the{' '}
+          <a href="https://clearbit.com" target="_blank" rel="noopener noreferrer"
+             className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-blue-700">
+            Clearbit Logo API
+          </a>.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+          {[
+            { id: 'blinkit',         name: 'Blinkit',          owner: '© Zomato Ltd',              domain: 'blinkit.com' },
+            { id: 'zepto',           name: 'Zepto',            owner: '© KiranaKart Technologies', domain: 'zeptonow.com' },
+            { id: 'swiggy_instamart',name: 'Swiggy Instamart', owner: '© Swiggy Limited',          domain: 'swiggy.com' },
+            { id: 'bigbasket_now',   name: 'BB Now',           owner: '© Tata Digital / Supermarket Grocery Supplies Pvt Ltd', domain: 'bigbasket.com' },
+          ].map(c => (
+            <div key={c.id}
+                 className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/40 print:bg-white print:border-gray-200">
+              <CompanyBrandIcon id={c.id} className="w-8 h-8" />
+              <div>
+                <div className="text-xs font-bold text-white print:text-black">{c.name}</div>
+                <div className="text-[10px] text-slate-400 print:text-gray-500 leading-snug">{c.owner}</div>
+                <div className="text-[10px] text-cyan-500/70 font-mono print:text-blue-600">{c.domain}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] text-slate-500 print:text-gray-400 font-mono pt-1">
+          StratSim is an independent academic project and is not affiliated with, endorsed by, or sponsored by
+          any of the above companies. All financial data is sourced from publicly available statutory filings.
+        </p>
+      </div>
+
     </div>
   );
 }
