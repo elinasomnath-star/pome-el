@@ -3,6 +3,7 @@ import { useSimStore } from '../../store/useSimStore';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { computeTornadoSensitivity } from '../../engine/sensitivity';
 import { Dices, RefreshCw, BarChart2, ShieldCheck, Sparkles, TrendingUp, Sliders, Info } from 'lucide-react';
 
@@ -197,9 +198,17 @@ export default function MonteCarloView() {
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <span className="text-xs font-mono uppercase text-pink-400 font-bold">
-                    Round Profit Distribution ({firm.name})
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <CompanyBrandIcon id={firm.id} className="w-10 h-10" showBg={true} />
+                    <div>
+                      <span className="text-xs font-mono uppercase text-pink-400 font-bold block">
+                        Round Profit Distribution
+                      </span>
+                      <span className="text-sm font-bold text-white font-sans">
+                        {firm.name} ({firm.brandTag})
+                      </span>
+                    </div>
+                  </div>
                   <span className="text-xs font-mono text-slate-500">Elasticity & Cost Stochasticity</span>
                 </div>
 

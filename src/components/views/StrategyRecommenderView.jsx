@@ -79,8 +79,8 @@ export default function StrategyRecommenderView() {
                     : 'bg-dark-800/80 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
                 }`}
               >
-                <CompanyBrandIcon id={c.id} className="w-4 h-4" />
-                <span>{c.name.split(' ')[0]}</span>
+                <CompanyBrandIcon id={c.id} className="w-7 h-7" showBg={true} />
+                <span className="font-bold">{c.name.split(' ')[0]}</span>
               </button>
             );
           })}
@@ -94,15 +94,18 @@ export default function StrategyRecommenderView() {
       >
         {/* Header: Strategy Name + BCG Pill */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
-          <div>
-            <span className="text-xs font-mono uppercase text-violet-400 font-bold tracking-wider block mb-1">
-              Prescribed Competitive Strategy (Porter)
-            </span>
-            <h3 className="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
-              <GradientText colors={['#a78bfa', '#38bdf8', '#f472b6']}>
-                {recommendation.strategy}
-              </GradientText>
-            </h3>
+          <div className="flex items-center gap-4">
+            <CompanyBrandIcon id={firm.id} className="w-14 h-14" showBg={true} />
+            <div>
+              <span className="text-xs font-mono uppercase text-violet-400 font-bold tracking-wider block mb-1">
+                Prescribed Strategy for {firm.name} (Porter Generic)
+              </span>
+              <h3 className="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
+                <GradientText colors={['#a78bfa', '#38bdf8', '#f472b6']}>
+                  {recommendation.strategy}
+                </GradientText>
+              </h3>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">

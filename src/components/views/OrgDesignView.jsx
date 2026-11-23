@@ -140,15 +140,15 @@ export default function OrgDesignView() {
               <button
                 key={c.id}
                 onClick={() => setSelectedCompanyId(c.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                   selectedCompanyId === c.id
                     ? 'bg-emerald-600 text-white font-bold shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
                 title={`Load ${c.name} organizational structure baseline`}
               >
-                <CompanyBrandIcon id={c.id} className="w-3.5 h-3.5" showBg={false} />
-                <span>{c.name}</span>
+                <CompanyBrandIcon id={c.id} className="w-7 h-7" showBg={true} />
+                <span className="font-sans text-xs">{c.name}</span>
               </button>
             ))}
           </div>

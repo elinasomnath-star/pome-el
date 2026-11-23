@@ -153,7 +153,7 @@ export default function MethodologyView() {
 
   return (
     <div className="space-y-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-52 print:p-0 print:bg-white print:text-black">
-      
+
       {/* Page Title & Export Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800 print:border-b-2 print:border-black">
         <div>
@@ -219,7 +219,7 @@ export default function MethodologyView() {
 
         {/* Master-Detail Explorer */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Left 4 Cols: Navigation Selector Pills */}
           <div className="lg:col-span-4 space-y-2.5 print:hidden">
             {frameworks.map((f, idx) => {
@@ -230,11 +230,10 @@ export default function MethodologyView() {
                 <div
                   key={f.id}
                   onClick={() => setSelectedTheoryIndex(idx)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer text-left ${
-                    isSelected
-                      ? 'bg-dark-800 border-cyan-500/80 text-white shadow-xl shadow-cyan-950/40 ring-1 ring-cyan-500/40'
-                      : 'bg-dark-900/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-dark-850'
-                  }`}
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer text-left ${isSelected
+                    ? 'bg-dark-800 border-cyan-500/80 text-white shadow-xl shadow-cyan-950/40 ring-1 ring-cyan-500/40'
+                    : 'bg-dark-900/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-dark-850'
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -417,8 +416,8 @@ export default function MethodologyView() {
               {companiesData.map(c => (
                 <tr key={c.id} className="hover:bg-dark-800/40 transition-colors">
                   <td className="py-4 px-4">
-                    <div className="flex items-center gap-2.5">
-                      <CompanyBrandIcon id={c.id} className="w-6 h-6" showBg={true} />
+                    <div className="flex items-center gap-3">
+                      <CompanyBrandIcon id={c.id} className="w-9 h-9" showBg={true} />
                       <div>
                         <div className="font-bold text-white print:text-black text-sm">{c.name}</div>
                         <div className="text-[11px] text-slate-400 font-mono">{c.brandTag}</div>
@@ -473,41 +472,46 @@ export default function MethodologyView() {
       </div>
 
       {/* SECTION 4: LOGO & BRAND CREDITS */}
-      <div className="p-5 rounded-2xl border border-slate-700/50 bg-slate-900/40 print:bg-gray-50 print:border-gray-200 space-y-3 shadow-sm">
-        <div className="flex items-center gap-2 text-sm font-bold text-slate-300 print:text-black font-sans">
-          <span className="text-base">🏷️</span>
-          <span>Brand Logo Credits &amp; Trademark Notices</span>
+      <div className="p-6 rounded-2xl border border-slate-700/60 bg-dark-900/90 print:bg-gray-50 print:border-gray-200 space-y-4 shadow-xl">
+        <div className="flex items-center gap-2.5 text-base font-bold text-white print:text-black font-sans">
+          <span className="text-xl">🏷️</span>
+          <span>Official Brand Logo Credits &amp; Nominative Fair-Use Notices</span>
         </div>
-        <p className="text-xs text-slate-400 print:text-gray-600 leading-relaxed font-sans">
-          Company logos displayed in this simulator are the intellectual property of their respective trademark holders
-          and are used here solely for educational, non-commercial academic purposes under fair-use principles.
-          Logos are fetched at runtime via the{' '}
-          <a href="https://clearbit.com" target="_blank" rel="noopener noreferrer"
-             className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-blue-700">
-            Clearbit Logo API
-          </a>.
+        <p className="text-xs text-slate-300 print:text-gray-600 leading-relaxed font-sans">
+          All registered company logos, trademarks, service marks, and trade names displayed across this simulator are the exclusive intellectual property
+          of their respective corporate owners. All brand assets are stored locally for instant, offline, high-fidelity rendering and are utilized strictly
+          under nominative fair use for non-commercial educational instruction and microeconomic stress-testing in university coursework (Principles of Management &amp; Economics).
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
           {[
-            { id: 'blinkit',         name: 'Blinkit',          owner: '© Zomato Ltd',              domain: 'blinkit.com' },
-            { id: 'zepto',           name: 'Zepto',            owner: '© KiranaKart Technologies', domain: 'zeptonow.com' },
-            { id: 'swiggy_instamart',name: 'Swiggy Instamart', owner: '© Swiggy Limited',          domain: 'swiggy.com' },
-            { id: 'bigbasket_now',   name: 'BB Now',           owner: '© Tata Digital / Supermarket Grocery Supplies Pvt Ltd', domain: 'bigbasket.com' },
+            { id: 'blinkit',         name: 'Blinkit',          owner: 'Zomato Limited (NSE: ZOMATO / BSE: 543320)', domain: 'blinkit.com', founders: 'Deepinder Goyal / Albinder Dhindsa' },
+            { id: 'zepto',           name: 'Zepto',            owner: 'KiranaKart Technologies Private Limited', domain: 'zeptonow.com', founders: 'Aadit Palicha / Kaivalya Vohra' },
+            { id: 'swiggy_instamart',name: 'Swiggy Instamart', owner: 'Swiggy Limited (NSE: SWIGGY / BSE: 544280)', domain: 'swiggy.com', founders: 'Sriharsha Majety / Phani Kishan' },
+            { id: 'bigbasket_now',   name: 'BB Now',           owner: 'Supermarket Grocery Supplies (Tata Digital)', domain: 'bigbasket.com', founders: 'Hari Menon / Tata Sons' },
           ].map(c => (
             <div key={c.id}
-                 className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/40 print:bg-white print:border-gray-200">
-              <CompanyBrandIcon id={c.id} className="w-8 h-8" />
-              <div>
-                <div className="text-xs font-bold text-white print:text-black">{c.name}</div>
-                <div className="text-[10px] text-slate-400 print:text-gray-500 leading-snug">{c.owner}</div>
-                <div className="text-[10px] text-cyan-500/70 font-mono print:text-blue-600">{c.domain}</div>
+                 className="flex items-start gap-3.5 p-4 rounded-xl bg-dark-800/80 border border-slate-700/60 shadow-lg print:bg-white print:border-gray-200">
+              <CompanyBrandIcon id={c.id} className="w-12 h-12" showBg={true} />
+              <div className="min-w-0">
+                <div className="text-sm font-bold text-white print:text-black leading-tight">{c.name}</div>
+                <div className="text-[11px] text-slate-300 print:text-gray-600 mt-1 leading-snug">{c.owner}</div>
+                <div className="text-[10px] text-slate-400 print:text-gray-500 mt-0.5">{c.founders}</div>
+                <a
+                  href={`https://${c.domain}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-cyan-400 hover:text-cyan-300 font-mono print:text-blue-600 block mt-1.5 underline"
+                >
+                  {c.domain} &rarr;
+                </a>
               </div>
             </div>
           ))}
         </div>
-        <p className="text-[11px] text-slate-500 print:text-gray-400 font-mono pt-1">
-          StratSim is an independent academic project and is not affiliated with, endorsed by, or sponsored by
-          any of the above companies. All financial data is sourced from publicly available statutory filings.
+        <p className="text-[11px] text-slate-400 print:text-gray-500 font-mono pt-2 border-t border-slate-800/80">
+          StratSim is an independent academic project and is not affiliated with, sponsored by, or endorsed by
+          Zomato Ltd, KiranaKart Technologies, Swiggy Ltd, or Tata Digital. All market shares, financial metrics, and unit economics
+          are calibrated from statutory disclosures, RoC filings, SEBI DRHPs, and equity research reports.
         </p>
       </div>
 

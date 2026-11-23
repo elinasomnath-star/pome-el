@@ -18,6 +18,34 @@ import {
 import priceWarConfigData from '../../data/priceWarConfig.json';
 import { calculateFirmDemand, simulatePriceRound } from '../../engine/priceWar';
 
+// Per-company scenario presets: [price, marketStructure, label, colour, description]
+const FIRM_PRESETS = {
+  blinkit: [
+    { price: 20, structure: 'oligopoly', label: 'Price War (₹20)', color: 'rose', title: 'Below MC (₹22) — severe capital burn' },
+    { price: 35, structure: 'oligopoly', label: 'Baseline (₹35)', color: 'cyan', title: 'Steady-state covering dark-store overhead' },
+    { price: 42, structure: 'oligopoly', label: 'Optimal Margin (₹42)', color: 'emerald', title: 'Profit maximisation under Bertrand-Nash' },
+    { price: 42, structure: 'monopolistic', label: '★ Scale Leader (+₹81L)', color: 'violet', title: 'Density dominance lowers cross-elasticity, unlocking super-normal profit' },
+  ],
+  zepto: [
+    { price: 18, structure: 'oligopoly', label: 'Price War (₹18)', color: 'rose', title: 'Below MC (₹23.50) — severe capital burn' },
+    { price: 32, structure: 'oligopoly', label: 'Baseline (₹32)', color: 'cyan', title: 'Steady-state positive profit' },
+    { price: 38, structure: 'oligopoly', label: 'Optimal Margin (₹38)', color: 'emerald', title: 'Profit maximisation under Bertrand-Nash' },
+    { price: 38, structure: 'monopolistic', label: '★ Zepto Cafe Niche (+₹81L)', color: 'violet', title: 'Cafe & speed niche lowers cross-elasticity, unlocking super-normal profit' },
+  ],
+  swiggy_instamart: [
+    { price: 18, structure: 'oligopoly', label: 'Price War (₹18)', color: 'rose', title: 'Below MC (₹24) — severe capital burn' },
+    { price: 30, structure: 'oligopoly', label: 'Baseline (₹30)', color: 'cyan', title: 'Steady-state covering overhead' },
+    { price: 37, structure: 'oligopoly', label: 'Optimal Margin (₹37)', color: 'emerald', title: 'Profit maximisation under Bertrand-Nash' },
+    { price: 37, structure: 'monopolistic', label: '★ Swiggy One Loyalty (+₹81L)', color: 'violet', title: 'Ecosystem loyalty lowers cross-elasticity, unlocking super-normal profit' },
+  ],
+  bigbasket_now: [
+    { price: 15, structure: 'oligopoly', label: 'Price War (₹15)', color: 'rose', title: 'Near MC (₹25.50) — zero margin scenario' },
+    { price: 26, structure: 'oligopoly', label: 'Baseline (₹26)', color: 'cyan', title: 'Thin-margin steady state' },
+    { price: 35, structure: 'oligopoly', label: 'Optimal Margin (₹35)', color: 'emerald', title: 'Profit maximisation under Bertrand-Nash' },
+    { price: 35, structure: 'monopolistic', label: '★ BB Fresh Organic (+₹81L)', color: 'violet', title: 'Farm-to-fork niche lowers cross-elasticity, unlocking super-normal profit' },
+  ],
+};
+
 export default function PriceWarView() {
   const {
     priceWarFirms,
@@ -32,6 +60,7 @@ export default function PriceWarView() {
     cumulativeProfits,
     nextPriceRound,
     resetPriceWar,
+    setPlayerFirm,
     nashStatus,
     gameCompleted
   } = useSimStore();
@@ -110,7 +139,7 @@ export default function PriceWarView() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-52">
-      
+
       {/* Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
       <div className="space-y-4 pb-5 border-b border-slate-800/80">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -147,21 +176,19 @@ export default function PriceWarView() {
             <div className="flex items-center p-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono">
               <button
                 onClick={() => setMarketStructure('oligopoly')}
-                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  marketStructure === 'oligopoly'
-                    ? 'bg-violet-600 text-white font-bold shadow-md'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${marketStructure === 'oligopoly'
+                  ? 'bg-violet-600 text-white font-bold shadow-md'
+                  : 'text-slate-400 hover:text-white'
+                  }`}
               >
                 Oligopoly (Retaliatory Wars)
               </button>
               <button
                 onClick={() => setMarketStructure('monopolistic')}
-                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  marketStructure === 'monopolistic'
-                    ? 'bg-violet-600 text-white font-bold shadow-md'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${marketStructure === 'monopolistic'
+                  ? 'bg-violet-600 text-white font-bold shadow-md'
+                  : 'text-slate-400 hover:text-white'
+                  }`}
               >
                 Monopolistic (Zepto Cafe Niche)
               </button>
@@ -220,18 +247,18 @@ export default function PriceWarView() {
 
       {/* Main Grid: Control Panel + Demand Curve */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Left 6 Cols: Player Price Controller & AI Rivals */}
         <div className="lg:col-span-6 space-y-6">
-          
+
           {/* User Firm Control Card */}
           <SpotlightCard
             spotlightColor="rgba(236, 72, 153, 0.2)"
             className="p-6 border-2 border-pink-500/50 bg-dark-800/90 shadow-xl space-y-5"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <CompanyBrandIcon id={userFirm.id} className="w-8 h-8" showBg={true} />
+              <div className="flex items-center gap-3.5">
+                <CompanyBrandIcon id={userFirm.id} className="w-12 h-12" showBg={true} />
                 <div>
                   <span className="text-xs uppercase font-mono text-pink-400 font-bold tracking-wider">
                     Player Decision
@@ -285,11 +312,10 @@ export default function PriceWarView() {
                     setFirmPrice(userFirm.id, 18);
                   }}
                   disabled={gameCompleted}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
-                    currentPrice === 18 && marketStructure === 'oligopoly'
-                      ? 'bg-rose-500 text-white shadow-md font-bold'
-                      : 'bg-dark-900 border border-rose-500/30 text-rose-300 hover:bg-rose-500/10'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${currentPrice === 18 && marketStructure === 'oligopoly'
+                    ? 'bg-rose-500 text-white shadow-md font-bold'
+                    : 'bg-dark-900 border border-rose-500/30 text-rose-300 hover:bg-rose-500/10'
+                    }`}
                   title="Price below MC (₹23.50) triggers severe capital burn"
                 >
                   Price War Trap (₹18)
@@ -301,11 +327,10 @@ export default function PriceWarView() {
                     setFirmPrice(userFirm.id, 32);
                   }}
                   disabled={gameCompleted}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
-                    currentPrice === 32 && marketStructure === 'oligopoly'
-                      ? 'bg-cyan-500 text-white shadow-md font-bold'
-                      : 'bg-dark-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${currentPrice === 32 && marketStructure === 'oligopoly'
+                    ? 'bg-cyan-500 text-white shadow-md font-bold'
+                    : 'bg-dark-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10'
+                    }`}
                   title="Steady-state positive profit covering dark-store overhead"
                 >
                   Baseline (₹32)
@@ -317,11 +342,10 @@ export default function PriceWarView() {
                     setFirmPrice(userFirm.id, 38);
                   }}
                   disabled={gameCompleted}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
-                    currentPrice === 38 && marketStructure === 'oligopoly'
-                      ? 'bg-emerald-500 text-white shadow-md font-bold'
-                      : 'bg-dark-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${currentPrice === 38 && marketStructure === 'oligopoly'
+                    ? 'bg-emerald-500 text-white shadow-md font-bold'
+                    : 'bg-dark-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10'
+                    }`}
                   title="Profit maximization under Bertrand-Nash equilibrium"
                 >
                   Optimal Margin (₹38)
@@ -333,11 +357,10 @@ export default function PriceWarView() {
                     setFirmPrice(userFirm.id, 38);
                   }}
                   disabled={gameCompleted}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
-                    currentPrice === 38 && marketStructure === 'monopolistic'
-                      ? 'bg-violet-600 text-white shadow-md font-bold'
-                      : 'bg-dark-900 border border-violet-500/40 text-violet-300 hover:bg-violet-500/10'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${currentPrice === 38 && marketStructure === 'monopolistic'
+                    ? 'bg-violet-600 text-white shadow-md font-bold'
+                    : 'bg-dark-900 border border-violet-500/40 text-violet-300 hover:bg-violet-500/10'
+                    }`}
                   title="Differentiated captive niche (Zepto Cafe) lowers cross-elasticity, generating super-normal profits"
                 >
                   ★ Zepto Cafe Niche (+₹81L)
@@ -394,8 +417,8 @@ export default function PriceWarView() {
                     key={rival.id}
                     className="p-3.5 rounded-xl bg-dark-800/80 border border-slate-800 flex items-center justify-between gap-3 text-xs"
                   >
-                    <div className="flex items-center gap-3">
-                      <CompanyBrandIcon id={rival.id} className="w-8 h-8" showBg={true} />
+                    <div className="flex items-center gap-3.5">
+                      <CompanyBrandIcon id={rival.id} className="w-11 h-11" showBg={true} />
                       <div>
                         <div className="font-bold text-white font-sans text-sm">{rival.name}</div>
                         <div className="text-xs font-mono text-slate-400">
@@ -426,7 +449,7 @@ export default function PriceWarView() {
 
         {/* Right 6 Cols: Demand Curve & Nash Status */}
         <div className="lg:col-span-6 space-y-6">
-          
+
           {/* Live Demand Curve Chart */}
           <div className="rounded-2xl border border-slate-800 bg-dark-900/90 p-5 shadow-xl space-y-3">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400">
@@ -447,7 +470,7 @@ export default function PriceWarView() {
                 <path d={pathData} fill="none" stroke="#ec4899" strokeWidth="2.5" />
 
                 <circle cx={currentOpX} cy={currentOpY} r="7" fill="#ec4899" stroke="#ffffff" strokeWidth="2" />
-                
+
                 <line x1={currentOpX} y1={svgH - pad} x2={currentOpX} y2={currentOpY} stroke="#f472b6" strokeDasharray="3 3" opacity="0.6" />
                 <line x1={pad} y1={currentOpY} x2={currentOpX} y2={currentOpY} stroke="#f472b6" strokeDasharray="3 3" opacity="0.6" />
 
@@ -466,11 +489,10 @@ export default function PriceWarView() {
           </div>
 
           {/* Nash Equilibrium Status Bar */}
-          <div className={`p-5 rounded-2xl border transition-all ${
-            nashStatus.isNash
-              ? 'bg-emerald-950/25 border-emerald-500/40 text-emerald-300'
-              : 'bg-amber-950/25 border-amber-500/40 text-amber-300'
-          }`}>
+          <div className={`p-5 rounded-2xl border transition-all ${nashStatus.isNash
+            ? 'bg-emerald-950/25 border-emerald-500/40 text-emerald-300'
+            : 'bg-amber-950/25 border-amber-500/40 text-amber-300'
+            }`}>
             <div className="flex items-center gap-2 font-mono text-xs font-bold mb-1.5">
               {nashStatus.isNash ? (
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -538,9 +560,9 @@ export default function PriceWarView() {
 
                 return (
                   <tr key={firm.id} className="hover:bg-dark-800/40">
-                    <td className="py-3.5 px-3 font-semibold text-white flex items-center gap-2.5">
-                      <CompanyBrandIcon id={firm.id} className="w-5 h-5" showBg={false} />
-                      <span>{firm.name} {firm.isUser && '(You)'}</span>
+                    <td className="py-3.5 px-3 font-semibold text-white flex items-center gap-3">
+                      <CompanyBrandIcon id={firm.id} className="w-7 h-7" showBg={true} />
+                      <span className="font-bold text-sm">{firm.name} {firm.isUser && '(You)'}</span>
                     </td>
                     <td className="py-3.5 px-3 font-bold text-pink-400 text-sm">
                       ₹{(priceWarPrices[firm.id] || firm.basePrice).toFixed(1)}

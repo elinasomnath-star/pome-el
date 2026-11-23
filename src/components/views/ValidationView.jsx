@@ -3,6 +3,7 @@ import { getValidationEvents } from '../../engine/validation';
 import { getCalibrationReport } from '../../engine/calibration';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import DataProvenanceBadge from '../common/DataProvenanceBadge';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import {
   CheckCircle2,
   XCircle,
@@ -219,14 +220,21 @@ export default function ValidationView() {
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-2.5">
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold ${
-                    isCalibration
-                      ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40'
-                      : 'bg-pink-950/60 text-pink-300 border-pink-500/40'
-                  }`}>
-                    {ev.splitLabel}
-                  </span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <CompanyBrandIcon
+                      id={ev.id.includes('blinkit') ? 'blinkit' : ev.id.includes('zepto') ? 'zepto' : 'swiggy_instamart'}
+                      className="w-7 h-7"
+                      showBg={true}
+                    />
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold ${
+                      isCalibration
+                        ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40'
+                        : 'bg-pink-950/60 text-pink-300 border-pink-500/40'
+                    }`}>
+                      {ev.splitLabel}
+                    </span>
+                  </div>
                   <span className="text-xs font-mono font-bold text-emerald-400">
                     {ev.metricsMatched}/{ev.metricsTotal} Matched
                   </span>
@@ -254,12 +262,19 @@ export default function ValidationView() {
       >
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-mono uppercase text-cyan-400 font-bold">{activeEvent.splitLabel}</span>
-              <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
+          <div className="flex items-center gap-3.5">
+            <CompanyBrandIcon
+              id={activeEvent.id.includes('blinkit') ? 'blinkit' : activeEvent.id.includes('zepto') ? 'zepto' : 'swiggy_instamart'}
+              className="w-11 h-11"
+              showBg={true}
+            />
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-mono uppercase text-cyan-400 font-bold">{activeEvent.splitLabel}</span>
+                <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
             </div>
-            <h3 className="text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
           </div>
 
           <div className="px-4 py-2 rounded-xl bg-dark-800 border border-slate-700 font-mono text-xs font-bold flex items-center gap-2 self-start sm:self-auto shadow-sm">

@@ -387,6 +387,18 @@ The Monte Carlo risk lab uses a 32-bit **Mulberry32 pseudorandom number generato
 
 ---
 
+## 🏷️ Brand Assets & Trademark Attribution Credits
+
+All corporate names, brand identities, and logos featured in this simulator are registered trademarks of their respective entities:
+- **Blinkit**: &copy; Zomato Limited (NSE: ZOMATO / BSE: 543320) &bull; [blinkit.com](https://blinkit.com)
+- **Zepto**: &copy; KiranaKart Technologies Private Limited &bull; [zeptonow.com](https://zeptonow.com)
+- **Swiggy Instamart**: &copy; Swiggy Limited (NSE: SWIGGY / BSE: 544280) &bull; [swiggy.com](https://swiggy.com)
+- **BigBasket / BB Now**: &copy; Supermarket Grocery Supplies Pvt Ltd / Tata Digital &bull; [bigbasket.com](https://bigbasket.com)
+
+*All trademarks and brand marks are utilized locally under **nominative fair use** solely for academic illustration, student case study analysis, and microeconomic education in Principles of Management & Economics (POME). StratSim is an independent educational simulation and is not affiliated with, sponsored by, or endorsed by any of the above corporate organizations.*
+
+---
+
 ## 📜 Academic Attribution & License
 
 Developed for university undergraduate and graduate coursework in **Principles of Management & Economics (POME)**.

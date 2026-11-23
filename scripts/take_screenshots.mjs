@@ -8,29 +8,33 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const DOCS = join(ROOT, 'docs', 'screenshots');
-const PUB  = join(ROOT, 'public', 'screenshots');
+const PUB = join(ROOT, 'public', 'screenshots');
 
-// Encode as #state=<b64> matching encodeStateToHash() in scenarioManager.js
 function hashFor(tabId) {
   const b64 = Buffer.from(JSON.stringify({ t: tabId })).toString('base64');
   return `state=${b64}`;
 }
 
 const SHOTS = [
+  { tabId: 'hero',        file: '01_landing_hero.png',        url: 'http://localhost:5173/', waitText: 'Strategy Under Fire' },
+  { tabId: 'overview',    file: '02_overview_dashboard.png',   waitText: 'Executive Overview' },
+  { tabId: 'bcg',         file: '03_bcg_matrix.png',          waitText: 'BCG Growth-Share Matrix' },
+  { tabId: 'pricewar',    file: '06_bertrand_price_war.png',  waitText: 'Bertrand Oligopoly Price War' },
   { tabId: 'org',         file: '07_org_scalar_chain.png',    waitText: 'Organizational Architecture' },
+  { tabId: 'recommender', file: '08_strategy_recommender.png',waitText: 'Strategic Imperative' },
   { tabId: 'validation',  file: '11_empirical_validation.png', waitText: 'Empirical Plausibility' },
-  { tabId: 'methodology', file: '12_methodology_export.png',   waitText: 'Brand Logo Credits' },
+  { tabId: 'methodology', file: '12_methodology_export.png',   waitText: 'Official Brand Logo Credits' },
 ];
 
 async function capture(browser, shot) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
 
-  const url = `http://localhost:5173/#${hashFor(shot.tabId)}`;
+  const url = shot.url || `http://localhost:5173/#${hashFor(shot.tabId)}`;
   console.log(`  → navigating to ${url}`);
   await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
 
-  // Poll until the target heading text appears (React effect fires, hero dismissed)
+  // Poll until the target heading text appears
   const found = await page.waitForFunction(
     (text) => document.body.innerText.includes(text),
     { timeout: 15000, polling: 300 },
@@ -43,8 +47,8 @@ async function capture(browser, shot) {
     console.log(`  ✓ heading found`);
   }
 
-  // Extra settle time for animations
-  await new Promise(r => setTimeout(r, 800));
+  // Extra settle time for animations and brand images
+  await new Promise(r => setTimeout(r, 1200));
 
   const dest = join(DOCS, shot.file);
   await page.screenshot({ path: dest, fullPage: false });
@@ -66,5 +70,5 @@ async function capture(browser, shot) {
   }
 
   await browser.close();
-  console.log('\nAll screenshots done.');
+  console.log('\nAll screenshots completed successfully.');
 })();

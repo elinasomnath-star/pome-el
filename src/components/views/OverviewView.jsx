@@ -69,15 +69,15 @@ export default function OverviewView() {
               Executive Overview
             </h2>
             <span
-              className="text-xs px-3 py-1 rounded-full font-sans font-bold border flex items-center gap-2"
+              className="text-xs px-3 py-1.5 rounded-full font-sans font-bold border flex items-center gap-2.5 shadow-sm"
               style={{
                 borderColor: `${firm.color}60`,
                 backgroundColor: `${firm.color}15`,
                 color: firm.color
               }}
             >
-              <CompanyBrandIcon id={firm.id} className="w-4 h-4" />
-              <span>{firm.name}</span>
+              <CompanyBrandIcon id={firm.id} className="w-6 h-6" showBg={true} />
+              <span className="text-sm">{firm.name}</span>
             </span>
             <DataProvenanceBadge
               type="verified"
@@ -105,8 +105,8 @@ export default function OverviewView() {
                     : 'border-slate-800 bg-dark-800/80 text-slate-300 hover:text-white hover:border-slate-700'
                 }`}
               >
-                <CompanyBrandIcon id={c.id} className="w-4 h-4" />
-                <span>{c.name.split(' ')[0]}</span>
+                <CompanyBrandIcon id={c.id} className="w-6 h-6" showBg={true} />
+                <span className="font-bold text-xs">{c.name.split(' ')[0]}</span>
                 <span className="font-mono text-cyan-300 font-bold">
                   {c.marketShare}%
                 </span>

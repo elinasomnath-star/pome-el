@@ -121,12 +121,12 @@ export default function Navbar({
           </button>
 
           {/* Company Selector Dropdown with Brand Icon */}
-          <div className="relative flex items-center gap-1.5 bg-dark-800 border border-slate-700 rounded-xl px-2.5 py-1 hover:border-violet-500/60 transition-colors shadow-md">
-            <CompanyBrandIcon id={selectedCompanyId} className="w-5 h-5 rounded-md" />
+          <div className="relative flex items-center gap-2 bg-dark-800 border border-slate-700 rounded-xl px-2.5 py-1 hover:border-violet-500/60 transition-colors shadow-md">
+            <CompanyBrandIcon id={selectedCompanyId} className="w-7 h-7" showBg={true} />
             <select
               value={selectedCompanyId}
               onChange={(e) => setSelectedCompanyId(e.target.value)}
-              className="appearance-none bg-transparent pr-6 text-xs font-semibold text-slate-100 focus:outline-none cursor-pointer"
+              className="appearance-none bg-transparent pr-6 text-xs font-bold text-slate-100 focus:outline-none cursor-pointer"
             >
               {baselineCompanies.map((c) => (
                 <option key={c.id} value={c.id} className="bg-dark-900 text-slate-100 py-1">

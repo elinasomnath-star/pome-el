@@ -237,8 +237,8 @@ export default function BCGMatrixView() {
               }`}
             >
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <CompanyBrandIcon id={firm.id} className="w-5 h-5 shrink-0" showBg={false} />
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <CompanyBrandIcon id={firm.id} className="w-8 h-8 shrink-0" showBg={true} />
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-white block truncate font-sans">{firm.name}</span>
                     <span className="text-[10px] text-slate-400 font-mono block">₹{firm.revenue.toLocaleString()} Cr</span>
@@ -581,17 +581,17 @@ export default function BCGMatrixView() {
                       fillOpacity="0.88"
                     />
 
-                    {/* Company Vector Brand Icon Centered - Using 32x32 foreignObject */}
+                    {/* Company Vector Brand Icon Centered - Using 40x40 foreignObject */}
                     <foreignObject
-                      x={cx - 16}
-                      y={cy - 16}
-                      width="32"
-                      height="32"
+                      x={cx - 20}
+                      y={cy - 20}
+                      width="40"
+                      height="40"
                       style={{ overflow: 'visible', pointerEvents: 'none' }}
                       className="select-none"
                     >
-                      <div className="w-8 h-8 flex items-center justify-center">
-                        <CompanyBrandIcon id={firm.id} className="w-8 h-8" showBg={false} />
+                      <div className="w-10 h-10 flex items-center justify-center">
+                        <CompanyBrandIcon id={firm.id} className="w-10 h-10" showBg={true} />
                       </div>
                     </foreignObject>
 
@@ -650,10 +650,10 @@ export default function BCGMatrixView() {
           <div className="space-y-5">
             {/* Firm Header with Official Brand Icon */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
-              <div className="flex items-center gap-3">
-                <CompanyBrandIcon id={activeFirmBCG.id} className="w-9 h-9" showBg={true} />
+              <div className="flex items-center gap-3.5">
+                <CompanyBrandIcon id={activeFirmBCG.id} className="w-14 h-14" showBg={true} />
                 <div>
-                  <h3 className="text-xl font-bold text-white font-sans flex items-center gap-1.5">
+                  <h3 className="text-2xl font-bold text-white font-sans flex items-center gap-2">
                     {activeFirmBCG.name}
                   </h3>
                   <span className="text-xs text-slate-400 font-mono">

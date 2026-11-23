@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSimStore } from '../../store/useSimStore';
+import CompanyBrandIcon from './CompanyBrandIcon';
 import {
   Sparkles,
   ChevronRight,
@@ -38,6 +39,7 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
     {
       title: "Step 1: Select Active Firm (Zepto)",
       tab: "overview",
+      companyId: "zepto",
       icon: Compass,
       caption: "In quick commerce, market share determines rider density. We select Zepto (29% market share, challenger) to stress-test its unit economics.",
       actionLabel: "Select Zepto & View Dashboard",
@@ -95,6 +97,7 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
     {
       title: "Step 6: Strategy Recommender & Rules",
       tab: "recommender",
+      companyId: "zepto",
       icon: Sparkles,
       caption: "The rule-based inference engine evaluates Zepto's sub-10 minute delivery SLA and recommends Differentiation (Zepto Cafe / speed premium) rather than a self-destructive price war.",
       actionLabel: "Review Strategy Recommendation",
@@ -152,10 +155,14 @@ export default function GuidedDemoModal({ isOpen, onClose }) {
         
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-violet-600/30 border border-violet-500/50 flex items-center justify-center text-violet-300">
-              <Sparkles className="w-4 h-4 animate-pulse" />
-            </div>
+          <div className="flex items-center gap-3">
+            {step.companyId ? (
+              <CompanyBrandIcon id={step.companyId} className="w-9 h-9" showBg={true} />
+            ) : (
+              <div className="w-9 h-9 rounded-xl bg-violet-600/30 border border-violet-500/50 flex items-center justify-center text-violet-300 shadow-md">
+                <Sparkles className="w-5 h-5 animate-pulse" />
+              </div>
+            )}
             <div>
               <span className="text-[10px] uppercase font-mono text-cyan-400 font-bold">
                 Guided Interactive Demo (Step {currentStep + 1} of {demoSteps.length})

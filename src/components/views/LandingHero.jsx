@@ -5,6 +5,7 @@ import BlurText from '../reactbits/BlurText';
 import ShinyText from '../reactbits/ShinyText';
 import GradientText from '../reactbits/GradientText';
 import Magnet from '../reactbits/Magnet';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { ArrowRight, Flame, BarChart2, Shield, Network, Scale, FileText, Sparkles } from 'lucide-react';
 
 export default function LandingHero({ onStartSimulation, onStartGuidedDemo, reduceEffects = false }) {
@@ -44,10 +45,30 @@ export default function LandingHero({ onStartSimulation, onStartGuidedDemo, redu
           </GradientText>
         </p>
 
-        <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto mb-8 font-normal leading-relaxed">
-          Interactive strategy simulator for Indian quick commerce (<span className="text-yellow-400">Blinkit</span>, <span className="text-pink-400">Zepto</span>, <span className="text-orange-400">Instamart</span>, <span className="text-emerald-400">BB Now</span>).
-          Deploy strategic shocks, wage Bertrand price wars, optimize dark-store org layers, and solve Nash equilibria.
+        <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto mb-6 font-normal leading-relaxed">
+          Interactive strategy simulator for Indian quick commerce. Deploy strategic shocks, wage Bertrand price wars, optimize dark-store org layers, and solve Nash equilibria.
         </p>
+
+        {/* Real Official Brand Showcase Row */}
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
+          {[
+            { id: 'blinkit', name: 'Blinkit', share: '42%' },
+            { id: 'zepto', name: 'Zepto', share: '29%' },
+            { id: 'swiggy_instamart', name: 'Swiggy Instamart', share: '22%' },
+            { id: 'bigbasket_now', name: 'BB Now', share: '7%' },
+          ].map(b => (
+            <div
+              key={b.id}
+              className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-2xl bg-dark-900/80 border border-slate-800 shadow-md backdrop-blur-sm"
+            >
+              <CompanyBrandIcon id={b.id} className="w-8 h-8" showBg={true} />
+              <div className="text-left font-sans">
+                <span className="text-xs font-bold text-white block leading-tight">{b.name}</span>
+                <span className="text-[10.5px] text-cyan-400 font-mono font-semibold">{b.share} GOV</span>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSimStore } from '../../store/useSimStore';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
+import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { generateShockTimeline } from '../../engine/timeline';
 import {
   Rocket,
@@ -278,10 +279,30 @@ export default function ShockLabView() {
                 <th className="py-3 px-3">Timeline Quarter</th>
                 <th className="py-3 px-3">Active Disruptions</th>
                 <th className="py-3 px-3">Attractiveness Index</th>
-                <th className="py-3 px-3">Blinkit Share</th>
-                <th className="py-3 px-3">Zepto Share</th>
-                <th className="py-3 px-3">Instamart Share</th>
-                <th className="py-3 px-3">BB Now Share</th>
+                <th className="py-3 px-3">
+                  <div className="flex items-center gap-1.5">
+                    <CompanyBrandIcon id="blinkit" className="w-5 h-5" showBg={true} />
+                    <span>Blinkit</span>
+                  </div>
+                </th>
+                <th className="py-3 px-3">
+                  <div className="flex items-center gap-1.5">
+                    <CompanyBrandIcon id="zepto" className="w-5 h-5" showBg={true} />
+                    <span>Zepto</span>
+                  </div>
+                </th>
+                <th className="py-3 px-3">
+                  <div className="flex items-center gap-1.5">
+                    <CompanyBrandIcon id="swiggy_instamart" className="w-5 h-5" showBg={true} />
+                    <span>Instamart</span>
+                  </div>
+                </th>
+                <th className="py-3 px-3">
+                  <div className="flex items-center gap-1.5">
+                    <CompanyBrandIcon id="bigbasket_now" className="w-5 h-5" showBg={true} />
+                    <span>BB Now</span>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-200">

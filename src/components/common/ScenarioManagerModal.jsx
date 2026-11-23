@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSimStore } from '../../store/useSimStore';
+import CompanyBrandIcon from './CompanyBrandIcon';
 import {
   getSavedScenarios,
   saveScenario,
@@ -192,14 +193,22 @@ export default function ScenarioManagerModal({ isOpen, onClose }) {
             <div className="grid grid-cols-2 gap-4 text-xs font-mono">
               <div className="p-3 rounded-lg bg-dark-900 border border-slate-800 space-y-1.5">
                 <strong className="text-white block">Current Live State</strong>
-                <div>Firm: <span className="text-cyan-300 uppercase">{store.selectedCompanyId}</span></div>
+                <div className="flex items-center gap-1.5">
+                  <span>Firm:</span>
+                  <CompanyBrandIcon id={store.selectedCompanyId} className="w-4 h-4" showBg={true} />
+                  <span className="text-cyan-300 uppercase font-bold">{store.selectedCompanyId}</span>
+                </div>
                 <div>Attractiveness: <span className="text-cyan-300">{store.industryAttractiveness.attractivenessIndex.toFixed(1)}/10</span></div>
                 <div>Active Shocks: <span className="text-cyan-300">{store.activeShocks.length}</span></div>
               </div>
 
               <div className="p-3 rounded-lg bg-dark-900 border border-slate-800 space-y-1.5">
                 <strong className="text-white block">Saved: {compareTarget.name}</strong>
-                <div>Firm: <span className="text-pink-300 uppercase">{compareTarget.snapshot.selectedCompanyId}</span></div>
+                <div className="flex items-center gap-1.5">
+                  <span>Firm:</span>
+                  <CompanyBrandIcon id={compareTarget.snapshot.selectedCompanyId} className="w-4 h-4" showBg={true} />
+                  <span className="text-pink-300 uppercase font-bold">{compareTarget.snapshot.selectedCompanyId}</span>
+                </div>
                 <div>Attractiveness: <span className="text-pink-300">{compareTarget.snapshot.industryAttractiveness?.toFixed(1) || 'N/A'}/10</span></div>
                 <div>Active Shocks: <span className="text-pink-300">{compareTarget.snapshot.activeShocks?.length || 0}</span></div>
               </div>
@@ -234,8 +243,16 @@ export default function ScenarioManagerModal({ isOpen, onClose }) {
                     {sc.description && (
                       <p className="text-[11px] text-slate-300 font-sans">{sc.description}</p>
                     )}
-                    <div className="text-[10px] font-mono text-slate-400">
-                      {sc.createdAt} &bull; Firm: <span className="text-cyan-300 uppercase">{sc.snapshot.selectedCompanyId}</span> &bull; Shocks: {sc.snapshot.activeShocks?.length || 0}
+                    <div className="text-[10px] font-mono text-slate-400 flex items-center gap-1.5 flex-wrap">
+                      <span>{sc.createdAt}</span>
+                      <span>&bull;</span>
+                      <span className="flex items-center gap-1">
+                        Firm:
+                        <CompanyBrandIcon id={sc.snapshot.selectedCompanyId} className="w-3.5 h-3.5" showBg={true} />
+                        <span className="text-cyan-300 uppercase font-bold">{sc.snapshot.selectedCompanyId}</span>
+                      </span>
+                      <span>&bull;</span>
+                      <span>Shocks: {sc.snapshot.activeShocks?.length || 0}</span>
                     </div>
                   </div>
 
