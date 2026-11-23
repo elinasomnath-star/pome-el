@@ -58,7 +58,7 @@ export default function Navbar({
                 </span>
               </div>
               <div className="text-[11px] text-slate-400 hidden sm:block">
-                Strategy Under Fire &bull; Indian Quick Commerce
+                Strategy under Shock &bull; Indian Quick Commerce
               </div>
             </div>
           </div>

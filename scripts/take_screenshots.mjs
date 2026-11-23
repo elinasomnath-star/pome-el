@@ -16,7 +16,7 @@ function hashFor(tabId) {
 }
 
 const SHOTS = [
-  { tabId: 'hero',        file: '01_landing_hero.png',        url: 'http://localhost:5173/', waitText: 'Strategy Under Fire' },
+  { tabId: 'hero',        file: '01_landing_hero.png',        url: 'http://localhost:5173/', waitText: 'Strategy under Shock' },
   { tabId: 'overview',    file: '02_overview_dashboard.png',   waitText: 'Executive Overview' },
   { tabId: 'bcg',         file: '03_bcg_matrix.png',          waitText: 'BCG Growth-Share Matrix' },
   { tabId: 'forces',      file: '04_five_forces_radar.png',    waitText: "Porter's Five Forces" },

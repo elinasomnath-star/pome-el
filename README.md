@@ -1,4 +1,4 @@
-# StratSim: Strategy Under Fire (v2.0)
+# StratSim: Strategy under Shock (v2.0)
 > **Interactive Quick Commerce Strategy Simulator & Economic Stress-Testing Lab**  
 > Designed for *Principles of Management & Economics (POME)* | College Core Curriculum
 
@@ -12,7 +12,7 @@
 
 ## 📖 Overview
 
-**StratSim: Strategy Under Fire** is an interactive, fully client-side strategy simulator modeling the fierce oligopolistic battle for India's 10-minute grocery delivery market between **Blinkit (Zomato)**, **Zepto**, **Swiggy Instamart**, and **BigBasket Now (Tata)**. 
+**StratSim: Strategy under Shock** is an interactive, fully client-side strategy simulator modeling the fierce oligopolistic battle for India's 10-minute grocery delivery market between **Blinkit (Zomato)**, **Zepto**, **Swiggy Instamart**, and **BigBasket Now (Tata)**. 
 
 Built to teach core concepts in **Principles of Management & Economics (POME)**, the platform connects classical and modern management frameworks with microeconomic pricing mechanics:
 1. **BCG Growth-Share Matrix** (Henderson, 1970) with dynamic shock shifts.

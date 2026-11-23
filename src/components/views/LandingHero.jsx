@@ -35,7 +35,7 @@ export default function LandingHero({ onStartSimulation, onStartGuidedDemo, redu
 
         {/* Headline with BlurText */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight font-sans text-white mb-4">
-          <BlurText text="Strategy Under Fire" delay={0.08} className="text-white drop-shadow-lg" />
+          <BlurText text="Strategy under Shock" delay={0.08} className="text-white drop-shadow-lg" />
         </h1>
 
         {/* Tagline */}
