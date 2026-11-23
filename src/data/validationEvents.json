@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Empirical Directional Plausibility Check & Backtesting",
   "disclaimer": "PLAUSIBILITY CHECK ONLY: This module performs a qualitative directional plausibility check against 3 historical quick commerce events. Due to the small sample size (N=3 events, 12 tracked metric dimensions), this does not constitute statistical forecast accuracy or out-of-sample generalizability.",
   "calibrationNote": "Calibrate-vs-Test Split: Baseline parameters were calibrated against Event 1 (In-Sample Calibration: Zomato/Blinkit Acquisition, FY23-FY24), and evaluated against Events 2 & 3 as Out-of-Sample Test cases without refitting.",
@@ -10,7 +10,7 @@
       "title": "Event 1: Zomato Acquires Grofers / Rebrands to Blinkit",
       "date": "August 2022 - March 2024",
       "year": "2022-2024",
-      "context": "Zomato acquired distressed 10-minute grocery pioneer Grofers for â‚¹4,447 Cr ($570M). Critics predicted massive cash drain. Zomato slashed corporate overhead, integrated tech, and expanded dark stores from 400 to 600+.",
+      "context": "Zomato acquired distressed 10-minute grocery pioneer Grofers for ₹4,447 Cr ($570M). Critics predicted massive cash drain. Zomato slashed corporate overhead, integrated tech, and expanded dark stores from 400 to 600+.",
       "trackedMetrics": [
         {
           "metric": "Leader Market Share Direction",
@@ -59,7 +59,7 @@
       ],
       "metricsMatched": 4,
       "metricsTotal": 4,
-      "varianceAnalysis": "In-sample calibration confirmed the density hypothesis: dark-store geographic clustering reduces per-order rider transit distance from 2.4 km to 1.3 km, cutting unit delivery cost below â‚¹50.",
+      "varianceAnalysis": "In-sample calibration confirmed the density hypothesis: dark-store geographic clustering reduces per-order rider transit distance from 2.4 km to 1.3 km, cutting unit delivery cost below ₹50.",
       "source": "Zomato Ltd Official Shareholder Letters (Q1 FY23 - Q4 FY24)",
       "confidence": "high",
       "isPlaceholder": false,
@@ -68,7 +68,7 @@
     {
       "id": "event_2_zepto_mega_rounds",
       "split": "out_of_sample_test",
-      "splitLabel": "Out-of-Sample Test Case A",
+      "splitLabel": "Out-of-Sample A",
       "title": "Event 2: Zepto's $665M Funding Surge at $3.6B Valuation",
       "date": "June 2024",
       "year": "2024",
@@ -131,11 +131,11 @@
     {
       "id": "event_3_platform_fee_hikes",
       "split": "out_of_sample_test",
-      "splitLabel": "Out-of-Sample Test Case B",
-      "title": "Event 3: Industry-Wide Platform & Handling Fee Hikes",
+      "splitLabel": "Out-of-Sample B",
+      "title": "Event 3: Industry Handling Fee Hikes (Swiggy, BB Now & Rivals)",
       "date": "Late 2023 - 2024",
       "year": "2023-2024",
-      "context": "All major platforms simultaneously introduced and incrementally increased mandatory handling fees from â‚¹2 to â‚¹4, â‚¹6, and up to â‚¹10 during peak hours.",
+      "context": "All major platforms simultaneously introduced and incrementally increased mandatory handling fees from ₹2 to ₹4, ₹6, and up to ₹10 during peak hours.",
       "trackedMetrics": [
         {
           "metric": "Competitor Price Following (Tacit Collusion)",

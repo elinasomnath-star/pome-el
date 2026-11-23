@@ -484,13 +484,13 @@ export default function MethodologyView() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
           {[
-            { id: 'blinkit',         name: 'Blinkit',          owner: 'Zomato Limited (NSE: ZOMATO / BSE: 543320)', domain: 'blinkit.com', founders: 'Deepinder Goyal / Albinder Dhindsa' },
-            { id: 'zepto',           name: 'Zepto',            owner: 'KiranaKart Technologies Private Limited', domain: 'zeptonow.com', founders: 'Aadit Palicha / Kaivalya Vohra' },
-            { id: 'swiggy_instamart',name: 'Swiggy Instamart', owner: 'Swiggy Limited (NSE: SWIGGY / BSE: 544280)', domain: 'swiggy.com', founders: 'Sriharsha Majety / Phani Kishan' },
-            { id: 'bigbasket_now',   name: 'BB Now',           owner: 'Supermarket Grocery Supplies (Tata Digital)', domain: 'bigbasket.com', founders: 'Hari Menon / Tata Sons' },
+            { id: 'blinkit', name: 'Blinkit', owner: 'Zomato Limited (NSE: ZOMATO / BSE: 543320)', domain: 'blinkit.com', founders: 'Deepinder Goyal / Albinder Dhindsa' },
+            { id: 'zepto', name: 'Zepto', owner: 'KiranaKart Technologies Private Limited', domain: 'zeptonow.com', founders: 'Aadit Palicha / Kaivalya Vohra' },
+            { id: 'swiggy_instamart', name: 'Swiggy Instamart', owner: 'Swiggy Limited (NSE: SWIGGY / BSE: 544280)', domain: 'swiggy.com', founders: 'Sriharsha Majety / Phani Kishan' },
+            { id: 'bigbasket_now', name: 'BB Now', owner: 'Supermarket Grocery Supplies (Tata Digital)', domain: 'bigbasket.com', founders: 'Hari Menon / Tata Sons' },
           ].map(c => (
             <div key={c.id}
-                 className="flex items-start gap-3.5 p-4 rounded-xl bg-dark-800/80 border border-slate-700/60 shadow-lg print:bg-white print:border-gray-200">
+              className="flex items-start gap-3.5 p-4 rounded-xl bg-dark-800/80 border border-slate-700/60 shadow-lg print:bg-white print:border-gray-200">
               <CompanyBrandIcon id={c.id} className="w-12 h-12" showBg={true} />
               <div className="min-w-0">
                 <div className="text-sm font-bold text-white print:text-black leading-tight">{c.name}</div>

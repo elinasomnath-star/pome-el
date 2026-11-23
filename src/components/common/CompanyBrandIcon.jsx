@@ -90,9 +90,8 @@ export default function CompanyBrandIcon({
   const [imgFailed, setImgFailed] = useState(false);
 
   const bgClass = brand?.bg || 'bg-slate-800/60 border-slate-700/60 shadow-slate-900/40';
-  const wrapClass = `inline-flex items-center justify-center shrink-0 transition-all ${
-    showBg ? `p-1 rounded-xl border backdrop-blur-md shadow-md ${bgClass}` : ''
-  }`;
+  const wrapClass = `inline-flex items-center justify-center shrink-0 transition-all ${showBg ? `p-1 rounded-xl border backdrop-blur-md shadow-md ${bgClass}` : ''
+    }`;
 
   const imageSrc = variant === 'logo' ? (brand?.svg || brand?.icon) : (brand?.icon || brand?.svg);
   const altText = alt || brand?.name || id || 'Brand Logo';

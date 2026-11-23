@@ -38,9 +38,9 @@ export default function BCGMatrixView() {
   const [hoveredFirm, setHoveredFirm] = useState(null);
 
   // Balanced SVG Canvas Dimensions for Optimal Legibility and Vertical Clearance
-  const svgWidth = 860;
+  const svgWidth = 890;
   const svgHeight = 540;
-  const paddingLeft = 74;
+  const paddingLeft = 88;
   const paddingRight = 60;
   const paddingTop = 42;
   const paddingBottom = 52;
@@ -513,11 +513,11 @@ export default function BCGMatrixView() {
                 </g>
               ))}
 
-              {/* 20% Growth Benchmark Axis Pill */}
+              {/* 20% Growth Benchmark Axis Pill - Positioned safely inside canvas */}
               <g transform={`translate(${paddingLeft}, ${thresholdY})`} filter="url(#badgeShadow)">
                 <line x2="-8" stroke="#06b6d4" strokeWidth="2" />
-                <rect x="-74" y="-10" width="66" height="20" rx="5" fill="#082f49" stroke="#06b6d4" strokeWidth="1.2" />
-                <text x="-41" y="3.5" textAnchor="middle" fill="#67e8f9" fontSize="8.5" fontFamily="monospace" fontWeight="bold">
+                <rect x="-76" y="-11" width="68" height="22" rx="6" fill="#082f49" stroke="#06b6d4" strokeWidth="1.2" />
+                <text x="-42" y="3.5" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="monospace" fontWeight="bold">
                   20% Growth
                 </text>
               </g>
@@ -596,16 +596,27 @@ export default function BCGMatrixView() {
                         y={-radius}
                         width={radius * 2}
                         height={radius * 2}
-                        fill={firm.color}
+                        fill={firm.id.includes('bigbasket') || firm.id.includes('bb') ? '#ffffff' : firm.color}
                       />
-                      <image
-                        href={asset.icon}
-                        x={-radius}
-                        y={-radius}
-                        width={radius * 2}
-                        height={radius * 2}
-                        preserveAspectRatio="xMidYMid slice"
-                      />
+                      {firm.id.includes('bigbasket') || firm.id.includes('bb') ? (
+                        <image
+                          href={asset.icon}
+                          x={-radius * 0.72}
+                          y={-radius * 0.72}
+                          width={radius * 1.44}
+                          height={radius * 1.44}
+                          preserveAspectRatio="xMidYMid meet"
+                        />
+                      ) : (
+                        <image
+                          href={asset.icon}
+                          x={-radius}
+                          y={-radius}
+                          width={radius * 2}
+                          height={radius * 2}
+                          preserveAspectRatio="xMidYMid slice"
+                        />
+                      )}
                     </g>
 
                     {/* Inner 3D Glass Highlight Rim */}
@@ -620,30 +631,39 @@ export default function BCGMatrixView() {
                     />
 
                     {/* Collision-Free Floating Metric Badge */}
-                    <g transform={`translate(${offset.x}, ${offset.y})`} filter="url(#badgeShadow)">
-                      <rect
-                        x="-60"
-                        y="-11"
-                        width="120"
-                        height="22"
-                        rx="11"
-                        fill="#0b0f19"
-                        stroke={firm.color}
-                        strokeOpacity={isSelected ? 1 : 0.8}
-                        strokeWidth={isSelected ? 1.6 : 1.2}
-                      />
-                      <text
-                        x="0"
-                        y="3.5"
-                        textAnchor="middle"
-                        fill="#ffffff"
-                        fontSize="9.5"
-                        fontFamily="system-ui, sans-serif"
-                        fontWeight="bold"
-                      >
-                        {firm.name} &bull; ₹{firm.revenue}Cr
-                      </text>
-                    </g>
+                    {(() => {
+                      const shortName = firm.id.includes('swiggy') ? 'Swiggy' : firm.name;
+                      const badgeLabel = `${shortName} • ₹${firm.revenue}Cr`;
+                      const badgeWidth = Math.max(122, badgeLabel.length * 6.8 + 24);
+                      const halfW = badgeWidth / 2;
+
+                      return (
+                        <g transform={`translate(${offset.x}, ${offset.y})`} filter="url(#badgeShadow)">
+                          <rect
+                            x={-halfW}
+                            y="-11"
+                            width={badgeWidth}
+                            height="22"
+                            rx="11"
+                            fill="#0b0f19"
+                            stroke={firm.color}
+                            strokeOpacity={isSelected ? 1 : 0.8}
+                            strokeWidth={isSelected ? 1.6 : 1.2}
+                          />
+                          <text
+                            x="0"
+                            y="3.5"
+                            textAnchor="middle"
+                            fill="#ffffff"
+                            fontSize="9.5"
+                            fontFamily="system-ui, sans-serif"
+                            fontWeight="bold"
+                          >
+                            {shortName} &bull; ₹{firm.revenue}Cr
+                          </text>
+                        </g>
+                      );
+                    })()}
                   </g>
                 );
               })}

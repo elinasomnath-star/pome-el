@@ -35,7 +35,7 @@ export default function ValidationView() {
   const activeEvent = events.find(e => e.id === selectedEventId) || events[0];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-6">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
       
       {/* Title & Header - 2-Tier consistent layout */}
       <div className="space-y-4 pb-5 border-b border-slate-800/80">
@@ -223,9 +223,9 @@ export default function ValidationView() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
                     {ev.id === 'event_3_platform_fee_hikes' ? (
-                      <div className="flex items-center -space-x-1.5 shrink-0">
-                        <CompanyBrandIcon id="swiggy_instamart" className="w-6 h-6 ring-2 ring-dark-900 rounded-lg" showBg={true} />
-                        <CompanyBrandIcon id="bigbasket_now" className="w-6 h-6 ring-2 ring-dark-900 rounded-lg" showBg={true} />
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <CompanyBrandIcon id="swiggy_instamart" className="w-6 h-6" showBg={true} />
+                        <CompanyBrandIcon id="bigbasket_now" className="w-6 h-6" showBg={true} />
                       </div>
                     ) : (
                       <CompanyBrandIcon
@@ -268,19 +268,31 @@ export default function ValidationView() {
         className="p-6 sm:p-8 border border-slate-800 bg-dark-900/90 rounded-2xl space-y-6 shadow-2xl w-full"
       >
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-          <div className="flex items-center gap-3.5">
-            <CompanyBrandIcon
-              id={activeEvent.id.includes('blinkit') ? 'blinkit' : activeEvent.id.includes('zepto') ? 'zepto' : 'swiggy_instamart'}
-              className="w-11 h-11"
-              showBg={true}
-            />
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-mono uppercase text-cyan-400 font-bold">{activeEvent.splitLabel}</span>
-                <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+          <div className="flex items-center gap-4">
+            {activeEvent.id === 'event_3_platform_fee_hikes' ? (
+              <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-dark-950 border border-slate-800 shrink-0 shadow-sm">
+                <CompanyBrandIcon id="swiggy_instamart" className="w-10 h-10" showBg={true} />
+                <CompanyBrandIcon id="bigbasket_now" className="w-10 h-10" showBg={true} />
               </div>
-              <h3 className="text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
+            ) : (
+              <CompanyBrandIcon
+                id={activeEvent.id.includes('blinkit') ? 'blinkit' : 'zepto'}
+                className="w-12 h-12 shrink-0"
+                showBg={true}
+              />
+            )}
+            <div>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="text-xs font-mono uppercase text-cyan-400 font-bold tracking-wider">{activeEvent.splitLabel}</span>
+                <span className="text-xs text-slate-500 font-mono">&bull; {activeEvent.date}</span>
+                {activeEvent.id === 'event_3_platform_fee_hikes' && (
+                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-300 border border-orange-500/30 font-semibold">
+                    Swiggy Instamart & BigBasket (BB Now) Empirical Evidence
+                  </span>
+                )}
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white font-sans">{activeEvent.title}</h3>
             </div>
           </div>
 
@@ -307,29 +319,29 @@ export default function ValidationView() {
           </h5>
 
           <div className="overflow-x-auto rounded-xl border border-slate-800 bg-dark-950/90 shadow-sm">
-            <table className="w-full text-left text-xs font-mono table-fixed">
+            <table className="w-full text-left text-xs font-mono min-w-[960px]">
               <thead>
-                <tr className="border-b border-slate-800 text-slate-400 bg-dark-900/60">
-                  <th className="py-3 px-4 w-[18%]">Tracked Dimension</th>
-                  <th className="py-3 px-4 w-[18%]">Predicted Direction</th>
-                  <th className="py-3 px-4 w-[26%]">Actual Realized Outcome</th>
-                  <th className="py-3 px-4 text-center w-[12%]">Concordance</th>
-                  <th className="py-3 px-4 w-[26%]">Evidence & Citation</th>
+                <tr className="border-b border-slate-800 text-slate-400 bg-dark-900/60 font-sans uppercase tracking-wider text-[11px]">
+                  <th className="py-3.5 px-5 w-[20%]">Tracked Dimension</th>
+                  <th className="py-3.5 px-5 w-[18%]">Predicted Direction</th>
+                  <th className="py-3.5 px-5 w-[26%]">Actual Realized Outcome</th>
+                  <th className="py-3.5 px-5 text-center w-[11%]">Concordance</th>
+                  <th className="py-3.5 px-5 w-[25%]">Statutory Citation & Source</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-slate-200">
                 {activeEvent.trackedMetrics.map((m, mIdx) => (
                   <tr key={mIdx} className="hover:bg-dark-800/40 transition-colors">
-                    <td className="py-4 px-4 font-semibold text-white align-top">
+                    <td className="py-4 px-5 font-semibold text-white align-top">
                       <div className="font-sans font-bold text-sm text-white mb-0.5">{m.metric}</div>
                     </td>
-                    <td className="py-4 px-4 text-cyan-300 align-top">
+                    <td className="py-4 px-5 text-cyan-300 align-top">
                       <span className="font-mono text-xs leading-relaxed">{m.predictedDirection}</span>
                     </td>
-                    <td className="py-4 px-4 text-slate-200 font-sans text-xs sm:text-sm leading-relaxed align-top">
+                    <td className="py-4 px-5 text-slate-200 font-sans text-xs sm:text-sm leading-relaxed align-top">
                       {m.actualOutcome || m.actualDirection}
                     </td>
-                    <td className="py-4 px-4 text-center align-top">
+                    <td className="py-4 px-5 text-center align-top">
                       {m.match ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
                           <CheckCircle2 className="w-3.5 h-3.5" /> MATCH
@@ -340,7 +352,7 @@ export default function ValidationView() {
                         </span>
                       )}
                     </td>
-                    <td className="py-4 px-4 space-y-1.5 align-top">
+                    <td className="py-4 px-5 space-y-2 align-top">
                       <div>
                         {m.isVerified ? (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
@@ -354,7 +366,7 @@ export default function ValidationView() {
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-slate-300 font-sans leading-snug">
+                      <div className="text-[11.5px] text-slate-200 font-sans leading-snug">
                         <strong>{m.sourceName}</strong> &bull; <span className="text-slate-400 font-mono text-[10px]">{m.date}</span>
                       </div>
                       <div className="text-[11px] font-mono">
