@@ -36,40 +36,59 @@ export default function ValidationView() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-56">
       
-      {/* Title & Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-        <div>
+      {/* Title & Header - 2-Tier consistent layout */}
+      <div className="space-y-4 pb-5 border-b border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shrink-0">
               <FileCheck className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white tracking-tight">
                   Empirical Plausibility & Calibration Audit
                 </h2>
-                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold whitespace-nowrap">
                   N=3 Historical Events
                 </span>
               </div>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-sans">
                 Directional backtest comparing model logic against 3 historical Indian quick commerce events with an Event 1 calibration split.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Honest Metric & Verification Counts */}
-        <div className="px-5 py-3 rounded-2xl bg-dark-800/90 border border-slate-700 font-mono text-xs text-slate-200 space-y-1 text-right shadow-sm">
-          <div className="flex items-center justify-end gap-2 text-emerald-400 font-bold text-sm">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>{summary.transparentCountText}</span>
+        {/* Controls Ribbon */}
+        <div className="p-2.5 rounded-xl bg-dark-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Filter tabs */}
+          <div className="flex items-center p-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono shadow-sm">
+            {[
+              { key: 'all', label: 'All Events' },
+              { key: 'in_sample', label: 'In-Sample Calibration' },
+              { key: 'out_of_sample', label: 'Out-of-Sample Test' },
+            ].map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setSplitFilter(tab.key)}
+                className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer ${
+                  splitFilter === tab.key ? 'bg-emerald-600 text-white font-bold shadow-md' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
-          <div className="text-xs text-cyan-300 font-sans">
-            {summary.verificationText}
-          </div>
-          <div className="text-[11px] text-slate-400 font-sans">
-            Calibrate vs Test Split: 4/4 in-sample &bull; 8/8 out-of-sample
+
+          {/* Verification summary pill */}
+          <div className="flex items-center gap-3 text-xs font-mono flex-wrap">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-950 border border-emerald-500/30 text-emerald-400 font-bold">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{summary.transparentCountText}</span>
+            </div>
+            <div className="px-3 py-2 rounded-xl bg-dark-950 border border-slate-800 text-slate-400">
+              Calibrate vs Test: <span className="text-cyan-300 font-bold">4/4 in-sample · 8/8 out-of-sample</span>
+            </div>
           </div>
         </div>
       </div>

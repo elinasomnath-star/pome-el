@@ -109,48 +109,53 @@ export default function OrgDesignView() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-52">
       
-      {/* Title & Header - De-cramped with Generous Breathing Room */}
-      <div className="space-y-3 pb-5 border-b border-slate-800/80">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Title & Header - 2-Tier consistent layout */}
+      <div className="space-y-4 pb-5 border-b border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shrink-0">
               <Network className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white tracking-tight">
                   Organizational Architecture & Scalar Modeler
                 </h2>
-                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span className="text-xs px-2.5 py-0.5 rounded-full font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold whitespace-nowrap">
                   Gulick &bull; Fayol &bull; Burns & Stalker
                 </span>
               </div>
-              <p className="text-sm text-slate-400 mt-1 font-sans">
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-sans">
                 Model management tiers with Fayol's Scalar Chain: <span className="font-mono text-cyan-300 font-bold">L = ⌈log<sub>S</sub>(N)⌉</span> and Burns & Stalker mechanistic friction.
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Quick Company Selector & Archetype Badge */}
-          <div className="flex items-center gap-2.5 self-start md:self-auto flex-wrap">
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-dark-950 border border-slate-800">
-              {baselineCompanies.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setSelectedCompanyId(c.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-                    selectedCompanyId === c.id
-                      ? 'bg-emerald-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-white hover:bg-dark-800'
-                  }`}
-                  title={`Load ${c.name} organizational structure baseline`}
-                >
-                  <CompanyBrandIcon id={c.id} className="w-3.5 h-3.5" showBg={false} />
-                  <span>{c.name}</span>
-                </button>
-              ))}
-            </div>
-            <div className="px-3 py-1.5 rounded-xl bg-dark-800 border border-slate-700 text-xs font-mono shadow-sm">
+        {/* Controls Ribbon */}
+        <div className="p-2.5 rounded-xl bg-dark-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Company Switcher */}
+          <div className="flex items-center p-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono shadow-sm">
+            {baselineCompanies.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setSelectedCompanyId(c.id)}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg transition-all cursor-pointer ${
+                  selectedCompanyId === c.id
+                    ? 'bg-emerald-600 text-white font-bold shadow-md'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title={`Load ${c.name} organizational structure baseline`}
+              >
+                <CompanyBrandIcon id={c.id} className="w-3.5 h-3.5" showBg={false} />
+                <span>{c.name}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Archetype + View toggle */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <div className="px-3 py-2 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono">
               <span className="text-slate-400">Archetype: </span>
               <strong className={`font-bold ml-1 ${
                 orgMetrics.mechanisticScore >= 65 ? 'text-rose-400' :
@@ -158,6 +163,24 @@ export default function OrgDesignView() {
               }`}>
                 {orgConfig.archetypeLabel || orgMetrics.orgType}
               </strong>
+            </div>
+            <div className="flex items-center p-1 rounded-xl bg-dark-950 border border-slate-800 text-xs font-mono shadow-sm">
+              <button
+                onClick={() => setViewMode('scalar')}
+                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  viewMode === 'scalar' ? 'bg-emerald-600 text-white font-bold shadow-md' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Scalar Chain
+              </button>
+              <button
+                onClick={() => setViewMode('tree')}
+                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  viewMode === 'tree' ? 'bg-emerald-600 text-white font-bold shadow-md' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Org Tree
+              </button>
             </div>
           </div>
         </div>
