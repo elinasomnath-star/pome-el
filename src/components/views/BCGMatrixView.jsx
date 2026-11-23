@@ -3,7 +3,10 @@ import { useSimStore } from '../../store/useSimStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
-import CompanyBrandIcon from '../common/CompanyBrandIcon';
+import CompanyBrandIcon, { BRAND_ASSETS } from '../common/CompanyBrandIcon';
+
+const BASE = import.meta.env.BASE_URL || '/';
+const cleanBase = BASE.endsWith('/') ? BASE : `${BASE}/`;
 import {
   Zap,
   HelpCircle,
@@ -36,19 +39,19 @@ export default function BCGMatrixView() {
 
   // Balanced SVG Canvas Dimensions for Optimal Legibility and Vertical Clearance
   const svgWidth = 860;
-  const svgHeight = 510;
+  const svgHeight = 540;
   const paddingLeft = 74;
   const paddingRight = 60;
   const paddingTop = 42;
   const paddingBottom = 52;
 
   const usableWidth = svgWidth - paddingLeft - paddingRight;   // 726px
-  const usableHeight = svgHeight - paddingTop - paddingBottom; // 416px
+  const usableHeight = svgHeight - paddingTop - paddingBottom; // 446px
 
   // Balanced 2x2 Threshold Centerpoints
-  // Places RMS = 1.0x at 52% width, Growth = 20% benchmark at 50% height
+  // Places RMS = 1.0x at 52% width, Growth = 20% benchmark at 48% height
   const thresholdX = paddingLeft + usableWidth * 0.52;
-  const thresholdY = paddingTop + usableHeight * 0.50;
+  const thresholdY = paddingTop + usableHeight * 0.48;
 
   // Piecewise Logarithmic & Proportional Coordinate Mapping
   // Ensures ALL 4 quadrants have generous, balanced screen space and zero awkward squishing
@@ -76,9 +79,9 @@ export default function BCGMatrixView() {
       const norm = safeGrowth / 20.0; // 0 to 1
       return (svgHeight - paddingBottom) - norm * (svgHeight - paddingBottom - thresholdY);
     } else {
-      // 20% to 135% mapped to top half [paddingTop + 24 ... thresholdY]
-      const norm = (safeGrowth - 20.0) / 115.0; // 0 to 1
-      return thresholdY - norm * (thresholdY - (paddingTop + 24));
+      // 20% to 135% mapped to top half with comfortable spacing
+      const norm = Math.pow((safeGrowth - 20.0) / 115.0, 0.88);
+      return thresholdY - norm * (thresholdY - (paddingTop + 30));
     }
   };
 
@@ -135,25 +138,25 @@ export default function BCGMatrixView() {
   const getBadgeOffset = (firmId, radius) => {
     switch (firmId) {
       case 'zepto':
-        // Zepto badge placed cleanly above its bubble inside ample headroom
-        return { x: 0, y: -radius - 12 };
+        // Zepto placed cleanly above bubble
+        return { x: 0, y: -radius - 14 };
       case 'swiggy_instamart':
       case 'swiggy':
-        // Swiggy is at y ~220; place badge cleanly BELOW bubble, sitting safely above 20% line
-        return { x: 0, y: radius + 14 };
+        // Swiggy placed cleanly below bubble
+        return { x: 0, y: radius + 15 };
       case 'bigbasket_now':
       case 'bb_now':
-        // BB Now is at y ~250; place badge cleanly ABOVE bubble so it never touches 20% line
+        // BB Now placed cleanly above bubble
         return { x: 0, y: -radius - 14 };
       case 'blinkit':
       default:
-        // Blinkit is in Stars; place badge cleanly BELOW bubble
-        return { x: 0, y: radius + 14 };
+        // Blinkit placed cleanly below bubble
+        return { x: 0, y: radius + 16 };
     }
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-52">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 pb-4">
       
       {/* Title & Header - Elegant 2-Tier Layout with Dedicated Ribbon */}
       <div className="space-y-3 pb-4 border-b border-slate-800/80">
@@ -303,6 +306,16 @@ export default function BCGMatrixView() {
                 <filter id="bubbleShadow" x="-30%" y="-30%" width="160%" height="160%">
                   <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000000" floodOpacity="0.8" />
                 </filter>
+
+                {/* Circular Clip Paths for Perfectly Neat Bubble Avatars */}
+                {bcgMetrics.map(firm => {
+                  const r = Math.max(26, Math.min(38, Math.sqrt(firm.revenue) * 0.48));
+                  return (
+                    <clipPath key={`bcg-clip-${firm.id}`} id={`bcg-clip-${firm.id}`}>
+                      <circle cx="0" cy="0" r={r} />
+                    </clipPath>
+                  );
+                })}
               </defs>
 
               {/* ================= 4 DISTINCT QUADRANT CARDS ================= */}
@@ -514,10 +527,11 @@ export default function BCGMatrixView() {
                 const rawCx = mapX(firm.relativeMarketShare);
                 const rawCy = mapY(firm.effectiveGrowthRate);
                 // Scaled radius based on FY24 Revenue
-                const radius = Math.max(26, Math.min(40, Math.sqrt(firm.revenue) * 0.50));
+                const radius = Math.max(26, Math.min(38, Math.sqrt(firm.revenue) * 0.48));
                 const isSelected = firm.id === selectedCompanyId;
                 const isHovered = hoveredFirm?.id === firm.id;
                 const offset = getBadgeOffset(firm.id, radius);
+                const asset = BRAND_ASSETS[firm.id] || BRAND_ASSETS[firm.id.replace('_now', '')] || BRAND_ASSETS.blinkit;
 
                 // Hard mathematical clamping: guarantees NO bubble ever leaves the canvas or clips boundaries
                 const minCx = paddingLeft + radius + 10;
@@ -535,68 +549,78 @@ export default function BCGMatrixView() {
                     onMouseEnter={() => setHoveredFirm(firm)}
                     onMouseLeave={() => setHoveredFirm(null)}
                     className="cursor-pointer group"
+                    transform={`translate(${cx}, ${cy})`}
                   >
                     {/* Pulsing Selection Halo */}
                     {isSelected && (
                       <circle
-                        cx={cx}
-                        cy={cy}
+                        cx="0"
+                        cy="0"
                         r={radius + 8}
                         fill="none"
                         stroke={firm.color}
                         strokeWidth="2.5"
-                        strokeOpacity="0.8"
-                        strokeDasharray="4 2"
+                        strokeOpacity="0.85"
+                        strokeDasharray="5 3"
                         className="animate-spin"
-                        style={{ transformOrigin: `${cx}px ${cy}px`, animationDuration: '10s' }}
+                        style={{ transformOrigin: '0px 0px', animationDuration: '12s' }}
                       />
                     )}
 
                     {/* Ambient Glow */}
                     <circle
-                      cx={cx}
-                      cy={cy}
+                      cx="0"
+                      cy="0"
                       r={radius + 5}
                       fill={firm.color}
-                      opacity={isHovered ? 0.35 : 0.18}
+                      opacity={isHovered ? 0.35 : 0.16}
                       className="transition-all duration-300"
                     />
 
-                    {/* Core Solid Bubble with Glass Surface */}
+                    {/* Core Solid Bubble Bezel */}
                     <circle
-                      cx={cx}
-                      cy={cy}
-                      r={radius}
-                      fill="#0d1322"
+                      cx="0"
+                      cy="0"
+                      r={radius + 2}
+                      fill="#0b0f19"
                       stroke={firm.color}
                       strokeWidth={isSelected ? 3.5 : 2}
                       filter="url(#bubbleShadow)"
                       className="transition-all duration-300 group-hover:scale-105"
                     />
+
+                    {/* Real Company Brand Icon - Perfectly Clipped Circle */}
+                    <g clipPath={`url(#bcg-clip-${firm.id})`}>
+                      <rect
+                        x={-radius}
+                        y={-radius}
+                        width={radius * 2}
+                        height={radius * 2}
+                        fill={firm.color}
+                      />
+                      <image
+                        href={asset.icon}
+                        x={-radius}
+                        y={-radius}
+                        width={radius * 2}
+                        height={radius * 2}
+                        preserveAspectRatio="xMidYMid slice"
+                      />
+                    </g>
+
+                    {/* Inner 3D Glass Highlight Rim */}
                     <circle
-                      cx={cx}
-                      cy={cy}
-                      r={radius - 2}
-                      fill={firm.color}
-                      fillOpacity="0.88"
+                      cx="0"
+                      cy="0"
+                      r={radius}
+                      fill="none"
+                      stroke="rgba(255, 255, 255, 0.35)"
+                      strokeWidth="1.2"
+                      style={{ pointerEvents: 'none' }}
                     />
 
-                    {/* Company Vector Brand Icon Centered - Using 40x40 foreignObject */}
-                    <foreignObject
-                      x={cx - 20}
-                      y={cy - 20}
-                      width="40"
-                      height="40"
-                      style={{ overflow: 'visible', pointerEvents: 'none' }}
-                      className="select-none"
-                    >
-                      <div className="w-10 h-10 flex items-center justify-center">
-                        <CompanyBrandIcon id={firm.id} className="w-10 h-10" showBg={true} />
-                      </div>
-                    </foreignObject>
-
                     {/* Collision-Free Floating Metric Badge */}
-                    <g transform={`translate(${cx + offset.x}, ${cy + offset.y})`} filter="url(#badgeShadow)">
+                    <g transform={`translate(${offset.x}, ${offset.y})`} filter="url(#badgeShadow)">
                       <rect
                         x="-60"
                         y="-11"
@@ -605,8 +629,8 @@ export default function BCGMatrixView() {
                         rx="11"
                         fill="#0b0f19"
                         stroke={firm.color}
-                        strokeOpacity="0.8"
-                        strokeWidth="1.2"
+                        strokeOpacity={isSelected ? 1 : 0.8}
+                        strokeWidth={isSelected ? 1.6 : 1.2}
                       />
                       <text
                         x="0"
@@ -615,9 +639,9 @@ export default function BCGMatrixView() {
                         fill="#ffffff"
                         fontSize="9.5"
                         fontFamily="system-ui, sans-serif"
-                        fontWeight="700"
+                        fontWeight="bold"
                       >
-                        {firm.name.split(' ')[0]} &bull; <tspan fill={firm.color}>₹{firm.revenue}Cr</tspan>
+                        {firm.name} &bull; ₹{firm.revenue}Cr
                       </text>
                     </g>
                   </g>

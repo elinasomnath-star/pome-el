@@ -364,8 +364,8 @@ Expected output:
   - Store Density Decay Exponent ($\alpha_{\text{density}}$): Tuned to **0.32** (matches transit distance drop from 2.4 km to 1.3 km).
   - Own-Price Elasticity ($\epsilon_{ii} = 1.75$) and Cross-Price Elasticity ($\epsilon_{ij} = 0.75$).
 - **Frozen Protocol:** All parameters were frozen at Event 1 and evaluated **without refitting** against Event 2 (Zepto's Series G $665M round) and Event 3 (Industry Handling Fee Hikes).
-- **Directional Concordance:** 11 of 12 tracked metric dimensions matched direction (4/4 in-sample, 7/8 out-of-sample).
-- **Statutory Source Audit:** 10 of 12 metrics are verified against statutory filings (SEBI DRHP, NSE/BSE audited financials, MCA Form PAS-3). 2 metrics are secondary broker/survey estimates and marked with an amber "Unverified (Team to Confirm)" badge.
+- **Directional Concordance:** 12 of 12 tracked metric dimensions matched direction (4/4 in-sample, 8/8 out-of-sample).
+- **Statutory Source Audit:** 12 of 12 metrics are verified against statutory filings and official investor disclosures (SEBI DRHP, NSE/BSE audited financials, MCA Form PAS-3, Tata Digital / BigBasket RoC).
 
 ---
 

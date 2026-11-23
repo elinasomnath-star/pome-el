@@ -152,7 +152,7 @@ export default function MethodologyView() {
   const ActiveIcon = activeFramework.icon;
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-52 print:p-0 print:bg-white print:text-black">
+    <div className="space-y-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-6 print:p-0 print:bg-white print:text-black">
 
       {/* Page Title & Export Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800 print:border-b-2 print:border-black">

@@ -19,9 +19,13 @@ const SHOTS = [
   { tabId: 'hero',        file: '01_landing_hero.png',        url: 'http://localhost:5173/', waitText: 'Strategy Under Fire' },
   { tabId: 'overview',    file: '02_overview_dashboard.png',   waitText: 'Executive Overview' },
   { tabId: 'bcg',         file: '03_bcg_matrix.png',          waitText: 'BCG Growth-Share Matrix' },
+  { tabId: 'forces',      file: '04_five_forces_radar.png',    waitText: "Porter's Five Forces" },
+  { tabId: 'shocks',      file: '05_macro_shock_lab.png',      waitText: 'Macro Shock Laboratory' },
   { tabId: 'pricewar',    file: '06_bertrand_price_war.png',  waitText: 'Bertrand Oligopoly Price War' },
   { tabId: 'org',         file: '07_org_scalar_chain.png',    waitText: 'Organizational Architecture' },
   { tabId: 'recommender', file: '08_strategy_recommender.png',waitText: 'Strategic Imperative' },
+  { tabId: 'montecarlo',  file: '09_monte_carlo_risk.png',     waitText: 'Monte Carlo Stress Simulation' },
+  { tabId: 'elasticity',  file: '10_elasticity_solver.png',    waitText: 'Price Elasticity' },
   { tabId: 'validation',  file: '11_empirical_validation.png', waitText: 'Empirical Plausibility' },
   { tabId: 'methodology', file: '12_methodology_export.png',   waitText: 'Official Brand Logo Credits' },
 ];

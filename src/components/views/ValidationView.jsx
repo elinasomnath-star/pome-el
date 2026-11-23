@@ -35,7 +35,7 @@ export default function ValidationView() {
   const activeEvent = events.find(e => e.id === selectedEventId) || events[0];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-56">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-6">
       
       {/* Title & Header - 2-Tier consistent layout */}
       <div className="space-y-4 pb-5 border-b border-slate-800/80">
@@ -220,14 +220,21 @@ export default function ValidationView() {
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <CompanyBrandIcon
-                      id={ev.id.includes('blinkit') ? 'blinkit' : ev.id.includes('zepto') ? 'zepto' : 'swiggy_instamart'}
-                      className="w-7 h-7"
-                      showBg={true}
-                    />
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold ${
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    {ev.id === 'event_3_platform_fee_hikes' ? (
+                      <div className="flex items-center -space-x-1.5 shrink-0">
+                        <CompanyBrandIcon id="swiggy_instamart" className="w-6 h-6 ring-2 ring-dark-900 rounded-lg" showBg={true} />
+                        <CompanyBrandIcon id="bigbasket_now" className="w-6 h-6 ring-2 ring-dark-900 rounded-lg" showBg={true} />
+                      </div>
+                    ) : (
+                      <CompanyBrandIcon
+                        id={ev.id.includes('blinkit') ? 'blinkit' : 'zepto'}
+                        className="w-7 h-7 shrink-0"
+                        showBg={true}
+                      />
+                    )}
+                    <span className={`text-[9.5px] font-mono px-2 py-0.5 rounded border uppercase font-bold tracking-tight whitespace-nowrap shrink-0 ${
                       isCalibration
                         ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40'
                         : 'bg-pink-950/60 text-pink-300 border-pink-500/40'
@@ -235,7 +242,7 @@ export default function ValidationView() {
                       {ev.splitLabel}
                     </span>
                   </div>
-                  <span className="text-xs font-mono font-bold text-emerald-400">
+                  <span className="text-xs font-mono font-bold text-emerald-400 shrink-0">
                     {ev.metricsMatched}/{ev.metricsTotal} Matched
                   </span>
                 </div>

@@ -76,6 +76,8 @@ const BRAND_ASSETS = {
   },
 };
 
+export { BRAND_ASSETS };
+
 export default function CompanyBrandIcon({
   id,
   className = 'w-6 h-6',
