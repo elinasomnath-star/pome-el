@@ -369,22 +369,23 @@ export default function ValidationView() {
                       <div className="text-[11.5px] text-slate-200 font-sans leading-snug">
                         <strong>{m.sourceName}</strong> &bull; <span className="text-slate-400 font-mono text-[10px]">{m.date}</span>
                       </div>
-                      <div className="text-[11px] font-mono">
-                        {m.sourceUrl ? (
-                          <a
-                            href={m.sourceUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 underline cursor-pointer hover:drop-shadow leading-tight group"
-                            title={`Open official statutory source: ${m.sourceUrlOrReference}`}
-                          >
-                            <span className="group-hover:text-cyan-200">{m.sourceUrlOrReference}</span>
-                            <ExternalLink className="w-3.5 h-3.5 shrink-0 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
-                          </a>
-                        ) : (
-                          <span className="text-slate-400 leading-tight block" title={m.sourceUrlOrReference}>
-                            {m.sourceUrlOrReference}
-                          </span>
+                      <div className="space-y-1.5">
+                        <div className="text-[11px] font-sans text-slate-300 leading-relaxed">
+                          {m.sourceUrlOrReference}
+                        </div>
+                        {m.sourceUrl && (
+                          <div>
+                            <a
+                              href={m.sourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-500/40 text-cyan-300 hover:text-cyan-100 text-[11px] font-mono font-medium shadow-sm hover:border-cyan-400 transition-all cursor-pointer group"
+                              title={`Open official statutory source: ${m.sourceUrl}`}
+                            >
+                              <span>{m.sourceUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span>
+                              <ExternalLink className="w-3.5 h-3.5 shrink-0 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
+                            </a>
+                          </div>
                         )}
                       </div>
                     </td>
