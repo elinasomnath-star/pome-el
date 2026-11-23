@@ -30,7 +30,7 @@
           "match": true,
           "sourceName": "Bernstein Institutional Equity Research",
           "sourceUrlOrReference": "Bernstein Institutional Report: 'Quick Commerce in India: The Winner Takes Most' (March 2024)",
-          "sourceUrl": "https://www.bernsteinresearch.com",
+          "sourceUrl": "https://www.bernstein.com",
           "date": "March 2024",
           "isVerified": true
         },
@@ -52,7 +52,7 @@
           "match": true,
           "sourceName": "Zepto & Swiggy Official Funding Press Releases & RoC Disclosures",
           "sourceUrlOrReference": "Zepto Series G PR & Swiggy SEBI Draft Red Herring Prospectus (DRHP, Sep 2024)",
-          "sourceUrl": "https://www.swiggy.com/corporate/",
+          "sourceUrl": "https://www.swiggy.com/corporate/investor-relations",
           "date": "June - September 2024",
           "isVerified": true
         }
@@ -81,7 +81,7 @@
           "match": true,
           "sourceName": "Entrackr Research & RoC MCA Filings",
           "sourceUrlOrReference": "Entrackr Financial Report on Quick Commerce FY24 & RoC Annual Filings",
-          "sourceUrl": "https://www.zeptonow.com",
+          "sourceUrl": "https://entrackr.com",
           "date": "July 2024",
           "isVerified": true
         },
@@ -103,7 +103,7 @@
           "match": true,
           "sourceName": "Zepto Statutory MCA Form PAS-3 & Venture Disclosures",
           "sourceUrlOrReference": "Zepto (KiranaKart Technologies Pvt Ltd) Form PAS-3 Allotment Filings with Ministry of Corporate Affairs (MCA)",
-          "sourceUrl": "https://www.zeptonow.com",
+          "sourceUrl": "https://www.mca.gov.in",
           "date": "June 2024",
           "isVerified": true
         },
@@ -114,7 +114,7 @@
           "match": true,
           "sourceName": "Goldman Sachs Equity Research & In-App Telemetry Invoices",
           "sourceUrlOrReference": "Goldman Sachs Global Investment Research: 'India Internet - Quick Commerce Economics' (July 2024)",
-          "sourceUrl": "https://www.goldmansachs.com",
+          "sourceUrl": "https://www.goldmansachs.com/insights/",
           "date": "July 2024",
           "isVerified": true
         }
@@ -144,7 +144,7 @@
           "match": true,
           "sourceName": "Consumer App Order Invoices, SEBI Prospectus & Tata Digital / BigBasket RoC",
           "sourceUrlOrReference": "Swiggy Ltd SEBI DRHP (Sep 2024), Blinkit Invoices & Innovative Retail Concepts (BigBasket) RoC Filings FY24",
-          "sourceUrl": "https://www.tatadigital.com",
+          "sourceUrl": "https://www.swiggy.com/corporate/investor-relations",
           "date": "September 2024",
           "isVerified": true
         },
@@ -166,7 +166,7 @@
           "match": true,
           "sourceName": "Motilal Oswal Financial Services & Tata Sons / BigBasket Investor Presentations",
           "sourceUrlOrReference": "Motilal Oswal Quick Commerce Financial Model & Tata Consumer Products / BigBasket RoC Financials FY24 Note 22",
-          "sourceUrl": "https://www.tatadigital.com",
+          "sourceUrl": "https://www.tataconsumer.com/investors",
           "date": "May 2024",
           "isVerified": true
         },
@@ -177,7 +177,7 @@
           "match": true,
           "sourceName": "Redseer Strategy Consultants & BigBasket Consumer Research",
           "sourceUrlOrReference": "Redseer Quick Commerce Consumer Pulse Report & BigBasket Consumer Retention Study (Jan 2024)",
-          "sourceUrl": "https://redseer.com",
+          "sourceUrl": "https://redseer.com/reports/",
           "date": "January 2024",
           "isVerified": true
         }
