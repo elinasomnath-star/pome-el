@@ -14,7 +14,7 @@
 
 **StratSim: Strategy under Shock** is an interactive, fully client-side strategy simulator modeling the fierce oligopolistic battle for India's 10-minute grocery delivery market between **Blinkit (Zomato)**, **Zepto**, **Swiggy Instamart**, and **BigBasket Now (Tata)**. 
 
-Built to teach core concepts in **Principles of Management & Economics (POME)**, the platform connects classical and modern management frameworks with microeconomic pricing mechanics:
+Built to demonstrate core concepts in **Principles of Management & Economics (POME)**, the platform connects classical and modern management frameworks with microeconomic pricing mechanics:
 1. **BCG Growth-Share Matrix** (Henderson, 1970) with dynamic shock shifts.
 2. **Porter's Five Forces & Industry Attractiveness Index** (Porter, 1979, 2008) with deterministic scoring rubric.
 3. **Michael Porter's Generic Competitive Strategies** (Cost Leadership, Differentiation, Focus).
