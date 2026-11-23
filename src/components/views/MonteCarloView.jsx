@@ -5,6 +5,7 @@ import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
 import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { computeTornadoSensitivity } from '../../engine/sensitivity';
+import { indianGroup } from '../../utils/formatINR';
 import { Dices, RefreshCw, BarChart2, ShieldCheck, Sparkles, TrendingUp, Sliders, Info } from 'lucide-react';
 
 export default function MonteCarloView() {
@@ -215,7 +216,7 @@ export default function MonteCarloView() {
                 <div className="flex items-baseline justify-between">
                   <div>
                     <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono">
-                      ₹{monteCarloResults.profit.mean.toLocaleString()}
+                      ₹{indianGroup(monteCarloResults.profit.mean)}
                     </div>
                     <div className="text-xs text-slate-400 mt-1 font-mono">Expected Value (EV) Per Round</div>
                   </div>
@@ -318,7 +319,7 @@ export default function MonteCarloView() {
                         </span>
                       </div>
                       <div className="text-xs font-mono text-cyan-300">
-                        Total Swing: <strong className="text-white">{isAttractiveness ? `${item.swing} pts` : `₹${Math.round(item.swing).toLocaleString()}`}</strong>
+                        Total Swing: <strong className="text-white">{isAttractiveness ? `${item.swing} pts` : `₹${indianGroup(Math.round(item.swing))}`}</strong>
                       </div>
                     </div>
 

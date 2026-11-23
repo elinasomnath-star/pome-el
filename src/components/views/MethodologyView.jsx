@@ -4,6 +4,7 @@ import companiesData from '../../data/companies.json';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import DataProvenanceBadge from '../common/DataProvenanceBadge';
 import CompanyBrandIcon from '../common/CompanyBrandIcon';
+import { indianGroup } from '../../utils/formatINR';
 import {
   BookOpen,
   Printer,
@@ -428,7 +429,7 @@ export default function MethodologyView() {
                     {c.marketShare}%
                   </td>
                   <td className="py-4 px-4 font-mono font-bold text-emerald-400 print:text-black text-sm">
-                    ₹{c.revenue.toLocaleString()} Cr
+                    ₹{indianGroup(c.revenue)} Cr
                   </td>
                   <td className="py-4 px-4 font-mono text-slate-300 print:text-black">
                     {c.darkStoreCount} stores

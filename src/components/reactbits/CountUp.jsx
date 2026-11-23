@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { indianGroup } from '../../utils/formatINR';
 
 export default function CountUp({
   to,
@@ -39,7 +40,7 @@ export default function CountUp({
 
   const formatted = decimals > 0
     ? current.toFixed(decimals)
-    : Math.round(current).toLocaleString();
+    : indianGroup(Math.round(current));
 
   return (
     <span className={`tabular-nums font-mono ${className}`}>

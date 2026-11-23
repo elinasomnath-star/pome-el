@@ -7,6 +7,7 @@ import DataProvenanceBadge from '../common/DataProvenanceBadge';
 import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import { computeStrategicHealthScore } from '../../engine/forces';
 import { recommendCompetitiveStrategy } from '../../engine/recommender';
+import { indianGroup } from '../../utils/formatINR';
 import {
   TrendingUp,
   Percent,
@@ -133,7 +134,7 @@ export default function OverviewView() {
           </div>
           <div className="text-xs text-slate-300 mt-3 pt-3 border-t border-slate-800/60 flex items-center justify-between">
             <span>Rank #{currentCompanies.slice().sort((a,b) => b.marketShare - a.marketShare).findIndex(x => x.id === firm.id) + 1} of 4</span>
-            <span className="text-yellow-400 font-mono font-medium">₹{firm.revenue} Cr Revenue</span>
+            <span className="text-yellow-400 font-mono font-medium">₹{indianGroup(firm.revenue)} Cr Revenue</span>
           </div>
         </SpotlightCard>
 

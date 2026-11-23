@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import CompanyBrandIcon, { BRAND_ASSETS } from '../common/CompanyBrandIcon';
+import { indianGroup } from '../../utils/formatINR';
 
 const BASE = import.meta.env.BASE_URL || '/';
 const cleanBase = BASE.endsWith('/') ? BASE : `${BASE}/`;
@@ -244,7 +245,7 @@ export default function BCGMatrixView() {
                   <CompanyBrandIcon id={firm.id} className="w-8 h-8 shrink-0" showBg={true} />
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-white block truncate font-sans">{firm.name}</span>
-                    <span className="text-[10px] text-slate-400 font-mono block">₹{firm.revenue.toLocaleString()} Cr</span>
+                    <span className="text-[10px] text-slate-400 font-mono block">₹{indianGroup(firm.revenue)} Cr</span>
                   </div>
                 </div>
                 <span className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0 border ${
@@ -633,8 +634,8 @@ export default function BCGMatrixView() {
                     {/* Collision-Free Floating Metric Badge */}
                     {(() => {
                       const shortName = firm.id.includes('swiggy') ? 'Swiggy' : firm.name;
-                      const badgeLabel = `${shortName} • ₹${firm.revenue}Cr`;
-                      const badgeWidth = Math.max(122, badgeLabel.length * 6.8 + 24);
+                      const badgeLabel = `${shortName} • ₹${indianGroup(firm.revenue)} Cr`;
+                      const badgeWidth = Math.max(130, badgeLabel.length * 6.8 + 24);
                       const halfW = badgeWidth / 2;
 
                       return (
@@ -659,7 +660,7 @@ export default function BCGMatrixView() {
                             fontFamily="system-ui, sans-serif"
                             fontWeight="bold"
                           >
-                            {shortName} &bull; ₹{firm.revenue}Cr
+                            {shortName} &bull; ₹{indianGroup(firm.revenue)} Cr
                           </text>
                         </g>
                       );
@@ -766,7 +767,7 @@ export default function BCGMatrixView() {
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-slate-400">FY24 Revenue Run-Rate:</span>
-                <span className="font-mono text-amber-400 font-medium">₹{activeFirmBCG.revenue.toLocaleString()} Cr</span>
+                <span className="font-mono text-amber-400 font-medium">₹{indianGroup(activeFirmBCG.revenue)} Cr</span>
               </div>
             </div>
           </div>

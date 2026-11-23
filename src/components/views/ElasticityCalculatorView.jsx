@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SpotlightCard from '../reactbits/SpotlightCard';
 import CountUp from '../reactbits/CountUp';
 import GradientText from '../reactbits/GradientText';
+import { indianGroup } from '../../utils/formatINR';
 import {
   calculateArcDemandElasticity,
   calculatePointDemandElasticity,
@@ -213,10 +214,10 @@ export default function ElasticityCalculatorView() {
               <SpotlightCard spotlightColor="rgba(6, 182, 212, 0.2)" className="p-5 border border-slate-800 bg-dark-900/90 rounded-2xl">
                 <span className="text-xs uppercase font-mono text-slate-400 block mb-1">Total Revenue Test</span>
                 <div className={`text-3xl font-extrabold font-mono ${arcDemand.revenueDelta >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                  {arcDemand.revenueDelta >= 0 ? '+' : ''}₹{arcDemand.revenueDelta.toLocaleString()}
+                  {arcDemand.revenueDelta >= 0 ? '+' : ''}₹{indianGroup(arcDemand.revenueDelta)}
                 </div>
                 <div className="text-xs text-slate-400 font-mono mt-1">
-                  TR₁: ₹{arcDemand.revenue1.toLocaleString()} → TR₂: ₹{arcDemand.revenue2.toLocaleString()}
+                  TR₁: ₹{indianGroup(arcDemand.revenue1)} → TR₂: ₹{indianGroup(arcDemand.revenue2)}
                 </div>
               </SpotlightCard>
             </div>

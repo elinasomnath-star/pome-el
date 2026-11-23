@@ -5,6 +5,7 @@ import CountUp from '../reactbits/CountUp';
 import Stepper from '../reactbits/Stepper';
 import CompanyBrandIcon from '../common/CompanyBrandIcon';
 import confetti from 'canvas-confetti';
+import { indianGroup } from '../../utils/formatINR';
 import {
   Swords,
   Play,
@@ -506,7 +507,7 @@ export default function PriceWarView() {
             </p>
             {!nashStatus.isNash && nashStatus.deviations?.zepto && (
               <div className="text-xs font-mono text-amber-300 mt-2 pt-2 border-t border-amber-500/20">
-                &bull; Zepto Best Response: <strong>₹{nashStatus.deviations.zepto.bestPrice}</strong> (Potential Gain: +₹{Math.round(nashStatus.deviations.zepto.potentialGain).toLocaleString()})
+                &bull; Zepto Best Response: <strong>₹{nashStatus.deviations.zepto.bestPrice}</strong> (Potential Gain: +₹{indianGroup(Math.round(nashStatus.deviations.zepto.potentialGain))})
               </div>
             )}
           </div>
@@ -575,10 +576,10 @@ export default function PriceWarView() {
                       {res.marketSharePercent || 0}%
                     </td>
                     <td className={`py-3.5 px-3 font-bold ${(res.profit || 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      ₹{Math.round(res.profit || 0).toLocaleString()}
+                      ₹{indianGroup(Math.round(res.profit || 0))}
                     </td>
                     <td className={`py-3.5 px-3 font-bold ${cumProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      ₹{Math.round(cumProfit).toLocaleString()}
+                      ₹{indianGroup(Math.round(cumProfit))}
                     </td>
                   </tr>
                 );
