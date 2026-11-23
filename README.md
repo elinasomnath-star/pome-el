@@ -18,9 +18,9 @@ Built to teach core concepts in **Principles of Management & Economics (POME)**,
 1. **BCG Growth-Share Matrix** (Henderson, 1970) with dynamic shock shifts.
 2. **Porter's Five Forces & Industry Attractiveness Index** (Porter, 1979, 2008) with deterministic scoring rubric.
 3. **Michael Porter's Generic Competitive Strategies** (Cost Leadership, Differentiation, Focus).
-4. **Bertrand-Nash Oligopoly Price War** with constant elasticity of demand ($Q = A \cdot P^{-\epsilon}$).
+4. **Bertrand-Nash Oligopoly Price War** with constant elasticity of demand.
 5. **Luther Gulick's POSDCORB** (Planning, Organizing, Staffing, Directing, Coordinating, Reporting, Budgeting).
-6. **Organizational Architecture & Scalar Chains** ($L = \lceil \log_{\text{span}}(N) \rceil$).
+6. **Organizational Architecture & Scalar Chains** using Fayol's management layer formula.
 7. **Classical, Behavioral, Systems, and Contingency Management Schools**.
 8. **Monte Carlo Risk Uncertainty** (1,000 stochastic runs with 5th-95th percentile bounds).
 9. **Tornado Sensitivity Analysis** ranking assumption impact on profit and attractiveness.
@@ -47,13 +47,23 @@ Built to teach core concepts in **Principles of Management & Economics (POME)**,
 
 ### 3. BCG Growth-Share Matrix (Henderson, 1970)
 ![BCG Growth-Share Matrix](./docs/screenshots/03_bcg_matrix.png)
-*Continuous log-scale BCG bubble chart ($RMS \in [0.1\text{x}, 10\text{x}]$, Growth $\in [-20\%, 140\%]$) with dynamically computed quadrant boundaries and empirical competitor strategic dossiers.*
+*Continuous log-scale BCG bubble chart with dynamically computed quadrant boundaries and empirical competitor strategic dossiers.*
+
+> **Relative Market Share formula:**
+> ```math
+> RMS \in [0.1\text{x},\ 10\text{x}], \quad Growth \in [-20\%,\ 140\%]
+> ```
 
 ---
 
 ### 4. Porter's Five Forces & Industry Attractiveness Index
 ![Porter's Five Forces Radar](./docs/screenshots/04_five_forces_radar.png)
-*5-spoke interactive radar polygon calculating Industry Attractiveness Index ($H \in [1, 10]$) with deterministic scoring rubric and weighted sensitivity sliders.*
+*5-spoke interactive radar polygon with deterministic scoring rubric and weighted sensitivity sliders.*
+
+> **Industry Attractiveness Index:**
+> ```math
+> H \in [1,\ 10], \quad H = 10 - \text{weighted average of force scores}
+> ```
 
 ---
 
@@ -65,13 +75,27 @@ Built to teach core concepts in **Principles of Management & Economics (POME)**,
 
 ### 6. Bertrand-Nash Oligopoly Price War Simulator
 ![Bertrand Price War & Demand Curve](./docs/screenshots/06_bertrand_price_war.png)
-*Live microeconomic constant-elasticity demand curve ($Q = A \cdot P^{-\epsilon}$), 12-round multi-firm game, AI pricing strategies (Tit-for-Tat, Grim Trigger, Win-Stay Lose-Shift), and Evaluator Positive Profit showcase preset.*
+*Live microeconomic constant-elasticity demand curve, 12-round multi-firm game, AI pricing strategies (Tit-for-Tat, Grim Trigger, Win-Stay Lose-Shift), and Evaluator Positive Profit showcase preset.*
+
+> **Constant-elasticity demand:**
+> ```math
+> Q = A \cdot P^{-\epsilon}
+> ```
+> **Firm profit:**
+> ```math
+> \Pi = Q(P - c) - F
+> ```
 
 ---
 
 ### 7. Hierarchical Org Architecture & Scalar Chain Analyzer
 ![Hierarchical Org Tree Visualizer](./docs/screenshots/07_org_scalar_chain.png)
-*Henri Fayol's Scalar Chain and Graicunas relationship complexity model ($L = \lceil \log_{\text{span}}(N) \rceil$); visualize dynamic C-Suite to Rider Fleet hierarchy and calculate coordination friction.*
+*Henri Fayol's Scalar Chain and Graicunas relationship complexity model; visualize dynamic C-Suite to Rider Fleet hierarchy and calculate coordination friction.*
+
+> **Management layers (Fayol Scalar Chain):**
+> ```math
+> L = \lceil \log_{\text{span}}(N) \rceil
+> ```
 
 ---
 
@@ -89,7 +113,7 @@ Built to teach core concepts in **Principles of Management & Economics (POME)**,
 
 ### 10. Unit IV Elasticity Numerical Problem Solver
 ![Elasticity Problem Solver](./docs/screenshots/10_elasticity_solver.png)
-*POME examination training tool: step-by-step calculus proofs for Arc and Point Price Elasticity of Demand ($e_d$), Cross-Price Elasticity ($e_{xy}$), and Income Elasticity ($e_y$).*
+*POME examination training tool: step-by-step calculus proofs for Arc and Point Price Elasticity of Demand, Cross-Price Elasticity, and Income Elasticity.*
 
 ---
 
@@ -230,7 +254,7 @@ stratsim-quick-commerce/
 │   │   └── validationEvents.json       # Historical events & calibrate-vs-test split
 │   ├── engine/                         # Pure simulation algorithms (tested)
 │   │   ├── __tests__/
-│   │   │   └── engine.test.js          # Vitest unit test suite (12 passing tests)
+│   │   │   └── engine.test.js          # Vitest unit test suite (23 passing tests)
 │   │   ├── bcg.js                      # Relative share, quadrants, prescriptions
 │   │   ├── caseLayer.js                # POSDCORB & management school tags
 │   │   ├── elasticity.js               # Arc, Point, PES & practice problems
@@ -261,7 +285,7 @@ stratsim-quick-commerce/
 ## 🔍 Data Provenance & How to Update Baseline Data
 
 To update any baseline numbers with newly audited annual reports:
-1. Open [`/src/data/companies.json`](file:///c:/GitHub/pome%20el/src/data/companies.json).
+1. Open [`/src/data/companies.json`](./src/data/companies.json).
 2. Modify the revenue, dark stores, or take-rate figures.
 3. Update the `source`, `year`, `confidence` ("high", "medium", "low"), and set `provenanceType: "verified"`.
 4. The UI automatically displays the corresponding green verified badge.
@@ -284,29 +308,50 @@ Expected output:
 ```
 
 ### Complete Test Inventory (23 Passing Tests):
-1. `BCG Engine`: Calculates Relative Market Share against top competitor ($\text{RMS} = \text{Rev}_i / \max_{j \neq i}\text{Rev}_j$).
-2. `BCG Engine`: Correctly classifies BCG quadrants (Stars, Cash Cows, Question Marks, Dogs).
-3. `BCG Engine`: Computes full BCG metrics for all competing firms.
-4. `Five Forces Engine`: Computes Industry Attractiveness Index as $10 - \text{weighted average}$.
-5. `Five Forces Engine`: Computes Strategic Health Score within $[0, 100]$.
-6. `Rubric Engine`: Maps empirical metrics to continuous force scores via rubric.
-7. `Rubric Engine`: Retrieves all force rubrics with 5 dimensions.
-8. `Shock Lab Engine`: Applies shock deltas and re-normalizes market shares to $100\%$.
-9. `Shock Lab Engine`: Generates an 8-quarter timeline with scaled shock propagation.
-10. `Price War Engine`: Calculates downward sloping demand with own price elasticity.
-11. `Price War Engine`: Computes correct profit formulation $\Pi = Q(P - c) - F$.
-12. `Price War Engine`: Simulates price round returning demand, profit, and market share.
-13. `Price War Engine`: Evaluates Nash equilibrium and unilateral deviation profitability.
-14. `Elasticity Engine`: Computes Arc (Midpoint) Price Elasticity of Demand and revenue impact.
-15. `Elasticity Engine`: Computes Point Elasticity of Demand.
-16. `Elasticity Engine`: Computes Price Elasticity of Supply (PES) for rider incentives.
-17. `Org Design Engine`: Calculates management layers using $L = \lceil \log_{\text{span}}(N) \rceil$.
-18. `Org Design Engine`: Generates organizational tree hierarchy nodes.
-19. `Monte Carlo Engine`: Runs 1,000 stochastic iterations returning empirical percentiles and histograms.
-20. `Monte Carlo Engine`: Produces 100% reproducible results via deterministic Mulberry32 PRNG given a fixed seed.
-21. `Tornado Sensitivity Engine`: Computes assumption swings sorted in descending order of output impact.
-22. `Validation Engine`: Evaluates calibrate-vs-test split and transparent directional metric counts.
-23. `Calibration Engine`: Formally validates Event 1 parameter tuning specifications and frozen values.
+
+1. **BCG Engine**: Calculates Relative Market Share against top competitor.
+
+   ```math
+   RMS = \frac{\text{Rev}_i}{\max_{j \neq i}\text{Rev}_j}
+   ```
+
+2. **BCG Engine**: Correctly classifies BCG quadrants (Stars, Cash Cows, Question Marks, Dogs).
+3. **BCG Engine**: Computes full BCG metrics for all competing firms.
+4. **Five Forces Engine**: Computes Industry Attractiveness Index.
+
+   ```math
+   H = 10 - \text{weighted average of force scores}
+   ```
+
+5. **Five Forces Engine**: Computes Strategic Health Score within [0, 100].
+6. **Rubric Engine**: Maps empirical metrics to continuous force scores via rubric.
+7. **Rubric Engine**: Retrieves all force rubrics with 5 dimensions.
+8. **Shock Lab Engine**: Applies shock deltas and re-normalizes market shares to 100%.
+9. **Shock Lab Engine**: Generates an 8-quarter timeline with scaled shock propagation.
+10. **Price War Engine**: Calculates downward sloping demand with own price elasticity.
+11. **Price War Engine**: Computes correct profit formulation.
+
+    ```math
+    \Pi = Q(P - c) - F
+    ```
+
+12. **Price War Engine**: Simulates price round returning demand, profit, and market share.
+13. **Price War Engine**: Evaluates Nash equilibrium and unilateral deviation profitability.
+14. **Elasticity Engine**: Computes Arc (Midpoint) Price Elasticity of Demand and revenue impact.
+15. **Elasticity Engine**: Computes Point Elasticity of Demand.
+16. **Elasticity Engine**: Computes Price Elasticity of Supply (PES) for rider incentives.
+17. **Org Design Engine**: Calculates management layers using Fayol's Scalar Chain formula.
+
+    ```math
+    L = \lceil \log_{\text{span}}(N) \rceil
+    ```
+
+18. **Org Design Engine**: Generates organizational tree hierarchy nodes.
+19. **Monte Carlo Engine**: Runs 1,000 stochastic iterations returning empirical percentiles and histograms.
+20. **Monte Carlo Engine**: Produces 100% reproducible results via deterministic Mulberry32 PRNG given a fixed seed.
+21. **Tornado Sensitivity Engine**: Computes assumption swings sorted in descending order of output impact.
+22. **Validation Engine**: Evaluates calibrate-vs-test split and transparent directional metric counts.
+23. **Calibration Engine**: Formally validates Event 1 parameter tuning specifications and frozen values.
 
 ---
 
@@ -335,7 +380,7 @@ The Monte Carlo risk lab uses a 32-bit **Mulberry32 pseudorandom number generato
 
 ## ⚠️ Known Limitations & Academic Bounded Scope
 
-1. **Small Sample Size ($N=3$ Events):** Directional backtesting against 3 macro episodes demonstrates qualitative economic plausibility, not asymptotic econometric forecasting.
+1. **Small Sample Size (N = 3 Events):** Directional backtesting against 3 macro episodes demonstrates qualitative economic plausibility, not asymptotic econometric forecasting.
 2. **City-Level Spatial Aggregation:** Dark stores operate within hyper-local 1.5 km radial catchments; city-wide aggregation ignores neighborhood-level sub-monopolies.
 3. **Seasonal & Climate Rider Elasticity:** Monsoons and heatwaves induce non-linear spikes in rider incentive costs not fully captured by static supply elasticities.
 4. **Non-Price Differentiation:** The Price War simulator assumes price and handling fee are the primary strategic levers; in reality, platforms also differentiate on delivery speed (sub-10m), SKU assortment, and private label / cafe categories.
