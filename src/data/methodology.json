@@ -1,7 +1,7 @@
 {
   "title": "StratSim: Theoretical Frameworks, Mathematical Formulations & Assumptions",
   "version": "1.0-academic",
-  "courseContext": "Principles of Management & Economics (POME) - Undergraduate / MBA Core",
+  "context": "Strategic Management & Industrial Microeconomics Simulation",
   "theories": [
     {
       "name": "BCG Growth-Share Matrix",

@@ -36,7 +36,8 @@ export default function MethodologyView() {
       name: "BCG Growth-Share Matrix & Experience Curve",
       pioneer: "Bruce D. Henderson (1970, 1974)",
       affiliation: "Boston Consulting Group / Harvard Business Review",
-      syllabusUnit: "Unit III: Strategic Management & Portfolio Planning",
+      frameworkArea: "Strategic Management & Portfolio Planning",
+      shortLabel: "Portfolio Planning",
       icon: TrendingUp,
       accentColor: "#8b5cf6",
       formulaDisplay: [
@@ -62,7 +63,8 @@ export default function MethodologyView() {
       name: "Porter's Five Forces & Industry Attractiveness Index",
       pioneer: "Michael E. Porter (1979, 2008)",
       affiliation: "Harvard Business School",
-      syllabusUnit: "Unit III: Environmental Analysis & Industrial Organization",
+      frameworkArea: "Environmental Analysis & Industrial Organization",
+      shortLabel: "Industry Structure",
       icon: Award,
       accentColor: "#06b6d4",
       formulaDisplay: [
@@ -88,7 +90,8 @@ export default function MethodologyView() {
       name: "Bertrand-Nash Oligopoly & Constant-Elasticity Demand",
       pioneer: "Joseph Bertrand (1883), John Nash (1950)",
       affiliation: "Académie des Sciences / Princeton University",
-      syllabusUnit: "Unit IV: Managerial Economics & Oligopolistic Pricing",
+      frameworkArea: "Managerial Economics & Oligopolistic Pricing",
+      shortLabel: "Managerial Economics",
       icon: Activity,
       accentColor: "#ec4899",
       formulaDisplay: [
@@ -110,7 +113,8 @@ export default function MethodologyView() {
       name: "Administrative Theory, Scalar Chain & Org Design",
       pioneer: "Henri Fayol (1916), Luther Gulick (1937), Burns & Stalker (1961)",
       affiliation: "Administrative Management & Aston Contingency Group",
-      syllabusUnit: "Unit I & II: Principles of Management & Organizational Structure",
+      frameworkArea: "Principles of Management & Organizational Structure",
+      shortLabel: "Organizational Design",
       icon: Building,
       accentColor: "#10b981",
       formulaDisplay: [
@@ -131,7 +135,8 @@ export default function MethodologyView() {
       name: "Monte Carlo Stochastic Risk & Sensitivity Propagation",
       pioneer: "Stanislaw Ulam & John von Neumann (1946)",
       affiliation: "Los Alamos National Laboratory",
-      syllabusUnit: "Unit IV: Decision Making Under Knightian Uncertainty",
+      frameworkArea: "Decision Making Under Knightian Uncertainty",
+      shortLabel: "Risk & Uncertainty",
       icon: Calculator,
       accentColor: "#f59e0b",
       formulaDisplay: [
@@ -190,16 +195,16 @@ export default function MethodologyView() {
         </div>
       </div>
 
-      {/* Course Context Banner */}
+      {/* Theoretical Foundation Banner */}
       <div className="p-5 rounded-2xl border border-violet-500/30 bg-violet-950/20 print:border-gray-400 print:bg-gray-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3.5">
           <Award className="w-6 h-6 text-violet-400 shrink-0 print:text-black" />
           <div className="space-y-0.5">
             <h4 className="text-sm font-bold text-white print:text-black font-sans">
-              Course Pedagogy & Syllabus Integration
+              Theoretical Foundation &amp; Framework Integration
             </h4>
             <p className="text-xs text-slate-300 print:text-gray-700 font-sans leading-relaxed">
-              Designed for <strong>Principles of Management & Economics (POME)</strong>. Bridging classical administrative theory (Gulick, Fayol, Weber) with industrial organization microeconomics (Porter, Bertrand, Nash).
+              Bridging classical administrative theory (Gulick, Fayol, Weber) with industrial organization microeconomics (Porter, Bertrand, Nash) for strategic simulation and decision analysis.
             </p>
           </div>
         </div>
@@ -249,7 +254,7 @@ export default function MethodologyView() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider truncate">
-                        {f.syllabusUnit.split(':')[0]}
+                        {f.shortLabel}
                       </div>
                       <h4 className="text-sm font-bold text-white font-sans truncate mt-0.5">
                         {f.name.split('&')[0]}
@@ -275,7 +280,7 @@ export default function MethodologyView() {
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-5 border-b border-slate-800 print:border-b-2 print:border-black">
                 <div>
                   <span className="text-xs font-mono uppercase text-cyan-400 print:text-black font-bold tracking-wider block mb-1">
-                    {activeFramework.syllabusUnit}
+                    {activeFramework.frameworkArea}
                   </span>
                   <h3 className="text-2xl font-extrabold text-white print:text-black font-sans">
                     {activeFramework.name}
